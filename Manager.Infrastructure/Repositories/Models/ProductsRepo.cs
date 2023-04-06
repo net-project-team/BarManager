@@ -1,5 +1,7 @@
-﻿using Manager.Domain.Models;
+﻿using Dapper;
+using Manager.Domain.Models;
 using Manager.Infrastructure.Repositories.Interfaces;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,29 +18,86 @@ namespace Manager.Infrastructure.Repositories.Models
             
         }
 
-        public Task<bool> DeleteByIdAsync(int id)
+        public async Task<bool> DeleteByIdAsync(int ProductId)
         {
-            throw new NotImplementedException();
+            using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+                await conn.OpenAsync();
+                string cmdText = @"Delete from products where id = @id;";
+                if (await conn.ExecuteAsync(cmdText, new{id = ProductId}) > 0) return true;
+                else return false;
+            }
         }
 
-        public Task<List<Product>> GetAllAsync()
+        public async Task<List<Product>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+                List<Product> products = new List<Product>();   
+                await conn.OpenAsync();
+                string cmdText = @" select product_id as ProductId,
+                                    category_id as CategoryId, 
+                                    product_name as ProductName,
+                                    product_price as ProductPrice,
+                                    product_description as ProductDescription,
+                                    product_picture as ProductPicture 
+                                    from products;";
+                products = (await conn.QueryAsync<Product>(cmdText)).ToList();
+                return products;
+            }
         }
 
-        public Task<Product> GetByIdAsync(int id)
+        public async Task<Product> GetByIdAsync(int productId)
         {
-            throw new NotImplementedException();
+            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+                Product product = new Product();
+                await conn.OpenAsync();
+                string cmdText = @" select product_id as ProductId,
+                                    category_id as CategoryId, 
+                                    product_name as ProductName,
+                                    product_price as ProductPrice,
+                                    product_description as ProductDescription,
+                                    product_picture as ProductPicture 
+                                    from products where product_id = @id;";
+                product = await conn.QueryFirstOrDefaultAsync<Product>(cmdText,new {id=productId});
+                return product;
+            }
         }
 
-        public Task<bool> InsertAsync()
+        public async Task<bool> InsertAsync(Product product)
         {
-            throw new NotImplementedException();
+            using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+                await conn.OpenAsync();
+                string cmdText = @"INSERT INTO products(
+	                              category_id, product_name,
+                                  product_price, 
+                                  product_description, 
+                                  product_picture)
+	                              VALUES (@CategoryId, @ProductName, 
+                                  @ProductPrice, @ProductDescription, @ProductPicture);";
+                if (await conn.ExecuteAsync(cmdText, product) > 0) return true;
+                else return false;
+            }
         }
 
-        public Task<bool> UpdateAsync(Product entity)
+        public async Task<bool> UpdateAsync(Product product)
         {
-            throw new NotImplementedException();
+            using(NpgsqlConnection conn=new NpgsqlConnection(_connection))
+            {
+                await conn.OpenAsync();
+                string cmdText = @" update products set 
+                                    category_id=@CategoryId,
+                                    product_name=@ProductName,
+                                    product_price=@ProductPrice,
+                                    product_description=@ProductDescription,
+                                    product_picture = @ProductPicture
+                                    where product_id = @ProductId;";
+               if(await conn.ExecuteAsync(cmdText, product)>0) return true;
+               else return false;
+
+            }
         }
     }
 }
