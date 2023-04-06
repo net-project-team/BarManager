@@ -4,6 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bar_manager", "Bar_manager\Bar_manager.csproj", "{4920D69F-AD42-442E-B985-3A3C5D64D3AA}"
+<<<<<<< Updated upstream
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Manager.Domain", "Manager.Domain", "{F4922F4F-D937-44AD-9139-9B49D4D02770}"
 EndProject
@@ -16,6 +17,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manager.Application", "Manager.Application\Manager.Application.csproj", "{F176F8BF-DFEF-4482-9147-7ED00A244B63}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manager.Infrastructure", "Manager.Infrastructure\Manager.Infrastructure.csproj", "{FDA0E82F-1F6A-4242-9542-E60A0FB975FF}"
+=======
+>>>>>>> Stashed changes
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
