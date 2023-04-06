@@ -8,7 +8,10 @@
 
   <ItemGroup>
     <Folder Include="Connection\" />
-    <Folder Include="Repositories\Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Manager.Domain\Manager.Domain.csproj" />
   </ItemGroup>
 
 </Project>

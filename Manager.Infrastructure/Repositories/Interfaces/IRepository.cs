@@ -12,5 +12,6 @@ namespace Manager.Infrastructure.Repositories.Interfaces
         public Task<T> GetByIdAsync(int id);
         public Task<bool> UpdateAsync(T entity);
         public Task<bool> DeleteByIdAsync(int id);
+        public Task<bool> InsertAsync();
     }
 }
