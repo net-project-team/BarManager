@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Manager.Domain.Models;
+using Manager.Infrastructure.Connection;
 using Manager.Infrastructure.Repositories.Interfaces;
 using Npgsql;
 using System;
@@ -10,12 +11,13 @@ using System.Threading.Tasks;
 
 namespace Manager.Infrastructure.Repositories.Models
 {
+    
     public class ProductsRepo:IRepository<Product>
     {
         private readonly string _connection;
         public ProductsRepo()
         {
-            
+            _connection = GetConnection.Connection();
         }
 
         public async Task<bool> DeleteByIdAsync(int ProductId)

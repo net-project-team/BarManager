@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Manager.Domain.Models;
+using Manager.Infrastructure.Connection;
 using Manager.Infrastructure.Repositories.Interfaces;
 using Npgsql;
 using System;
@@ -15,7 +16,7 @@ namespace Manager.Infrastructure.Repositories.Models
         private readonly string _connection;
         public WaiterRepo()
         {
-
+            _connection = GetConnection.Connection();
         }
         public async Task<bool> DeleteByIdAsync(int WaiterId)
         {
@@ -23,10 +24,7 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 await conn.OpenAsync();
                 string cmdText = @"DELETE FROM waiters WHERE waiter_id = @id;";
-                if(await conn.ExecuteAsync(cmdText, new{ id = WaiterId})> 0)
-                {
-                    return true;
-                }
+                if(await conn.ExecuteAsync(cmdText, new{ id = WaiterId})> 0)return true;
                 return false;
             }
         }
@@ -38,11 +36,9 @@ namespace Manager.Infrastructure.Repositories.Models
                 List<Waiter> waiters = new List<Waiter>();
                 await conn.OpenAsync();
                 string cmdText =
-                    @"
-                        SELECT waiter_id AS WaiterId, 
-                        waiter_name AS WaiterName,
-                        phone AS Phone FROM waiters;
-                    ";
+                    @"SELECT waiter_id AS WaiterId, 
+                       waiter_name AS WaiterName,
+                       phone AS Phone FROM waiters;";
                 waiters = (await conn.QueryAsync<Waiter>(cmdText)).ToList();
                 return waiters;
             }
@@ -55,12 +51,10 @@ namespace Manager.Infrastructure.Repositories.Models
                 Waiter waiter = new Waiter();
                 await conn.OpenAsync();
                 string cmdText =
-                    @"  
-                        SELECT waiter_id AS WaiterId, 
-                        waiter_name AS WaiterName,
-                        phone AS Phone FROM waiters
-                        WHERE waiter_id = @id;
-                    ";
+                    @"SELECT waiter_id AS WaiterId, 
+                      waiter_name AS WaiterName,
+                      phone AS Phone FROM waiters
+                      WHERE waiter_id = @id;";
                 waiter = conn.QueryFirstOrDefault(cmdText, new { id = waiterId });
                 return waiter;
             }
@@ -72,14 +66,9 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 await conn.OpenAsync();
                 string cmdText =
-                    @"
-                        INSERT INTO waiters (waiter_name, phone)
-                        VALUES (@WaiterName, @Phone);
-                    ";
-                if(await conn.ExecuteAsync(cmdText, waiter) > 0)
-                {
-                    return true;
-                }
+                    @"INSERT INTO waiters(waiter_name, phone)
+                      VALUES (@WaiterName, @Phone);";
+                if(await conn.ExecuteAsync(cmdText, waiter) > 0) return true;
                 return false;
             }
         }
@@ -90,14 +79,9 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 await conn.OpenAsync();
                 string cmdText =
-                    @"  
-                        UPDATE waiters SET waiter_name = @WaiterName,
-                        phone = @Phone WHERE waiter_id = @WaiterId;
-                    ";
-                if(await conn.ExecuteAsync(cmdText, waiter) > 0)
-                {
-                    return true;
-                }
+                    @"UPDATE waiters SET waiter_name = @WaiterName,
+                     phone = @Phone WHERE waiter_id = @WaiterId;";
+                if(await conn.ExecuteAsync(cmdText, waiter) > 0) return true;
                 return false;
             }
         }
