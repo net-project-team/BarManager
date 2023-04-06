@@ -23,7 +23,7 @@ namespace Manager.Infrastructure.Repositories.Models
             using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
-                string cmdText = @"Delete from products where id = @id;";
+                string cmdText = @"Delete from products where product_id = @id;";
                 if (await conn.ExecuteAsync(cmdText, new{id = ProductId}) > 0) return true;
                 else return false;
             }
