@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Dapper;
+using Manager.Domain.Models;
+using Manager.Infrastructure.Repositories.Interfaces;
+using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +10,96 @@ using System.Threading.Tasks;
 
 namespace Manager.Infrastructure.Repositories.Models
 {
-    internal class WaiterRepo
+    public class WaiterRepo : IRepository<Waiter>
     {
+        private readonly string _connection;
+        public WaiterRepo()
+        {
+
+        }
+        public async Task<bool> DeleteByIdAsync(int WaiterId)
+        {
+            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+                await conn.OpenAsync();
+                string cmdText = @"DELETE FROM waiters WHERE waiter_id = @id;";
+                if(await conn.ExecuteAsync(cmdText, new{ id = WaiterId})> 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public async Task<List<Waiter>> GetAllAsync()
+        {
+            using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+                List<Waiter> waiters = new List<Waiter>();
+                await conn.OpenAsync();
+                string cmdText =
+                    @"
+                        SELECT waiter_id AS WaiterId, 
+                        waiter_name AS WaiterName,
+                        phone AS Phone FROM waiters;
+                    ";
+                waiters = (await conn.QueryAsync<Waiter>(cmdText)).ToList();
+                return waiters;
+            }
+        }
+
+        public async Task<Waiter> GetByIdAsync(int waiterId)
+        {
+            using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+                Waiter waiter = new Waiter();
+                await conn.OpenAsync();
+                string cmdText =
+                    @"  
+                        SELECT waiter_id AS WaiterId, 
+                        waiter_name AS WaiterName,
+                        phone AS Phone FROM waiters
+                        WHERE waiter_id = @id;
+                    ";
+                waiter = conn.QueryFirstOrDefault(cmdText, new { id = waiterId });
+                return waiter;
+            }
+        }
+
+        public async Task<bool> InsertAsync(Waiter waiter)
+        {
+            using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+                await conn.OpenAsync();
+                string cmdText =
+                    @"
+                        INSERT INTO waiters (waiter_name, phone)
+                        VALUES (@WaiterName, @Phone);
+                    ";
+                if(await conn.ExecuteAsync(cmdText, waiter) > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateAsync(Waiter waiter)
+        {
+            using(NpgsqlConnection conn = new NpgsqlConnection(_connection)) 
+            {
+                await conn.OpenAsync();
+                string cmdText =
+                    @"  
+                        UPDATE waiters SET waiter_name = @WaiterName,
+                        phone = @Phone WHERE waiter_id = @WaiterId;
+                    ";
+                if(await conn.ExecuteAsync(cmdText, waiter) > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
     }
 }
