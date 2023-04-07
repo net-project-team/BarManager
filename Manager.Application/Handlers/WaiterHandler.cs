@@ -20,27 +20,62 @@ namespace Manager.Application.Handlers
 
         public async Task<bool> DeleteWaiterByIdAsync(int id)
         {
-            return await _repository.DeleteByIdAsync(id);
+            try
+            {
+                return await _repository.DeleteByIdAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception ("An error occurred while inserting the waiter.", ex);
+            }  
         }
 
         public async Task<List<Waiter>> GetAllWaitersAsync()
         {
-            return await _repository.GetAllAsync();
+            try
+            {
+                return await _repository.GetAllAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting all the waiters.", ex);
+            }
         }
 
         public async Task<Waiter> GetByIdWaiterAsync(int waiterId)
         {
-            return await _repository.GetByIdAsync(waiterId);
+            try
+            {
+                return await _repository.GetByIdAsync(waiterId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting the waiter by id.", ex);
+            }
         }
 
         public async Task<bool> InsertWaiterAsync(Waiter waiter)
         {
-            return await _repository.InsertAsync(waiter);
+            try
+            {
+                return await _repository.InsertAsync(waiter);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while inserting the waiter.", ex);
+            }
         }
 
         public async Task<bool> UpdateWaiterAsync(Waiter waiter)
         {
-            return await _repository.UpdateAsync(waiter);
+            try
+            {
+                return await _repository.UpdateAsync(waiter);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while updating the waiter.", ex);
+            }
         }
     }
 }
