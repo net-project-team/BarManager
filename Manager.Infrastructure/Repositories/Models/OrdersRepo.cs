@@ -19,8 +19,9 @@ namespace Manager.Infrastructure.Repositories.Models
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
+
                 string cmdText = @"delete from orders where order_id = @id";
-                if (await conn.ExecuteAsync(cmdText, new { id = orderId }) > 0) return true;      
+                if (await conn.ExecuteAsync(cmdText, new { id = orderId }) > 0) return true;
                 else return false;
 
             }
@@ -43,16 +44,13 @@ namespace Manager.Infrastructure.Repositories.Models
                 {
                     orders.Add(new Order
                     {
-                        OrderId =  reader.GetInt32(0),
+                        OrderId = reader.GetInt32(0),
                         Waiter = await new WaiterRepo().GetByIdAsync(reader.GetInt32(1)),
                         OrderTable = reader.GetInt32(2),
                         OrderDate = reader.GetDateTime(3),
                         IsCompleted = reader.GetBoolean(4)
-
                     });
-
                 }
-
                 orders = (await conn.QueryAsync<Order>(cmdText)).ToList();
                 return orders;
             }
@@ -70,7 +68,14 @@ namespace Manager.Infrastructure.Repositories.Models
                                    order_date as OrderDate,
                                    is_completed as IsCompleted
                                    from orders where order_id = @id;";
-                orders = await conn.QueryFirstOrDefaultAsync<Order>(cmdText, new { id = orderId });
+                var reader = await conn.ExecuteReaderAsync(cmdText, new { id = orderId });
+
+                orders.OrderId = reader.GetInt32(0);
+                orders.Waiter = await new WaiterRepo().GetByIdAsync(reader.GetInt32(1));
+                orders.OrderTable = reader.GetInt32(2);
+                orders.OrderDate = reader.GetDateTime(3);
+                orders.IsCompleted = reader.GetBoolean(4);
+
                 return orders;
             }
         }
@@ -91,7 +96,7 @@ namespace Manager.Infrastructure.Repositories.Models
 
         public async Task<bool> UpdateAsync(Order orders)
         {
-            using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
                 string cmdText = @"update orders set 
@@ -100,7 +105,7 @@ namespace Manager.Infrastructure.Repositories.Models
                                    order_date = @OrderDate,
                                    is_completed = @IsCompleted
                                    where order_id = @OrderId,";
-                if(await conn.ExecuteAsync(cmdText, orders)>0) return true;
+                if (await conn.ExecuteAsync(cmdText, orders) > 0) return true;
                 else return false;
             }
         }
