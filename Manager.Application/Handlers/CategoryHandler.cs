@@ -17,6 +17,8 @@ namespace Manager.Application.Handlers
         {
             this._repository = repository;
         }
+        
+        
 
         public async Task<bool> DeleteCategoryByIdAsync(int id)
         {
