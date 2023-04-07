@@ -20,17 +20,17 @@ namespace Manager.Application.Handlers
 
         public async Task<bool> DeleteCategoryByIdAsync(int id)
         {
-        
+            return await _repository.DeleteByIdAsync(id);
         }
 
-        public async Task<List<Category>> GetAllCategoriesAsync()
+        public Task<List<Category>> GetAllCategoriesAsync()
         {
-           
+            throw new NotImplementedException();
         }
 
-        public async Task<Category> GetByIdCategoryAsync()
+        public Task<Category> GetByIdCategoryAsync()
         {
-           
+            throw new NotImplementedException();
         }
 
         public Task<bool> InsertCategoryAsync(Category category)

@@ -1,4 +1,5 @@
-﻿using Manager.Application.Handlers;
+﻿using Manager.Application.Handler.Interfaces;
+using Manager.Application.Handlers;
 using Manager.Application.Interfaces;
 using Manager.Application.Repository.Interfaces;
 using Manager.Domain.Models;
@@ -11,12 +12,16 @@ namespace Manager.Presentation
     {
         static void Main(string[] args)
         {
-            ICategoryRepository CategoryRepo = new CategoryRepo();
-            ICategoryRepository CategoryHandler = new CategoryHandler(CategoryRepo); 
-            Category category = new Category();
-            CategoryHandler.InsertAsync(category);
+
            
-            
+            CategoryRepo categoryRepo = new CategoryRepo();
+            ICategoryHandler CategoryHandler = new CategoryHandler(categoryRepo); 
+            Category category = new Category();
+
+            CategoryHandler.InsertCategoryAsync(category);
+
+
+
         }
     }
 }
