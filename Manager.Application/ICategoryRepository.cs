@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace Manager.Application
 {
     public interface ICategoryRepository: IRepository<Category>
-    {       
+    {
+        
     }
 }
