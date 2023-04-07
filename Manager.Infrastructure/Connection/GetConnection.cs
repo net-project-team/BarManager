@@ -13,6 +13,7 @@ namespace Manager.Infrastructure.Connection
             IConfiguration configuration = builder.Build();
             return configuration.GetConnectionString("MyConnectionString");
 
+
         }
     }
 }
