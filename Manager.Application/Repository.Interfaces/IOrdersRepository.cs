@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Manager.Application.Handlers
+namespace Manager.Application.Repository.Interfaces
 {
-    public class ProductsHandler
+    public interface IOrdersRepository : IRepository<Order>
     {
-        
+
     }
 }
