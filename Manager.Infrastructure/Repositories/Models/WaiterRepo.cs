@@ -38,7 +38,7 @@ namespace Manager.Infrastructure.Repositories.Models
                 string cmdText =
                     @"SELECT waiter_id AS WaiterId, 
                        waiter_name AS WaiterName,
-                       phone AS Phone FROM waiters;";
+                       waiter_phone AS Phone FROM waiters;";
                 waiters = (await conn.QueryAsync<Waiter>(cmdText)).ToList();
                 return waiters;
             }
@@ -53,7 +53,7 @@ namespace Manager.Infrastructure.Repositories.Models
                 string cmdText =
                     @"SELECT waiter_id AS WaiterId, 
                       waiter_name AS WaiterName,
-                      phone AS Phone FROM waiters
+                      waiter_phone AS Phone FROM waiters
                       WHERE waiter_id = @id;";
                 waiter = conn.QueryFirstOrDefault(cmdText, new { id = waiterId });
                 return waiter;
@@ -66,7 +66,7 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 await conn.OpenAsync();
                 string cmdText =
-                    @"INSERT INTO waiters(waiter_name, phone)
+                    @"INSERT INTO waiters(waiter_name, waiter_phone)
                       VALUES (@WaiterName, @Phone);";
                 if(await conn.ExecuteAsync(cmdText, waiter) > 0) return true;
                 return false;
@@ -80,7 +80,7 @@ namespace Manager.Infrastructure.Repositories.Models
                 await conn.OpenAsync();
                 string cmdText =
                     @"UPDATE waiters SET waiter_name = @WaiterName,
-                     phone = @Phone WHERE waiter_id = @WaiterId;";
+                     waiter_phone = @Phone WHERE waiter_id = @WaiterId;";
                 if(await conn.ExecuteAsync(cmdText, waiter) > 0) return true;
                 return false;
             }

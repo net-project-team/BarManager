@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Manager.Application.Handlers
 {
-    internal class WaiterHandler
+    public class WaiterHandler
     {
     }
 }
