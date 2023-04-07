@@ -1,4 +1,6 @@
-﻿using Manager.Application.Interfaces;
+﻿using Manager.Application.Handler.Interfaces;
+using Manager.Application.Interfaces;
+using Manager.Application.Repository.Interfaces;
 using Manager.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Manager.Application.Handlers
 {
-    public class CategoryHandler : ICategoryRepository
+    public class CategoryHandler: ICategoryHandler
     {
         private readonly ICategoryRepository _repository;
         public CategoryHandler(ICategoryRepository repository)
@@ -16,55 +18,29 @@ namespace Manager.Application.Handlers
             this._repository = repository;
         }
 
-        public async Task<bool> DeleteByIdAsync(int id)
+        public async Task<bool> DeleteCategoryByIdAsync(int id)
         {
-            return await _repository.DeleteByIdAsync(id);
+        
         }
 
-        public void ValidationCategory()
-        {
-
-        }
         public async Task<List<Category>> GetAllCategoriesAsync()
         {
-            return await GetAllAsync();
-        }
-
-
-        public async Task<List<Category>> GetAllAsync()
-        {
-           return await _repository.GetAllAsync();
-        }
-
-        public async Task<Category> GetByIdAsync(int id)
-        {
-            try
-            {
-                return await _repository.GetByIdAsync(id);
-            }
-            catch (Exception)
-            {
-                return new Category();
-            }
-
            
         }
 
-        public async Task<bool> InsertAsync(Category category)
+        public async Task<Category> GetByIdCategoryAsync()
         {
-            ValidationInsertCategory(category);
-            return await _repository.InsertAsync(category);
+           
         }
 
-        private static void ValidationInsertCategory(Category category)
+        public Task<bool> InsertCategoryAsync(Category category)
         {
-            if (category == null) throw new ArgumentNullException();
-            if (category.CategoryName == null) throw new ArgumentNullException();
+            throw new NotImplementedException();
         }
 
-        public async Task<bool> UpdateAsync(Category category)
+        public Task<bool> UpdateCategoryAsync(Category category)
         {
-            return await _repository.UpdateAsync(category);   
+            throw new NotImplementedException();
         }
     }
 }

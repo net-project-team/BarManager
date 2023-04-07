@@ -1,6 +1,6 @@
-﻿using Manager.Application;
-using Manager.Application.Handlers;
+﻿using Manager.Application.Handlers;
 using Manager.Application.Interfaces;
+using Manager.Application.Repository.Interfaces;
 using Manager.Domain.Models;
 using Manager.Infrastructure.Connection;
 using Manager.Infrastructure.Repositories.Models;

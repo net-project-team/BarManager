@@ -6,10 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Manager.Application
+namespace Manager.Application.Repository.Interfaces
 {
-    public interface ICategoryRepository: IRepository<Category>
+    public interface IProductRepository:IRepository<Product>
     {
-        
     }
 }

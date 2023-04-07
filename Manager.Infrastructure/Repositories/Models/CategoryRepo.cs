@@ -1,6 +1,6 @@
 ﻿using Dapper;
-using Manager.Application;
 using Manager.Application.Interfaces;
+using Manager.Application.Repository.Interfaces;
 using Manager.Domain.Models;
 using Manager.Infrastructure.Connection;
 using Npgsql;
