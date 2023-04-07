@@ -51,7 +51,7 @@ namespace Manager.Infrastructure.Repositories.Models
                         IsCompleted = reader.GetBoolean(4)
                     });
                 }
-                orders = (await conn.QueryAsync<Order>(cmdText)).ToList();
+              
                 return orders;
             }
         }
