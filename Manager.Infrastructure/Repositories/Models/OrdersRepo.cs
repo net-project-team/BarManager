@@ -1,7 +1,7 @@
 ﻿using Dapper;
+using Manager.Application.Interfaces;
 using Manager.Domain.Models;
 using Manager.Infrastructure.Connection;
-using Manager.Infrastructure.Repositories.Interfaces;
 using Npgsql;
 
 namespace Manager.Infrastructure.Repositories.Models
