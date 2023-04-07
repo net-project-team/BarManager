@@ -9,8 +9,7 @@ namespace Manager.Domain.Models
     public class Order
     {
         public int OrderId { get; set; }
-        public Product Product { get; set; }
-        public int WaiterId { get; set; }
+        public Waiter Waiter { get; set; }
         public int OrderTable { get; set; }
         public DateTime OrderDate { get; set; }
         public bool IsCompleted { get; set; } = false;

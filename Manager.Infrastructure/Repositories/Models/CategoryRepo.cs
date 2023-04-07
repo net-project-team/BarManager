@@ -58,7 +58,7 @@ namespace Manager.Infrastructure.Repositories.Models
                 return categorie;
             }
         }
-
+         
         public async Task<bool> InsertAsync(Category category)
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))

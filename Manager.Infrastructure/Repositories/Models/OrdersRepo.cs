@@ -33,8 +33,7 @@ namespace Manager.Infrastructure.Repositories.Models
                 List<Order> orders = new List<Order>();
                 await conn.OpenAsync();
                 string cmdText = @"select order_id as OrderId,
-                                   product_id as ProductId,
-                                   waiter_id as WaiterId,
+                                   waiter_id as Waiter,
                                    order_table as OrderTable,
                                    order_date as OrderDate,
                                    is_completed as IsCompleted
@@ -51,8 +50,7 @@ namespace Manager.Infrastructure.Repositories.Models
                 Order orders = new Order();
                 await conn.OpenAsync();
                 string cmdText = @"select order_id as OrderId,
-                                   product_id as ProductId,
-                                   waiter_id as WaiterId,
+                                   waiter_id as Waiter,
                                    order_table as OrderTable,
                                    order_date as OrderDate,
                                    is_completed as IsCompleted
@@ -67,9 +65,9 @@ namespace Manager.Infrastructure.Repositories.Models
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
-                string cmdText = @"insert into orders(product_id,
+                string cmdText = @"insert into orders(
                                    waiter_id, order_table, order_date, is_completed)
-                                   values (@ProductId, @WaiterId, @OrderTable, @OrderDate,
+                                   values (@Waiter, @OrderTable, @OrderDate,
                                    @IsCompleted);";
                 if (await conn.ExecuteAsync(cmdText, orders) > 0) return true;
                 else return false;
@@ -82,8 +80,7 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 await conn.OpenAsync();
                 string cmdText = @"update orders set 
-                                   product_id = @ProductId,
-                                   waiter_id = @WaiterId,
+                                   waiter_id = @Waiter,
                                    order_table = @OrderTable,
                                    order_date = @OrderDate,
                                    is_completed = @IsCompleted
