@@ -38,6 +38,21 @@ namespace Manager.Infrastructure.Repositories.Models
                                    order_date as OrderDate,
                                    is_completed as IsCompleted
                                    from orders;";
+                var reader = await conn.ExecuteReaderAsync(cmdText);
+                while (await reader.ReadAsync())
+                {
+                    orders.Add(new Order
+                    {
+                        OrderId =  reader.GetInt32(0),
+                        Waiter = await new WaiterRepo().GetByIdAsync(reader.GetInt32(1)),
+                        OrderTable = reader.GetInt32(2),
+                        OrderDate = reader.GetDateTime(3),
+                        IsCompleted = reader.GetBoolean(4)
+
+                    });
+
+                }
+
                 orders = (await conn.QueryAsync<Order>(cmdText)).ToList();
                 return orders;
             }
