@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Manager.Application.Handlers
 {
-    public class CategoryHandler : IRepository<Category>
+    public class CategoryHandler : ICategoryRepository
     {
-        private readonly IRepository<Category> _repository;
-        public CategoryHandler(IRepository<Category> repository)
+        private readonly ICategoryRepository _repository;
+        public CategoryHandler(ICategoryRepository repository)
         {
             this._repository = repository;
         }
@@ -21,6 +21,16 @@ namespace Manager.Application.Handlers
             return await _repository.DeleteByIdAsync(id);
         }
 
+        public void ValidationCategory()
+        {
+
+        }
+        public async Task<List<Category>> GetAllCategoriesAsync()
+        {
+            return await GetAllAsync();
+        }
+
+
         public async Task<List<Category>> GetAllAsync()
         {
            return await _repository.GetAllAsync();
@@ -28,12 +38,28 @@ namespace Manager.Application.Handlers
 
         public async Task<Category> GetByIdAsync(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            try
+            {
+                return await _repository.GetByIdAsync(id);
+            }
+            catch (Exception)
+            {
+                return new Category();
+            }
+
+           
         }
 
         public async Task<bool> InsertAsync(Category category)
         {
+            ValidationInsertCategory(category);
             return await _repository.InsertAsync(category);
+        }
+
+        private static void ValidationInsertCategory(Category category)
+        {
+            if (category == null) throw new ArgumentNullException();
+            if (category.CategoryName == null) throw new ArgumentNullException();
         }
 
         public async Task<bool> UpdateAsync(Category category)

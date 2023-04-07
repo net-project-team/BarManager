@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Manager.Application;
 using Manager.Application.Interfaces;
 using Manager.Domain.Models;
 using Manager.Infrastructure.Connection;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Manager.Infrastructure.Repositories.Models
 {
-    public class CategoryRepo : IRepository<Category>
+    public class CategoryRepo : ICategoryRepository
     {
 
         private readonly string _connection;
