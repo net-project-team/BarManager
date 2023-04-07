@@ -43,7 +43,7 @@ namespace Manager.Infrastructure.Repositories.Models
                 {
                     orders.Add(new Order
                     {
-                        OrderId =  reader.GetInt32(0),
+                        OrderId = reader.GetInt32(0),
                         Waiter = await new WaiterRepo().GetByIdAsync(reader.GetInt32(1)),
                         OrderTable = reader.GetInt32(2),
                         OrderDate = reader.GetDateTime(3),
@@ -52,8 +52,6 @@ namespace Manager.Infrastructure.Repositories.Models
                     });
 
                 }
-
-                orders = (await conn.QueryAsync<Order>(cmdText)).ToList();
                 return orders;
             }
         }
