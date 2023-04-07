@@ -20,7 +20,7 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 await conn.OpenAsync();
                 string cmdText = @"delete from orders where order_id = @id";
-                if (await conn.ExecuteAsync(cmdText, new { id = orderId }) > 0) return true;
+                if (await conn.ExecuteAsync(cmdText, new { id = orderId }) > 0) return true;      
                 else return false;
 
             }
