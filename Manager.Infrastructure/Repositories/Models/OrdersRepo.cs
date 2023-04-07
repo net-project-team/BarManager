@@ -89,7 +89,13 @@ namespace Manager.Infrastructure.Repositories.Models
                                    waiter_id, order_table, order_date, is_completed)
                                    values (@Waiter, @OrderTable, @OrderDate,
                                    @IsCompleted);";
-                if (await conn.ExecuteAsync(cmdText, orders) > 0) return true;
+                if (await conn.ExecuteAsync(cmdText, 
+                        new {
+                                Waiter = orders.Waiter.WaiterId,
+                                OrderTable = orders.OrderTable,
+                                OrderDate = orders.OrderDate,
+                                IsCompleted = orders.IsCompleted
+                        }) > 0) return true;
                 else return false;
             }
         }
@@ -105,7 +111,14 @@ namespace Manager.Infrastructure.Repositories.Models
                                    order_date = @OrderDate,
                                    is_completed = @IsCompleted
                                    where order_id = @OrderId,";
-                if (await conn.ExecuteAsync(cmdText, orders) > 0) return true;
+                if (await conn.ExecuteAsync(cmdText, 
+                        new {
+                                OrderId = orders.OrderId,
+                                Waiter = orders.Waiter.WaiterId,
+                                OrderTable = orders.OrderTable,
+                                OrderDate = orders.OrderDate,
+                                IsCompleted = orders.IsCompleted,
+                            }) > 0) return true;
                 else return false;
             }
         }
