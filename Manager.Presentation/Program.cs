@@ -10,9 +10,11 @@ namespace Manager.Presentation
     {
         static void Main(string[] args)
         {
+
             IRepository<Category> CategoryRepo = new CategoryRepo();
             IRepository<Category> CategoryHandler = new CategoryHandler(CategoryRepo);
-            
+          
+           
         }
     }
 }
