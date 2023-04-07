@@ -10,29 +10,35 @@ namespace Manager.Application.Handlers
 {
     public class CategoryHandler : IRepository<Category>
     {
-        public Task<bool> DeleteByIdAsync(int id)
+        private readonly IRepository<Category> _repository;
+        public CategoryHandler(IRepository<Category> repository)
         {
-            throw new NotImplementedException();
+            this._repository = repository;
         }
 
-        public Task<List<Category>> GetAllAsync()
+        public async Task<bool> DeleteByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _repository.DeleteByIdAsync(id);
         }
 
-        public Task<Category> GetByIdAsync(int id)
+        public async Task<List<Category>> GetAllAsync()
         {
-            throw new NotImplementedException();
+           return await _repository.GetAllAsync();
         }
 
-        public Task<bool> InsertAsync(Category entity)
+        public async Task<Category> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _repository.GetByIdAsync(id);
         }
 
-        public Task<bool> UpdateAsync(Category entity)
+        public async Task<bool> InsertAsync(Category category)
         {
-            throw new NotImplementedException();
+            return await _repository.InsertAsync(category);
+        }
+
+        public async Task<bool> UpdateAsync(Category category)
+        {
+            return await _repository.UpdateAsync(category);   
         }
     }
 }

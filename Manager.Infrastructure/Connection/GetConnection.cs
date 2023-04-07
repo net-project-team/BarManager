@@ -10,6 +10,7 @@ namespace Manager.Infrastructure.Connection
             var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile(_path, true, true);
+            
             IConfiguration configuration = builder.Build();
             return configuration.GetConnectionString("MyConnectionString");
 
