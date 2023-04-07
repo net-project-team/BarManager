@@ -10,15 +10,20 @@ namespace Manager.Presentation
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static  void Main(string[] args)
         {
 
-           
-            CategoryRepo categoryRepo = new CategoryRepo();
-            ICategoryHandler CategoryHandler = new CategoryHandler(categoryRepo); 
-            Category category = new Category();
+            IWaiterRepository waiterRepo = new WaiterRepo();
+            IWaiterHandler waiterHandler = new WaiterHandler(waiterRepo);
 
-            CategoryHandler.InsertCategoryAsync(category);
+            var a = waiterHandler.GetByIdWaiterAsync(1).Result;
+            Console.WriteLine(a.WaiterName);
+
+
+
+
+
+
 
 
 

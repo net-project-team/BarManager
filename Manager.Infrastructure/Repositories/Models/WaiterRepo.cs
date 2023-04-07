@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Manager.Application.Interfaces;
+using Manager.Application.Repository.Interfaces;
 using Manager.Domain.Models;
 using Manager.Infrastructure.Connection;
 using Npgsql;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Manager.Infrastructure.Repositories.Models
 {
-    public class WaiterRepo : IRepository<Waiter>
+    public class WaiterRepo : IWaiterRepository
     {
         private readonly string _connection;
         public WaiterRepo()
@@ -55,7 +56,7 @@ namespace Manager.Infrastructure.Repositories.Models
                       waiter_name AS WaiterName,
                       waiter_phone AS Phone FROM waiters
                       WHERE waiter_id = @id;";
-                waiter = conn.QueryFirstOrDefault(cmdText, new { id = waiterId });
+                waiter = conn.QueryFirstOrDefault<Waiter>(cmdText, new { id = waiterId });
                 return waiter;
             }
         }

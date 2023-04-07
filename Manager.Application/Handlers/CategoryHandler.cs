@@ -30,7 +30,7 @@ namespace Manager.Application.Handlers
             throw new NotImplementedException();
         }
 
-        public Task<Category> GetByIdCategoryAsync()
+        public Task<Category> GetByIdCategoryAsync(int id)
         {
             throw new NotImplementedException();
         }
