@@ -28,7 +28,7 @@ namespace Manager.Infrastructure.Repositories.Models
                 return false;
             }
         }
-
+     
         public async Task<List<Waiter>> GetAllAsync()
         {
             using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
