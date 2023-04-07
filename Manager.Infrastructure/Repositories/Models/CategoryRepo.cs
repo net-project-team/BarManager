@@ -36,9 +36,8 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 List<Category> categories = new List<Category>();
                 await conn.OpenAsync();
-                string cmdText = @"select 
-                                        category_id as CategoryId,
-                                        category_name as CategoryName
+                string cmdText = @"select category_id as CategoryId,
+                                   category_name as CategoryName
                                    from categories;";
                 categories = (await conn.QueryAsync<Category>(cmdText)).ToList();
                 return categories;
@@ -51,9 +50,8 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 Category categorie = new Category();
                 await conn.OpenAsync();
-                string cmdText = @"select 
-                                        category_id as CategoryId,
-                                        category_name as CategoryName
+                string cmdText = @"select category_id as CategoryId,
+                                   category_name as CategoryName
                                    from categories;";
                 categorie = await conn.QueryFirstOrDefaultAsync<Category>(cmdText);
                 return categorie;

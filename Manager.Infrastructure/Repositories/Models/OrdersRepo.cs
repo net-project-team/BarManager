@@ -67,10 +67,10 @@ namespace Manager.Infrastructure.Repositories.Models
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
-                string cmdText = @"insert into orders(order_id, product_id,
+                string cmdText = @"insert into orders(product_id,
                                    waiter_id, order_table, order_date, is_completed)
-                                    values (@OrderId, @ProductId, @WaiterId, @OrderTable, @OrderDate,
-                                    @IsCompleted);";
+                                   values (@ProductId, @WaiterId, @OrderTable, @OrderDate,
+                                   @IsCompleted);";
                 if (await conn.ExecuteAsync(cmdText, orders) > 0) return true;
                 else return false;
             }
@@ -81,8 +81,8 @@ namespace Manager.Infrastructure.Repositories.Models
             using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
-                string cmdText = @"udate orders set 
-                                   product_id as ProductId,
+                string cmdText = @"update orders set 
+                                   product_id = @ProductId,
                                    waiter_id = @WaiterId,
                                    order_table = @OrderTable,
                                    order_date = @OrderDate,
