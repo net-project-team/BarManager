@@ -33,6 +33,8 @@ namespace Manager.Infrastructure.Repositories.Models
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
+               
+
                 List<Order> orders = new List<Order>();
                 await conn.OpenAsync();
                 string cmdText = @"select * from orders;";
