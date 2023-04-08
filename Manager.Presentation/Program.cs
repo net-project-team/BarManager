@@ -22,7 +22,7 @@ namespace Manager.Presentation
 
             var a = waiterHandler.GetByIdWaiterAsync(1).Result;
             Console.WriteLine(a.WaiterName);
-
+            Console.WriteLine("aaa");
 
 
 
@@ -33,7 +33,7 @@ namespace Manager.Presentation
 
 
             IRepository<Category> CategoryRepo = new CategoryRepo();
-            IRepository<Category> CategoryHandler = new CategoryHandler(CategoryRepo);
+            //IRepository<Category> CategoryHandler = new CategoryHandler(CategoryRepo);
           
            
 
