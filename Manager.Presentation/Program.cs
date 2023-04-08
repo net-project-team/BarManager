@@ -22,7 +22,7 @@ namespace Manager.Presentation
 
             var a = waiterHandler.GetByIdWaiterAsync(1).Result;
             Console.WriteLine(a.WaiterName);
-            Console.WriteLine("aaa");
+          
 
 
 
