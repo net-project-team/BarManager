@@ -68,16 +68,21 @@ namespace Manager.Infrastructure.Repositories.Models
                 await conn.OpenAsync();
                 string cmdText = @" select * from products where product_id = @id;";
                 var reader = await conn.ExecuteReaderAsync(cmdText, new { id = productId });
-                Product product = new Product
+                Product product = new();
+                while (reader.Read())
                 {
-                    ProductId = reader.GetInt32(0),
-                    Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
-                    ProductName = reader.GetString(2),
-                    ProductPrice = reader.GetDecimal(3),
-                    ProductDescription = reader.GetString(4),
-                    ProductPicture = reader.GetString(5)
+                    product = new Product
+                    {
+                        ProductId = reader.GetInt32(0),
+                        Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
+                        ProductName = reader.GetString(2),
+                        ProductPrice = reader.GetDecimal(3),
+                        ProductDescription = reader.GetString(4),
+                        ProductPicture = reader.GetString(5)
 
-                };
+                    };
+                }
+               
                
                 return product;
             }
