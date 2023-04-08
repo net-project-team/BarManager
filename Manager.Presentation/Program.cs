@@ -13,6 +13,7 @@ namespace Manager.Presentation
         static  void Main(string[] args)
         {
 
+
             IWaiterRepository waiterRepo = new WaiterRepo();
             IWaiterHandler waiterHandler = new WaiterHandler(waiterRepo);
             Console.WriteLine("AAAAuhgh");
@@ -29,6 +30,12 @@ namespace Manager.Presentation
 
 
 
+
+
+            IRepository<Category> CategoryRepo = new CategoryRepo();
+            IRepository<Category> CategoryHandler = new CategoryHandler(CategoryRepo);
+          
+           
 
         }
     }
