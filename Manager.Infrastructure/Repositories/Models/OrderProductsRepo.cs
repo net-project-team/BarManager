@@ -33,10 +33,8 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 List<OrderProduct> op = new List<OrderProduct>();
                 await conn.OpenAsync();
-                string cmdText = @"select id as Id,
-                                   order_id as Order,
-                                   product_id as Products
-                                   from order_product";
+                string cmdText = @"select * from order_product;";
+                
                 var reader = await conn.ExecuteReaderAsync(cmdText);
                 while (await reader.ReadAsync())
                 {
@@ -72,14 +70,42 @@ namespace Manager.Infrastructure.Repositories.Models
             };
         }
 
-        public Task<bool> InsertAsync(OrderProduct entity)
+        public async Task<bool> InsertAsync(OrderProduct entity)
         {
-            throw new NotImplementedException();
+            using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+                await conn.OpenAsync();
+                string cmdText = @"insert into order_product(
+                                    order_id, product_id)
+                                    values (@Order, @Product);";
+
+                if (await conn.ExecuteAsync(cmdText,
+                    new {
+                        Order = entity.Order.OrderId,
+                        Product = entity.Product.ProductId
+                    }) > 0) return true;
+                else return false;
+            }
         }
 
-        public Task<bool> UpdateAsync(OrderProduct entity)
+        public async Task<bool> UpdateAsync(OrderProduct entity)
         {
-            throw new NotImplementedException();
+            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+                await conn.OpenAsync();
+                string cmdText = @"update order_product set
+                                    order_id = @Order
+                                    product_id = @Product
+                                    where id = @Id;";
+                if (await conn.ExecuteAsync(cmdText,
+                    new
+                    {
+                        Order = entity.Order.OrderId,
+                        Product = entity.Product.ProductId
+                    }) > 0) return true;
+
+                else return false;
+            }
         }
     }
 }
