@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Manager.Application.Handlers
 {
-    public class CategoryHandler: ICategoryHandler
+    public class CategoryHandler: ICategoryHandler 
     {
         private readonly ICategoryRepository _categoryRepository;
         public CategoryHandler(ICategoryRepository categoryRepository)
@@ -40,7 +40,7 @@ namespace Manager.Application.Handlers
             }
             catch (Exception)
             {
-                return null;
+                return new List<Category>();
             }
         }
 
@@ -52,7 +52,7 @@ namespace Manager.Application.Handlers
             }
             catch (Exception)
             {
-                return null;
+                return new Category();
             }
         }
 
