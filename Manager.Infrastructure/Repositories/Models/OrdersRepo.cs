@@ -17,6 +17,7 @@ namespace Manager.Infrastructure.Repositories.Models
 
         public async Task<bool> DeleteByIdAsync(int orderId)
         {
+
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();

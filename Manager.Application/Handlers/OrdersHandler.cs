@@ -20,27 +20,64 @@ namespace Manager.Application.Handlers
 
         public async Task<bool> DeleteByIdOrdersAsync(int id)
         {
-            return await _repository.DeleteByIdAsync(id);
+            try
+            {
+                return await _repository.DeleteByIdAsync(id);
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
         }
 
         public async Task<List<Order>> GetAllOrdersAsync()
         {
-            return await _repository.GetAllAsync();
+            try
+            {
+                return await _repository.GetAllAsync();
+            }
+            catch (Exception)
+            {
+                return new List<Order>();
+            }
         }
 
         public async Task<Order> GetByIdOrdersAsync(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            try
+            {
+                return await _repository.GetByIdAsync(id);
+            }
+            catch (Exception)
+            {
+                return new Order();
+            }
         }
 
         public async Task<bool> InsertOrdersAsync(Order entity)
         {
-           return await _repository.InsertAsync(entity);
+            try
+            {
+                return await _repository.InsertAsync(entity);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public async Task<bool> UpdateOrdersAsync(Order entity)
         {
-            return await _repository.UpdateAsync(entity);
+            try
+            {
+                return await _repository.UpdateAsync(entity);
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
         }
     }
 }

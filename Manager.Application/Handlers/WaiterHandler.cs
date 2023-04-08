@@ -38,7 +38,7 @@ namespace Manager.Application.Handlers
             }
             catch (Exception)
             {
-                return null;
+                return new List<Waiter>();
             }
         }
 
@@ -50,7 +50,7 @@ namespace Manager.Application.Handlers
             }
             catch (Exception)
             {
-                return null;
+                return new Waiter();
             }
         }
 
