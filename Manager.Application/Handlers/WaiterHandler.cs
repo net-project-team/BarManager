@@ -24,9 +24,9 @@ namespace Manager.Application.Handlers
             {
                 return await _repository.DeleteByIdAsync(id);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception ("An error occurred while inserting the waiter.", ex);
+                return false;
             }  
         }
 
@@ -36,9 +36,9 @@ namespace Manager.Application.Handlers
             {
                 return await _repository.GetAllAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception("An error occurred while getting all the waiters.", ex);
+                return null;
             }
         }
 
@@ -48,9 +48,9 @@ namespace Manager.Application.Handlers
             {
                 return await _repository.GetByIdAsync(waiterId);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception("An error occurred while getting the waiter by id.", ex);
+                return null;
             }
         }
 
@@ -60,9 +60,9 @@ namespace Manager.Application.Handlers
             {
                 return await _repository.InsertAsync(waiter);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception("An error occurred while inserting the waiter.", ex);
+                return false;
             }
         }
 
@@ -72,9 +72,9 @@ namespace Manager.Application.Handlers
             {
                 return await _repository.UpdateAsync(waiter);
             }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while updating the waiter.", ex);
+            catch (Exception) 
+            { 
+                return false;
             }
         }
     }
