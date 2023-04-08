@@ -14,30 +14,35 @@ namespace Manager.Presentation
         {
 
 
-            IWaiterRepository waiterRepo = new WaiterRepo();
-            IWaiterHandler waiterHandler = new WaiterHandler(waiterRepo);
-            Console.WriteLine("AAAAuhgh");
+            //IWaiterRepository waiterRepo = new WaiterRepo();
+            //IWaiterHandler waiterHandler = new WaiterHandler(waiterRepo);
+            //Console.WriteLine("AAAAuhgh");
 
-            IWaiterRepository waiterRepo = new WaiterRepo();
-            IWaiterHandler waiterHandler = new WaiterHandler(waiterRepo);
-            Console.WriteLine("AAAAuhgh");
+            //IWaiterRepository waiterRepo = new WaiterRepo();
+            //IWaiterHandler waiterHandler = new WaiterHandler(waiterRepo);
+            //Console.WriteLine("AAAAuhgh");
 
-            IProductRepository productRepository = new ProductsRepo();
+            //IProductRepository productRepository = new ProductsRepo();
 
-            var a = waiterHandler.GetByIdWaiterAsync(1).Result;
-            Console.WriteLine(a.WaiterName);
+            //var a = waiterHandler.GetByIdWaiterAsync(1).Result;
+            //Console.WriteLine(a.WaiterName);
 
             
             RunOrders();
             Console.ReadKey();
         }
 
-
-
+        public async static void RunOrders() { 
+            
+            IOrdersRepository orderRepository = new OrdersRepo();
+            IOrdersHandler ordersHandler= new OrdersHandler(orderRepository);
+            List<Order> orList = await ordersHandler.GetAllOrdersAsync();
             foreach (Order or in orList)
             {
                 Console.WriteLine(or);
             }
+
+            //Console.WriteLine(await ordersHandler.DeleteByIdOrdersAsync(1));
         }
     }
 }

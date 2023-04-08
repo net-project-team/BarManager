@@ -33,15 +33,15 @@ namespace Manager.Application.Handlers
 
         public async Task<List<Order>> GetAllOrdersAsync()
         {
-            try
-            {
-                return await _repository.GetAllAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return new List<Order>();
-            }
+            //try
+            //{
+            return await _repository.GetAllAsync();
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e.Message);
+            //    return new List<Order>();
+            //}
         }
 
         public async Task<Order> GetByIdOrdersAsync(int id)
