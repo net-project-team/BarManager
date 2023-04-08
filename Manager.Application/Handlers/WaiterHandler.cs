@@ -50,8 +50,12 @@ namespace Manager.Application.Handlers
             }
             catch (Exception)
             {
+
                 return new Waiter();
             }
+                
+            
+            
         }
 
         public async Task<bool> InsertWaiterAsync(Waiter waiter)
