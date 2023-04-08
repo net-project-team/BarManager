@@ -14,48 +14,11 @@ namespace Manager.Presentation
         static  void Main(string[] args)
         {
 
-
-            //IWaiterRepository waiterRepo = new WaiterRepo();
-            //IWaiterHandler waiterHandler = new WaiterHandler(waiterRepo);
-            //Console.WriteLine("AAAAuhgh");
-
-            //IWaiterRepository waiterRepo = new WaiterRepo();
-            //IWaiterHandler waiterHandler = new WaiterHandler(waiterRepo);
-            //Console.WriteLine("AAAAuhgh");
-
-
-
-            //var a = waiterHandler.GetByIdWaiterAsync(1).Result;
-            //Console.WriteLine(a.WaiterName);
-            //
-            // ZafarsTest();
-
-            OrdersTest.Run();
+            WaitersTest.ZafarDeletedById();
+            //WaitersTest.ZafarGetAll();
+            //WaitersTest.ZafarIsnerted();
+            //WaitersTest.ZafarUpdated();
             Console.ReadKey();
         }
-
-
-        public  static async void ZafarsTest()
-        {
-            IWaiterRepository waiterRepo = new WaiterRepo();
-            IWaiterHandler waiterHandler = new WaiterHandler(waiterRepo);
-            Console.WriteLine(waiterHandler.GetByIdWaiterAsync(1).Result.WaiterName);
-
-        }
-
-        public async static void RunOrders() { 
-            
-            IOrdersRepository orderRepository = new OrdersRepo();
-            IOrdersHandler ordersHandler= new OrdersHandler(orderRepository);
-            List<Order> orList = await ordersHandler.GetAllOrdersAsync();
-            foreach (Order or in orList)
-            {
-                Console.WriteLine(or);
-            }
-
-            //Console.WriteLine(await ordersHandler.DeleteByIdOrdersAsync(1));
-        }
-
-
     }
 }
