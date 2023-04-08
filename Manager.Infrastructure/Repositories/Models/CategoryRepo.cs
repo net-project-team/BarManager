@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Manager.Application.Interfaces;
+using Manager.Application.Repository.Interfaces;
 using Manager.Domain.Models;
 using Manager.Infrastructure.Connection;
 using Npgsql;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Manager.Infrastructure.Repositories.Models
 {
-    public class CategoryRepo : IRepository<Category>
+    public class CategoryRepo : ICategoryRepository
     {
 
         private readonly string _connection;
@@ -36,9 +37,8 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 List<Category> categories = new List<Category>();
                 await conn.OpenAsync();
-                string cmdText = @"select 
-                                        category_id as CategoryId,
-                                        category_name as CategoryName
+                string cmdText = @"select category_id as CategoryId,
+                                   category_name as CategoryName
                                    from categories;";
                 categories = (await conn.QueryAsync<Category>(cmdText)).ToList();
                 return categories;
@@ -51,15 +51,14 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 Category categorie = new Category();
                 await conn.OpenAsync();
-                string cmdText = @"select 
-                                        category_id as CategoryId,
-                                        category_name as CategoryName
+                string cmdText = @"select category_id as CategoryId,
+                                   category_name as CategoryName
                                    from categories;";
                 categorie = await conn.QueryFirstOrDefaultAsync<Category>(cmdText);
                 return categorie;
             }
         }
-
+         
         public async Task<bool> InsertAsync(Category category)
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))

@@ -1,4 +1,6 @@
-﻿using Manager.Application.Interfaces;
+﻿using Manager.Application.Handler.Interfaces;
+using Manager.Application.Interfaces;
+using Manager.Application.Repository.Interfaces;
 using Manager.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -8,33 +10,36 @@ using System.Threading.Tasks;
 
 namespace Manager.Application.Handlers
 {
-    public class ProductsHandler: IRepository<Product> 
+    public class ProductsHandler : IProductHandler
     {
-        public Task<List<Product>> GetAllAsync()
+        private readonly IProductRepository _repository;
+        public ProductsHandler(IProductRepository repository)
         {
-            throw new NotImplementedException();
+            this._repository = repository;
+        }
+        public async Task<bool> DeleteByIdProductAsync(int id)
+        {
+            return await _repository.DeleteByIdAsync(id);
         }
 
-        public Task<Product> GetByIdAsync(int id)
+        public async Task<List<Product>> GetAllProductsAsync()
         {
-            throw new NotImplementedException();
+            return await _repository.GetAllAsync();
         }
 
-        public Task<bool> UpdateAsync(Product entity)
+        public async Task<Product> GetByIdProductAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _repository.GetByIdAsync(id);
         }
 
-        public Task<bool> DeleteByIdAsync(int id)
+        public async Task<bool> InsertProductAsync(Product entity)
         {
-            throw new NotImplementedException();
+           return await _repository.InsertAsync(entity);
         }
 
-        public Task<bool> InsertAsync(Product entity)
+        public async Task<bool> UpdateProductAsync(Product entity)
         {
-            throw new NotImplementedException();
+            return await _repository.UpdateAsync(entity);
         }
-
-        
     }
 }

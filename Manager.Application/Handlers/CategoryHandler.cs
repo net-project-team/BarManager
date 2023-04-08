@@ -1,4 +1,6 @@
-﻿using Manager.Application.Interfaces;
+﻿using Manager.Application.Handler.Interfaces;
+using Manager.Application.Interfaces;
+using Manager.Application.Repository.Interfaces;
 using Manager.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -8,37 +10,74 @@ using System.Threading.Tasks;
 
 namespace Manager.Application.Handlers
 {
-    public class CategoryHandler : IRepository<Category>
+    public class CategoryHandler: ICategoryHandler
     {
-        private readonly IRepository<Category> _repository;
-        public CategoryHandler(IRepository<Category> repository)
+        private readonly ICategoryRepository _categoryRepository;
+        public CategoryHandler(ICategoryRepository categoryRepository)
         {
-            this._repository = repository;
+            this._categoryRepository = categoryRepository;
         }
 
-        public async Task<bool> DeleteByIdAsync(int id)
+
+        public async Task<bool> DeleteCategoryByIdAsync(int id)
         {
-            return await _repository.DeleteByIdAsync(id);
+            try
+            {
+                return await _categoryRepository.DeleteByIdAsync(id);
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
         }
 
-        public async Task<List<Category>> GetAllAsync()
+        public async Task<List<Category>> GetAllCategoriesAsync()
         {
-           return await _repository.GetAllAsync();
+            try
+            {
+                return await _categoryRepository.GetAllAsync();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public async Task<Category> GetByIdAsync(int id)
+        public async Task<Category> GetByIdCategoryAsync(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            try
+            {
+                return await _categoryRepository.GetByIdAsync(id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public async Task<bool> InsertAsync(Category category)
+        public async Task<bool> InsertCategoryAsync(Category category)
         {
-            return await _repository.InsertAsync(category);
+            try
+            {
+                return await _categoryRepository.InsertAsync(category);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
-        public async Task<bool> UpdateAsync(Category category)
+        public async Task<bool> UpdateCategoryAsync(Category category)
         {
-            return await _repository.UpdateAsync(category);   
+            try
+            {
+                return await _categoryRepository.UpdateAsync(category);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

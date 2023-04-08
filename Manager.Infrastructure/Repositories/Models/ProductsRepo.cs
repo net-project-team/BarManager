@@ -1,18 +1,20 @@
 ﻿using Dapper;
 using Manager.Application.Interfaces;
+using Manager.Application.Repository.Interfaces;
 using Manager.Domain.Models;
 using Manager.Infrastructure.Connection;
 using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Manager.Infrastructure.Repositories.Models
 {
     
-    public class ProductsRepo:IRepository<Product>
+    public class ProductsRepo: IProductRepository
     {
         private readonly string _connection;
         public ProductsRepo()
@@ -25,6 +27,7 @@ namespace Manager.Infrastructure.Repositories.Models
             using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
+              
                 string cmdText = @"Delete from products where product_id = @id;";
                 if (await conn.ExecuteAsync(cmdText, new{id = ProductId}) > 0) return true;
                 else return false;
@@ -37,14 +40,22 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 List<Product> products = new List<Product>();   
                 await conn.OpenAsync();
-                string cmdText = @" select product_id as ProductId,
-                                    category_id as CategoryId, 
-                                    product_name as ProductName,
-                                    product_price as ProductPrice,
-                                    product_description as ProductDescription,
-                                    product_picture as ProductPicture 
-                                    from products;";
-                products = (await conn.QueryAsync<Product>(cmdText)).ToList();
+                string cmdText = @" select * from products;";
+                 var reader = await  conn.ExecuteReaderAsync(cmdText);
+                while (reader.Read())
+                {
+                    products.Add(new Product
+                    {
+                        ProductId = reader.GetInt32(0),
+                        Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
+                        ProductName = reader.GetString(2),
+                        ProductPrice = reader.GetDecimal(3),
+                        ProductDescription = reader.GetString(4),
+                        ProductPicture = reader.GetString(5)
+
+                    }) ;
+                }
+
                 return products;
             }
         }
@@ -53,16 +64,21 @@ namespace Manager.Infrastructure.Repositories.Models
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
-                Product product = new Product();
+                
                 await conn.OpenAsync();
-                string cmdText = @" select product_id as ProductId,
-                                    category_id as CategoryId, 
-                                    product_name as ProductName,
-                                    product_price as ProductPrice,
-                                    product_description as ProductDescription,
-                                    product_picture as ProductPicture 
-                                    from products where product_id = @id;";
-                product = await conn.QueryFirstOrDefaultAsync<Product>(cmdText,new {id=productId});
+                string cmdText = @" select * from products where product_id = @id;";
+                var reader = await conn.ExecuteReaderAsync(cmdText, new { id = productId });
+                Product product = new Product
+                {
+                    ProductId = reader.GetInt32(0),
+                    Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
+                    ProductName = reader.GetString(2),
+                    ProductPrice = reader.GetDecimal(3),
+                    ProductDescription = reader.GetString(4),
+                    ProductPicture = reader.GetString(5)
+
+                };
+               
                 return product;
             }
         }
@@ -79,7 +95,16 @@ namespace Manager.Infrastructure.Repositories.Models
                                   product_picture)
 	                              VALUES (@CategoryId, @ProductName, 
                                   @ProductPrice, @ProductDescription, @ProductPicture);";
-                if (await conn.ExecuteAsync(cmdText, product) > 0) return true;
+                if (await conn.ExecuteAsync(cmdText,
+                    new
+                    {
+                        CategoryId = product.Category.CategoryID,
+                        ProductName = product.ProductName,
+                        ProductPrice = product.ProductPrice,
+                        ProductDescription = product.ProductDescription,
+                        ProductPicture = product.ProductPicture
+
+                    }) > 0) return true;
                 else return false;
             }
         }
@@ -96,8 +121,18 @@ namespace Manager.Infrastructure.Repositories.Models
                                     product_description=@ProductDescription,
                                     product_picture = @ProductPicture
                                     where product_id = @ProductId;";
-               if(await conn.ExecuteAsync(cmdText, product)>0) return true;
-               else return false;
+                if (await conn.ExecuteAsync(cmdText,
+                     new
+                     {
+                         ProductId = product.ProductId,
+                         CategoryId = product.Category.CategoryID,
+                         ProductName = product.ProductName,
+                         ProductPrice = product.ProductPrice,
+                         ProductDescription = product.ProductDescription,
+                         ProductPicture = product.ProductPicture
+
+                     }) > 0) return true;
+                else return false;
 
             }
         }

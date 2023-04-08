@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manager.Application", "Mana
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manager.Infrastructure", "Manager.Infrastructure\Manager.Infrastructure.csproj", "{FDA0E82F-1F6A-4242-9542-E60A0FB975FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manager.Presentation", "Manager.Presentation\Manager.Presentation.csproj", "{9484A1CB-1110-40C4-AFC2-DC3E235E5AD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manager.Presentation", "Manager.Presentation\Manager.Presentation.csproj", "{9484A1CB-1110-40C4-AFC2-DC3E235E5AD7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Manager.Presentation", "Manager.Presentation", "{22D4A39A-3CB9-4CB7-9338-E6E270473FDF}"
 EndProject
