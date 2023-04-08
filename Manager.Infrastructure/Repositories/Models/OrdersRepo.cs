@@ -12,7 +12,15 @@ namespace Manager.Infrastructure.Repositories.Models
         private readonly string _connection;
         public OrdersRepo()
         {
-            _connection = GetConnection.Connection();
+            try
+            {
+                _connection = GetConnection.Connection();
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e.Message+" connection yoq");
+            }
         }
 
         public async Task<bool> DeleteByIdAsync(int orderId)

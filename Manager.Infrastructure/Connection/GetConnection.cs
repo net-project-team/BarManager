@@ -12,7 +12,7 @@ namespace Manager.Infrastructure.Connection
             .AddJsonFile(_path, true, true);
             
             IConfiguration configuration = builder.Build();
-            return configuration.GetConnectionString("MyConnectionString");
+            return  configuration.GetConnectionString("MyConnectionString");
 
 
         }

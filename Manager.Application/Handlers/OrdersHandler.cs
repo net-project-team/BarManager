@@ -37,8 +37,9 @@ namespace Manager.Application.Handlers
             {
                 return await _repository.GetAllAsync();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return new List<Order>();
             }
         }
