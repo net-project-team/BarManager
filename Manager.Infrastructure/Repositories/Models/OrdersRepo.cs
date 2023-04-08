@@ -16,16 +16,19 @@ namespace Manager.Infrastructure.Repositories.Models
 
         public async Task<bool> DeleteByIdAsync(int orderId)
         {
-
-            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            if (await new OrderProductsRepo().DeleteByIdAsync(orderId))
             {
-                await conn.OpenAsync();
+                using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+                {
+                    await conn.OpenAsync();
 
-                string cmdText = @"delete from orders where order_id = @id";
-                if (await conn.ExecuteAsync(cmdText, new { id = orderId }) > 0) return true;
-                else return false;
-
+                    string cmdText = @"delete from orders where order_id = @id";
+                    if (await conn.ExecuteAsync(cmdText, new { id = orderId }) > 0) return true;
+                    else return false;
+                }
             }
+            else return false;
+            
         }
 
         public async Task<List<Order>> GetAllAsync()
