@@ -1,12 +1,13 @@
 ﻿using Dapper;
 using Manager.Application.Interfaces;
+using Manager.Application.Repository.Interfaces;
 using Manager.Domain.Models;
 using Manager.Infrastructure.Connection;
 using Npgsql;
 
 namespace Manager.Infrastructure.Repositories.Models
 {
-    public class OrdersRepo : IRepository<Order>
+    public class OrdersRepo :IOrdersRepository
     {
         private readonly string _connection;
         public OrdersRepo()
