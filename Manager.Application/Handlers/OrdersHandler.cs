@@ -50,8 +50,9 @@ namespace Manager.Application.Handlers
             {
                 return await _repository.GetByIdAsync(id);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return new Order();
             }
         }
