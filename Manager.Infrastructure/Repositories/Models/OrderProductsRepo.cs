@@ -72,14 +72,27 @@ namespace Manager.Infrastructure.Repositories.Models
             };
         }
 
-        public Task<bool> InsertAsync(OrderProduct entity)
+        public async Task<bool> InsertAsync(OrderProduct orderProduct)
         {
-            throw new NotImplementedException();
+            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+                await conn.OpenAsync();
+                string cmdText = @"insert into order_product(order_id, product_id)
+                                   values(@orderId, @productId);";
+                if (await conn.ExecuteAsync(cmdText, orderProduct) > 0) return true;
+                else return false;
+            }
         }
 
-        public Task<bool> UpdateAsync(OrderProduct entity)
+        public async Task<bool> UpdateAsync(OrderProduct orderProduct)
         {
-            throw new NotImplementedException();
+            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+                await conn.OpenAsync();
+                string cmdText = @"update order_product set order_id=@orderId, product_id=@productId;";
+                if (await conn.ExecuteAsync(cmdText, orderProduct) > 0) return true;
+                else return false;
+            }
         }
     }
 }
