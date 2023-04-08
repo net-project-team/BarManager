@@ -27,8 +27,8 @@ namespace Manager.Presentation
             //var a = waiterHandler.GetByIdWaiterAsync(1).Result;
             //Console.WriteLine(a.WaiterName);
 
-            ZafarsTest();
-           // RunOrders();
+            //ZafarsTest();
+           RunOrders();
             Console.ReadKey();
         }
 
@@ -43,15 +43,23 @@ namespace Manager.Presentation
 
         public async static void RunOrders() { 
             
-            IOrdersRepository orderRepository = new OrdersRepo();
-            IOrdersHandler ordersHandler= new OrdersHandler(orderRepository);
-            List<Order> orList = await ordersHandler.GetAllOrdersAsync();
-            foreach (Order or in orList)
-            {
-                Console.WriteLine(or);
-            }
-
+           // IOrdersRepository orderRepository = new OrdersRepo();
+           // IOrdersHandler ordersHandler= new OrdersHandler(orderRepository);
+           // //List<Order> orList = await ordersHandler.GetAllOrdersAsync();
+           // //foreach (Order or in orList)
+           // //{
+           // //    Console.WriteLine(or);
+           // //} 
+           //var a = await ordersHandler.GetByIdOrdersAsync(1);
+           //  Console.WriteLine(a.OrderDate);
             //Console.WriteLine(await ordersHandler.DeleteByIdOrdersAsync(1));
+            IProductRepository productRepository = new ProductsRepo();
+            IProductHandler productHandler  = new ProductsHandler(productRepository);   
+             var b = await productHandler.GetByIdProductAsync(1);
+             Console.WriteLine(b.ProductName);
+
+
+
         }
 
 
