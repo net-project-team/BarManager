@@ -36,13 +36,13 @@ namespace Manager.Presentation
             
             IOrdersRepository orderRepository = new OrdersRepo();
             IOrdersHandler ordersHandler= new OrdersHandler(orderRepository);
-            List<Order> orList = await ordersHandler.GetAllOrdersAsync();
-            foreach (Order or in orList)
-            {
-                Console.WriteLine(or);
-            }
+            //List<Order> orList = await ordersHandler.GetAllOrdersAsync();
+            //foreach (Order or in orList)
+            //{
+            //    Console.WriteLine(or);
+            //}
 
-            //Console.WriteLine(await ordersHandler.DeleteByIdOrdersAsync(1));
+            Console.WriteLine( ordersHandler.GetByIdOrdersAsync(1).Result.OrderDate);
         }
     }
 }
