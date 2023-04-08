@@ -34,12 +34,7 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 List<Order> orders = new List<Order>();
                 await conn.OpenAsync();
-                string cmdText = @"select order_id as OrderId,
-                                   waiter_id as Waiter,
-                                   order_table as OrderTable,
-                                   order_date as OrderDate,
-                                   is_completed as IsCompleted
-                                   from orders;";
+                string cmdText = @"select * from orders;";
                 var reader = await conn.ExecuteReaderAsync(cmdText);
                 while (await reader.ReadAsync())
                 {
@@ -63,12 +58,7 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 Order orders = new Order();
                 await conn.OpenAsync();
-                string cmdText = @"select order_id as OrderId,
-                                   waiter_id as Waiter,
-                                   order_table as OrderTable,
-                                   order_date as OrderDate,
-                                   is_completed as IsCompleted
-                                   from orders where order_id = @id;";
+                string cmdText = @"select * from orders where order_id = @id;";
                 var reader = await conn.ExecuteReaderAsync(cmdText, new { id = orderId });
 
                 orders.OrderId = reader.GetInt32(0);
