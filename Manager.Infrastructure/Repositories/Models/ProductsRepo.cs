@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Manager.Application.Interfaces;
+using Manager.Application.Repository.Interfaces;
 using Manager.Domain.Models;
 using Manager.Infrastructure.Connection;
 using Npgsql;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 namespace Manager.Infrastructure.Repositories.Models
 {
     
-    public class ProductsRepo:IRepository<Product>
+    public class ProductsRepo: IProductRepository
     {
         private readonly string _connection;
         public ProductsRepo()

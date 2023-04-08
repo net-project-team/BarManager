@@ -16,6 +16,9 @@ namespace Manager.Presentation
             IWaiterRepository waiterRepo = new WaiterRepo();
             IWaiterHandler waiterHandler = new WaiterHandler(waiterRepo);
 
+
+            IProductRepository productRepository = new ProductsRepo();
+
             var a = waiterHandler.GetByIdWaiterAsync(1).Result;
             Console.WriteLine(a.WaiterName);
 
