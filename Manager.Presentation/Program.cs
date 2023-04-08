@@ -5,6 +5,7 @@ using Manager.Application.Repository.Interfaces;
 using Manager.Domain.Models;
 using Manager.Infrastructure.Connection;
 using Manager.Infrastructure.Repositories.Models;
+using Manager.Presentation.Tests;
 using Microsoft.Extensions.DependencyInjection;
 namespace Manager.Presentation
 {
@@ -26,9 +27,10 @@ namespace Manager.Presentation
 
             //var a = waiterHandler.GetByIdWaiterAsync(1).Result;
             //Console.WriteLine(a.WaiterName);
+            //
+            // ZafarsTest();
 
-            //ZafarsTest();
-           RunOrders();
+            OrdersTest.Run();
             Console.ReadKey();
         }
 
@@ -37,29 +39,21 @@ namespace Manager.Presentation
         {
             IWaiterRepository waiterRepo = new WaiterRepo();
             IWaiterHandler waiterHandler = new WaiterHandler(waiterRepo);
-            Console.WriteLine(await waiterHandler.DeleteWaiterByIdAsync(1));
+            Console.WriteLine(waiterHandler.GetByIdWaiterAsync(1).Result.WaiterName);
 
         }
 
         public async static void RunOrders() { 
             
-           // IOrdersRepository orderRepository = new OrdersRepo();
-           // IOrdersHandler ordersHandler= new OrdersHandler(orderRepository);
-           // //List<Order> orList = await ordersHandler.GetAllOrdersAsync();
-           // //foreach (Order or in orList)
-           // //{
-           // //    Console.WriteLine(or);
-           // //} 
-           //var a = await ordersHandler.GetByIdOrdersAsync(1);
-           //  Console.WriteLine(a.OrderDate);
+            IOrdersRepository orderRepository = new OrdersRepo();
+            IOrdersHandler ordersHandler= new OrdersHandler(orderRepository);
+            List<Order> orList = await ordersHandler.GetAllOrdersAsync();
+            foreach (Order or in orList)
+            {
+                Console.WriteLine(or);
+            }
+
             //Console.WriteLine(await ordersHandler.DeleteByIdOrdersAsync(1));
-            IProductRepository productRepository = new ProductsRepo();
-            IProductHandler productHandler  = new ProductsHandler(productRepository);   
-             var b = await productHandler.GetByIdProductAsync(1);
-             Console.WriteLine(b.ProductName);
-
-
-
         }
 
 
