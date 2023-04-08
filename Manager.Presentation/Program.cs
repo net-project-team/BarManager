@@ -15,7 +15,7 @@ namespace Manager.Presentation
 
             IWaiterRepository waiterRepo = new WaiterRepo();
             IWaiterHandler waiterHandler = new WaiterHandler(waiterRepo);
-
+            Console.WriteLine("AAAAuhgh");
 
             IProductRepository productRepository = new ProductsRepo();
 
