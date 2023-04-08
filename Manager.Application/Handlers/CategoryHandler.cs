@@ -12,37 +12,72 @@ namespace Manager.Application.Handlers
 {
     public class CategoryHandler: ICategoryHandler
     {
-        private readonly ICategoryRepository _repository;
-        public CategoryHandler(ICategoryRepository repository)
+        private readonly ICategoryRepository _categoryRepository;
+        public CategoryHandler(ICategoryRepository categoryRepository)
         {
-            this._repository = repository;
+            this._categoryRepository = categoryRepository;
         }
-        
-        
+
 
         public async Task<bool> DeleteCategoryByIdAsync(int id)
         {
-            return await _repository.DeleteByIdAsync(id);
+            try
+            {
+                return await _categoryRepository.DeleteByIdAsync(id);
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
         }
 
-        public Task<List<Category>> GetAllCategoriesAsync()
+        public async Task<List<Category>> GetAllCategoriesAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _categoryRepository.GetAllAsync();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public Task<Category> GetByIdCategoryAsync(int id)
+        public async Task<Category> GetByIdCategoryAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _categoryRepository.GetByIdAsync(id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public Task<bool> InsertCategoryAsync(Category category)
+        public async Task<bool> InsertCategoryAsync(Category category)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _categoryRepository.InsertAsync(category);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
-        public Task<bool> UpdateCategoryAsync(Category category)
+        public async Task<bool> UpdateCategoryAsync(Category category)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _categoryRepository.UpdateAsync(category);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
