@@ -8,7 +8,7 @@ using Manager.Infrastructure.Repositories.Models;
 using Microsoft.Extensions.DependencyInjection;
 namespace Manager.Presentation
 {
-    internal class Program
+    public class Program
     {
         static  void Main(string[] args)
         {
@@ -22,14 +22,23 @@ namespace Manager.Presentation
             //IWaiterHandler waiterHandler = new WaiterHandler(waiterRepo);
             //Console.WriteLine("AAAAuhgh");
 
-            //IProductRepository productRepository = new ProductsRepo();
+
 
             //var a = waiterHandler.GetByIdWaiterAsync(1).Result;
             //Console.WriteLine(a.WaiterName);
 
-            
-            RunOrders();
+            ZafarsTest();
+           // RunOrders();
             Console.ReadKey();
+        }
+
+
+        public  static async void ZafarsTest()
+        {
+            IWaiterRepository waiterRepo = new WaiterRepo();
+            IWaiterHandler waiterHandler = new WaiterHandler(waiterRepo);
+            Console.WriteLine(await waiterHandler.DeleteWaiterByIdAsync(1));
+
         }
 
         public async static void RunOrders() { 
@@ -44,5 +53,7 @@ namespace Manager.Presentation
 
             //Console.WriteLine(await ordersHandler.DeleteByIdOrdersAsync(1));
         }
+
+
     }
 }
