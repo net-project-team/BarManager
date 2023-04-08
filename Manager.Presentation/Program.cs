@@ -13,16 +13,10 @@ namespace Manager.Presentation
         static  void Main(string[] args)
         {
 
-
             IWaiterRepository waiterRepo = new WaiterRepo();
             IWaiterHandler waiterHandler = new WaiterHandler(waiterRepo);
-            Console.WriteLine("AAAAuhgh");
-
-            IProductRepository productRepository = new ProductsRepo();
-
-            var a = waiterHandler.GetByIdWaiterAsync(1).Result;
-            Console.WriteLine(a.WaiterName);
-          
+            var wt =  waiterHandler.GetByIdWaiterAsync(1).Result;
+            Console.WriteLine(wt.WaiterName);
 
 
 
@@ -30,13 +24,13 @@ namespace Manager.Presentation
 
 
 
-
-
-            IRepository<Category> CategoryRepo = new CategoryRepo();
-            //IRepository<Category> CategoryHandler = new CategoryHandler(CategoryRepo);
-          
-           
-
+            Console.ReadKey();
         }
+
+
+
+
+           
+        
     }
 }
