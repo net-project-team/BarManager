@@ -68,7 +68,6 @@ namespace Manager.Infrastructure.Repositories.Models
                         Waiter = await new WaiterRepo().GetByIdAsync(reader.GetInt32(1)),
                         Order = await new OrdersRepo().GetByIdAsync(reader.GetInt32(2))
 
-
                     };
 
                 }
@@ -81,7 +80,7 @@ namespace Manager.Infrastructure.Repositories.Models
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
-                string cmdText = "";
+                string cmdText = "insert into waiter_order(waiter_id,order_iodd)";
             }
         }
 
