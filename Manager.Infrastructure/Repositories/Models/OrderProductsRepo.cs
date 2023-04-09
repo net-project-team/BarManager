@@ -59,9 +59,12 @@ namespace Manager.Infrastructure.Repositories.Models
                 string cmdText = @"select * from order_product where id = @idd";
                 var reader = await conn.ExecuteReaderAsync(cmdText, new { idd = id });
 
-                op.Id = reader.GetInt32(0);
-                op.Order = await new OrdersRepo().GetByIdAsync(reader.GetInt32(1));
-                op.Product = await new ProductsRepo().GetByIdAsync(reader.GetInt32(2));
+                while (await reader.ReadAsync())
+                {
+                    op.Id = reader.GetInt32(0);
+                    op.Order = await new OrdersRepo().GetByIdAsync(reader.GetInt32(1));
+                    op.Product = await new ProductsRepo().GetByIdAsync(reader.GetInt32(2));
+                }   
 
                 return op;
 

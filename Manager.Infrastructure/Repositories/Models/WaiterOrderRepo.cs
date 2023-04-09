@@ -75,22 +75,24 @@ namespace Manager.Infrastructure.Repositories.Models
             }
         }
 
-        public Task<bool> InsertAsync(WaiterOrder entity)
+        public async Task<bool> InsertAsync(WaiterOrder entity)
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
                 string cmdText = "insert into waiter_order(waiter_id,order_iodd)";
             }
+            return true;
         }
 
-        public Task<bool> UpdateAsync(WaiterOrder entity)
+        public async Task<bool> UpdateAsync(WaiterOrder entity)
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
                 string cmdText = "";
             }
+            return true;
         }
     }
 }
