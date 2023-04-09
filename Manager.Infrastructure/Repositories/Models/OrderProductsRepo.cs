@@ -27,7 +27,28 @@ namespace Manager.Infrastructure.Repositories.Models
 
             }
         }
+        public async Task<bool> DeleteByOrderIdAsync(int id)
+        {
+            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+                await conn.OpenAsync();
+                string cmdText = @"delete from order_product where order_id = @id";
+                if (await conn.ExecuteAsync(cmdText, new { id = id }) > 0) return true;
+                else return false;
 
+            }
+        }
+        public async Task<bool> DeleteByProductIdAsync(int id)
+        {
+            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+                await conn.OpenAsync();
+                string cmdText = @"delete from order_product where product_id = @id";
+                if (await conn.ExecuteAsync(cmdText, new { id = id }) > 0) return true;
+                else return false;
+
+            }
+        }
         public async Task<List<OrderProduct>> GetAllAsync()
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
@@ -57,14 +78,14 @@ namespace Manager.Infrastructure.Repositories.Models
                 OrderProduct op = new OrderProduct();
                 await conn.OpenAsync();
                 string cmdText = @"select * from order_product where id = @idd";
-                var reader = await conn.ExecuteReaderAsync(cmdText, new { idd = id });
-
+                var reader = await conn.ExecuteReaderAsync(cmdText, new { idd = id }); 
                 while (await reader.ReadAsync())
                 {
                     op.Id = reader.GetInt32(0);
                     op.Order = await new OrdersRepo().GetByIdAsync(reader.GetInt32(1));
                     op.Product = await new ProductsRepo().GetByIdAsync(reader.GetInt32(2));
-                }   
+
+                }
 
                 return op;
 

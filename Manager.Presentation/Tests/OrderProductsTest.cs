@@ -18,7 +18,7 @@ namespace Manager.Presentation.Tests
             RunOrderProduct();
         }
 
-        public async static void RunOrderProduct()
+        public static void RunOrderProduct()
         {
             IOrderProductRepository orderProductRepository = new OrderProductsRepo();
             IOrderProductHandler orderProductHandler = new OrderProductHandler(orderProductRepository);

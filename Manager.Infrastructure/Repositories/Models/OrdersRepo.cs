@@ -16,7 +16,7 @@ namespace Manager.Infrastructure.Repositories.Models
 
         public async Task<bool> DeleteByIdAsync(int orderId)
         {
-            if (await new OrderProductsRepo().DeleteByIdAsync(orderId))
+            if (await new OrderProductsRepo().DeleteByOrderIdAsync(orderId))
             {
                 using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
                 {
