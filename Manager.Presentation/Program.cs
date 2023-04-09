@@ -16,10 +16,10 @@ namespace Manager.Presentation
 
             //WaitersTest.ZafarDeletedById();
             //WaitersTest.ZafarGetAll();
-             //WaitersTest.ZafarIsnerted();
+            //WaitersTest.ZafarIsnerted();
             //WaitersTest.ZafarUpdated();
 
-            
+            ProductsTest.showProduct().Wait();
             //OrderProductsTest.Run();
             Console.ReadKey();
         }
