@@ -14,10 +14,12 @@ namespace Manager.Presentation
         static  void Main(string[] args)
         {
 
-            WaitersTest.ZafarDeletedById();
+            //WaitersTest.ZafarDeletedById();
             //WaitersTest.ZafarGetAll();
             //WaitersTest.ZafarIsnerted();
             //WaitersTest.ZafarUpdated();
+
+            OrdersTest.Run();
             Console.ReadKey();
         }
     }

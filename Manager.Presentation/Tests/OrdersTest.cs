@@ -28,10 +28,11 @@ namespace Manager.Presentation.Tests
             //    Console.WriteLine(or.OrderId);
             //}
 
-            // readby id islamadi
+            // readby id ishladi
+            // Console.WriteLine(ordersHandler.GetByIdOrdersAsync(2).Result.OrderId);
 
-            Console.WriteLine(ordersHandler.GetByIdOrdersAsync(2).Result.OrderId);
-
+            //delete 
+            Console.WriteLine(await ordersHandler.DeleteByIdOrdersAsync(1));
 
             //    isert ishladi
             //Order order = new Order();
@@ -46,7 +47,7 @@ namespace Manager.Presentation.Tests
             //order.OrderId = 7;
             //order.OrderDate = DateTime.Now;
             //order.OrderTable = 2;
-            //order.Waiter = await new WaiterRepo().GetByIdAsync(2);// (WaiterHandler().GetByIdWaiterAsync(1));
+            //order.Waiter = await new WaiterRepo().GetByIdAsync(2);
             //order.IsCompleted = false;
             //Console.WriteLine(await ordersHandler.UpdateOrdersAsync(order));
 
