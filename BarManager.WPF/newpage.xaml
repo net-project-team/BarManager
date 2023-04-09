@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="newpage">
 
-    <ScrollViewer Margin="0,0,0,-12">
+    <ScrollViewer Margin="0,0,-261,-12">
         <Grid>
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -19,7 +19,7 @@
             <Button Content="Button" HorizontalAlignment="Left" Margin="107,148,0,0" VerticalAlignment="Top" Height="58" Width="94"/>
             <Button Content="Button" HorizontalAlignment="Left" Margin="219,148,0,0" VerticalAlignment="Top" Height="58" Width="94"/>
             <Button Content="Button" HorizontalAlignment="Left" Margin="336,148,0,0" VerticalAlignment="Top" Height="58" Width="94"/>
-            <Grid>
+            <Grid Margin="0,-5,0,5">
                 <Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FFAA05AB"/>
@@ -27,8 +27,8 @@
                     </LinearGradientBrush>
                 </Grid.Background>
                 <Button Content="Button" HorizontalAlignment="Left" Margin="107,148,0,0" VerticalAlignment="Top" Height="58" Width="94" Click="Button_Click"/>
-                <Button Content="Button" HorizontalAlignment="Left" Margin="216,148,0,0" VerticalAlignment="Top" Height="58" Width="94"/>
-                <Button Content="Button" HorizontalAlignment="Left" Margin="336,148,0,0" VerticalAlignment="Top" Height="58" Width="94"/>
+                <Button Content="Button" HorizontalAlignment="Left" Margin="216,148,0,0" VerticalAlignment="Top" Height="58" Width="94" Click="Button_Click_1"/>
+                <Button Content="Button" HorizontalAlignment="Left" Margin="336,148,0,0" VerticalAlignment="Top" Height="58" Width="94" Click="Button_Click_2"/>
                 <Button Content="Button" HorizontalAlignment="Left" Margin="107,225,0,0" VerticalAlignment="Top" Height="58" Width="94"/>
                 <Button Content="Button" HorizontalAlignment="Left" Margin="107,302,0,0" VerticalAlignment="Top" Height="58" Width="94"/>
                 <Button Content="Button" HorizontalAlignment="Left" Margin="216,302,0,0" VerticalAlignment="Top" Height="58" Width="94"/>
@@ -39,7 +39,7 @@
                 <Button Content="Button" HorizontalAlignment="Left" Margin="107,465,0,0" VerticalAlignment="Top" Height="58" Width="94"/>
                 <Button Content="Button" HorizontalAlignment="Left" Margin="216,225,0,0" VerticalAlignment="Top" Height="58" Width="94"/>
                 <Button Content="Button" HorizontalAlignment="Left" Margin="336,225,0,0" VerticalAlignment="Top" Height="58" Width="94"/>
-                <ListBox x:Name="ListBoxTest" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="458,148,76,232"/>
+                <DataGrid x:Name="Datagridtest" HorizontalAlignment="Left" Width="409" Margin="492,130,0,-130"/>
 
             </Grid>
             <Button Content="Button" HorizontalAlignment="Left" Margin="107,544,0,0" VerticalAlignment="Top" Height="58" Width="94"/>
