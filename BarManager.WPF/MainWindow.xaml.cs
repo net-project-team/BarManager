@@ -20,69 +20,87 @@ namespace BarManager.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<MenuItem> menuItems;
+        private List<OrderItem> orderItems;
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+            menuItems = new List<MenuItem>
         {
-            LoginPassword.Password += 0;
+            new MenuItem { Name = "Hamburger", Description = "Beef patty, lettuce, tomato, onion, pickles", Price = 5.99m },
+            new MenuItem { Name = "Cheeseburger", Description = "Beef patty, cheddar cheese, lettuce, tomato, onion, pickles", Price = 6.49m },
+            new MenuItem { Name = "Chicken Sandwich", Description = "Grilled chicken breast, lettuce, tomato, mayo", Price = 6.99m },
+            new MenuItem { Name = "French Fries", Description = "Golden brown fries", Price = 2.49m },
+            new MenuItem { Name = "Onion Rings", Description = "Crispy breaded onion rings", Price = 3.49m },
+            new MenuItem { Name = "Soft Drink", Description = "Coca-Cola, Sprite, or Fanta", Price = 1.99m }
+        };
+
+            // Bind the menu items to the list box
+            menuListBox.ItemsSource = menuItems;
+
+            // Initialize the order items
+            orderItems = new List<OrderItem>();
+
+            // Set the data context for the order summary controls
+            orderListBox.ItemsSource = orderItems;
+            totalTextBlock.DataContext = orderItems;
+
+            // Handle the selection changed event for the menu items list box
+            menuListBox.SelectionChanged += MenuListBox_SelectionChanged;
         }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void MenuListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            LoginPassword.Password += 1;
-        }
+            // Get the selected menu item
+            var selectedItem = (MenuItem)menuListBox.SelectedItem;
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            LoginPassword.Password += 2;
-        }
-
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            LoginPassword.Password += 3;
-        }
-
-        private void Button_Click_4(object sender, RoutedEventArgs e)
-        {
-            LoginPassword.Password += 4;
-        }
-
-        private void Button_Click_5(object sender, RoutedEventArgs e)
-        {
-            LoginPassword.Password += 5;
-        }
-
-        private void Button_Click_6(object sender, RoutedEventArgs e)
-        {
-            LoginPassword.Password += 6;
-        }
-
-        private void Button_Click_7(object sender, RoutedEventArgs e)
-        {
-            LoginPassword.Password += 7;
-        }
-
-        private void Button_Click_8(object sender, RoutedEventArgs e)
-        {
-            LoginPassword.Password += 8;
-        }
-
-        private void Button_Click_9(object sender, RoutedEventArgs e)
-        {
-            LoginPassword.Password += 9;
-        }
-
-        
-
-        private void nextpage(object sender, RoutedEventArgs e)
-        {
-            if(LoginPassword.Password == "1111")
+            if (selectedItem != null)
             {
-                Main.Content = new newpage();
+                // Check if the item is already in the order
+                var existingOrderItem = orderItems.FirstOrDefault(x => x.MenuItem == selectedItem);
+
+                if (existingOrderItem != null)
+                {
+                    // If the item is already in the order, increment the quantity
+                    existingOrderItem.Quantity++;
+                }
+                else
+                {
+                    // If the item is not in the order, add a new order item
+                    orderItems.Add(new OrderItem { MenuItem = selectedItem, Quantity = 1 });
+                }
+
+                // Update the total price
+                totalTextBlock.Text = orderItems.Sum(x => x.TotalPrice).ToString("C");
             }
         }
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the order item corresponding to the clicked remove button
+            var button = (Button)sender;
+            var orderItem = (OrderItem)button.DataContext;
+
+            // Remove the order item from the order items list
+            orderItems.Remove(orderItem);
+
+            // Update the total price
+            totalTextBlock.Text = orderItems.Sum(x => x.TotalPrice).ToString("C");
+        }
+
+
+
     }
+    public class MenuItem
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+    }
+
+    public class OrderItem
+    {
+        public MenuItem MenuItem { get; set; }
+        public int Quantity { get; set; }
+        public decimal TotalPrice => MenuItem.Price * Quantity;
+    }
+
 }
