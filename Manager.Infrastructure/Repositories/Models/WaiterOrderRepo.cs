@@ -99,7 +99,7 @@ namespace Manager.Infrastructure.Repositories.Models
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
-                string cmdText = @"update waiter_order set waiter_id =@WaiterId,
+                string cmdText = @"update waiter_order set waiter_id=@WaiterId,
                                    order_id = @OrderId;";
                 if (await conn.ExecuteAsync(cmdText, new
                 {

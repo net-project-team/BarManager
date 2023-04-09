@@ -50,7 +50,7 @@ namespace Manager.Infrastructure.Repositories.Models
         {
             using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
-                
+                Waiter waiter = new Waiter();
                 await conn.OpenAsync();
                 string cmdText =
                     @"SELECT waiter_id AS WaiterId, 
@@ -58,13 +58,9 @@ namespace Manager.Infrastructure.Repositories.Models
                       waiter_phone AS Phone,
                       waiter_password AS Password FROM waiters    
                       WHERE waiter_id = @id;";
-                var waiter = conn.QueryFirstOrDefault<Waiter>(cmdText, new { id = waiterId });
-                if (waiter != null)
-                {
-                    waiter.Password = "admin"; 
-                    return waiter;
-                }
-                return null;
+                waiter = await conn.QueryFirstOrDefaultAsync<Waiter>(cmdText, new { id = waiterId });
+                return waiter;
+                
             }
         }
 
