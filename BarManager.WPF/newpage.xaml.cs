@@ -20,16 +20,54 @@ namespace BarManager.WPF
     /// </summary>
     public partial class newpage : Page
     {
-        List<string> items = new List<string>();
+       
         public newpage()
         {
             InitializeComponent();
+            
+           
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            items.Add("ITEM1");
-            ListBoxTest.ItemsSource=items;
+
+            Datagridtest.Items.Add(new Product()
+            {
+                id = 1,
+                name = "Test",
+            });
+
+            
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+            Datagridtest.Items.Add(new Product()
+            {
+                id = 1,
+                name = "Test",
+            });
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(Datagridtest.SelectedItem.ToString());
+        }
+    }
+    class Product
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public override string ToString()
+        {
+            return $"id:{id} , name:{name}";
         }
     }
 }
