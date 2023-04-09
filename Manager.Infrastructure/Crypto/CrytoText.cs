@@ -8,5 +8,6 @@ namespace Manager.Infrastructure.Crypto
 {
     public class CrytoText
     {
+
     }
 }

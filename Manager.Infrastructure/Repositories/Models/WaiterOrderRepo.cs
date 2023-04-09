@@ -75,21 +75,38 @@ namespace Manager.Infrastructure.Repositories.Models
             }
         }
 
-        public Task<bool> InsertAsync(WaiterOrder entity)
+        public async Task<bool> InsertAsync(WaiterOrder entity)
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
-                string cmdText = "insert into waiter_order(waiter_id,order_iodd)";
+                string cmdText = @"insert into waiter_order(waiter_id,order_id) 
+                                   values(@WaiterId,@OrderId)";
+                if (await conn.ExecuteAsync(cmdText,
+                   new
+                   {
+                       WaiterId = entity.Waiter.WaiterId,
+                       OrderId = entity.Order.OrderId
+
+                   }) > 0) return true;
+                else return false;
+
             }
         }
 
-        public Task<bool> UpdateAsync(WaiterOrder entity)
+        public async Task<bool> UpdateAsync(WaiterOrder entity)
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
-                string cmdText = "";
+                string cmdText = @"update waiter_order set waiter_id =@WaiterId,
+                                   order_id = @OrderId;";
+                if (await conn.ExecuteAsync(cmdText, new
+                {
+                    WaiterId = entity.Waiter.WaiterId,
+                    OrderId = entity.Order.OrderId
+                }) > 0) return true;
+                else return false;
             }
         }
     }

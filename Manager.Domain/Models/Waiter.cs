@@ -11,7 +11,7 @@ namespace Manager.Domain.Models
         public int WaiterId { get; set; }
         public string? WaiterName { get; set; }
         public string? Phone { get; set; }
-        public required string Password { get; set; }   
-      
+        public required string Password { get; set; }
+        //waiter_password
     }
 }
