@@ -30,7 +30,8 @@ namespace Manager.Presentation
             //
             // ZafarsTest();
 
-            OrdersTest.Run();
+            
+            OrderProductsTest.Run();
             Console.ReadKey();
         }
 
