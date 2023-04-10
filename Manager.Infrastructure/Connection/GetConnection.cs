@@ -15,7 +15,7 @@ namespace Manager.Infrastructure.Connection
         {
             var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile(_elyorbek, true, true);
+            .AddJsonFile(_path3, true, true);
             
             IConfiguration configuration = builder.Build();
             return  configuration.GetConnectionString("MyConnectionString");
