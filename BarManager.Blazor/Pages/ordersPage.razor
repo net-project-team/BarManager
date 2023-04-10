@@ -16,6 +16,11 @@
             <th>Order Table</th>
             <th>Order Date</th>
             <th>IsCompleted</th>
+             <th>
+               <td>
+                    <button class="btn btn-primary" @onclick="() => AddOrder()">Add Order</button>
+               </td>
+             </th>
         </tr>
     </thead>
     <tbody>
@@ -26,6 +31,7 @@
                 <td>@order.OrderTable</td>
                 <td>@order.OrderDate</td>
                 <td>@order.IsCompleted</td>
+               
                 <td><button class="btn btn-danger" onclick="@(() => RemoveOrder(order))">Remove</button></td>
                 <td>
                     <button class="btn btn-primary" @onclick="() => EditOrder(order)">Edit</button>
@@ -53,6 +59,24 @@
     </div>
 }
 
+@if (addOrder != null)
+{
+        <h3>Add Order</h3>
+
+        <div class="form-group">
+            <label for="OrderTable">Order Table:</label>
+                <input type="text" class="form-control" id="OrderTable" @bind="@addOrder.OrderTable" />
+        </div>
+
+        <div class="form-group">
+            <label for="isCompleted">Is Completed:</label>
+                <input type="checkbox" id="isCompleted" @bind="@addOrder.IsCompleted" />
+        </div>
+        <div class="form-group">
+                <button class="btn btn-primary" @onclick="AddChanges">Save Changes</button>
+        </div>
+}
+
 @code {
     public List<Order>  orders =  new();
 
@@ -74,7 +98,9 @@
 
         StateHasChanged();
     }
+
     private Order selectedOrder;
+    private Order addOrder;
 
     private void EditOrder(Order order)
     {
@@ -89,5 +115,19 @@
 
         selectedOrder = null;
     }
-  
+    public void AddOrder()
+    {
+        
+    }
+
+    public async void AddChanges()
+    {
+        IOrdersRepository orderRepository = new OrdersRepo();
+        IOrdersHandler orderHandler = new OrdersHandler(orderRepository);
+        await orderHandler.InsertOrdersAsync(addOrder);
+        addOrder = null;
+
+    }
+
+    
 }
