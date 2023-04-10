@@ -7,7 +7,8 @@ namespace Manager.Infrastructure.Connection
         private static readonly string _path = @"\..\..\..\..\bar_manager\Manager.Infrastructure\Connection\appSettings.json";
         private static readonly string _path2 = @"C:\Users\HP\Source\Repos\BarManager\Manager.Infrastructure\Connection\appSettings.json";
         private static readonly string _elyorbek = @"D:\C# darslar\Bar_Manager\bar_manager\Manager.Infrastructure\Connection\appSettings.json";
-        //D:\C# darslar\Bar_Manager\bar_manager\Manager.Infrastructure\Connection\appSettings.json
+        private static readonly string _baxrom = @"o'zizni hostizni kiritib qoying ";
+        private static readonly string _hojiakbar = @"o'zizni hostizni kiritib qoying ";
         public static string Connection()
         {
             var builder = new ConfigurationBuilder()
