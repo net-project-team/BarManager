@@ -16,8 +16,8 @@
         @foreach (var category in categories)
         {
             <tr>
-                <td>@category.CategoryID</td>
-                <td>@category.CategoryName</td>
+                <td width="300px">@category.CategoryID</td>
+                <td width="500px">@category.CategoryName</td>
                 <td>
                     <button class="btn btn-danger" onclick="@(() => RemoveCategory(category))">Remove</button>
                 </td>
@@ -36,6 +36,10 @@
         <label for="categoryName">Category Name:</label>
         <input type="text" class="from-control" id="categoryName" @bind="@selectedCategory.CategoryName" />
     </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary" @onclick="SaveChanges">Save Changes</button>
+    </div>
 }
 @code {
     public List<Category> categories = new();
@@ -50,6 +54,7 @@
     {
         ICategoryRepository categoryRepository = new CategoryRepo();
         ICategoryHandler categoryHandler = new CategoryHandler(categoryRepository);
+
         await categoryHandler.DeleteCategoryByIdAsync(category.CategoryID);
         categories.Remove(category);
         StateHasChanged();

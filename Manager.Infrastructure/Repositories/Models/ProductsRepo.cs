@@ -21,6 +21,21 @@ namespace Manager.Infrastructure.Repositories.Models
         {
             _connection = GetConnection.Connection();
         }
+        public async Task<bool> DeleteByCategoryIdAsync(int ProductId)
+        {
+            await new OrderProductsRepo().DeleteByProductIdAsync(ProductId);
+
+
+            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+
+                await conn.OpenAsync();
+
+                string cmdText = @"Delete from products where category_id = @id;";
+                if (await conn.ExecuteAsync(cmdText, new { id = ProductId }) > 0) return true;
+                else return false;
+            }
+        }
 
         public async Task<bool> DeleteByIdAsync(int ProductId)
         {
