@@ -46,7 +46,7 @@
 
     <div class="form-group">
         <label for="isCompleted">Is Completed:</label>
-        <input type="checkbox" class="height = 4 rem" id="isCompleted" @bind="@selectedOrder.IsCompleted" />
+        <input type="checkbox" id="isCompleted" @bind="@selectedOrder.IsCompleted" />
     </div>
     <div class="form-group">
         <button class="btn btn-primary" @onclick="SaveChanges">Save Changes</button>
