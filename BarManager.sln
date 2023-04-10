@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Manager.Presentation", "Man
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BarManager.Blazor.App", "BarManager.Blazor.App", "{7D05B0BA-374A-4681-B4C6-B3D3A57DAA9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarManager.Blazor", "BarManager.Blazor\BarManager.Blazor.csproj", "{FBCF1710-3E81-4787-9171-F0455EAC07D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BarManager.Blazor", "BarManager.Blazor\BarManager.Blazor.csproj", "{FBCF1710-3E81-4787-9171-F0455EAC07D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
