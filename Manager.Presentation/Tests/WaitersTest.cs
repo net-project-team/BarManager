@@ -39,7 +39,7 @@ namespace Manager.Presentation.Tests
             var Allwaiters = waiterHandler.GetAllWaitersAsync().Result;
             foreach(var waiter in Allwaiters)
             {
-               await Console.Out.WriteLineAsync($"Name: {waiter.WaiterName} | Phone: {waiter.Phone}");
+               await Console.Out.WriteLineAsync($"Name: {waiter.WaiterName} | Phone: {waiter.Phone} | Password: {waiter.Password}");
             }
         }
 
@@ -52,6 +52,7 @@ namespace Manager.Presentation.Tests
             Waiter waiter = new Waiter();
             waiter.WaiterName = "Quan Dale Dingle";
             waiter.Phone = "(998) 317-27-65";
+            waiter.Password = "admin";
             waiter.WaiterId = 2;
             Console.WriteLine(await waiterHandler.UpdateWaiterAsync(waiter));
         }
@@ -64,7 +65,8 @@ namespace Manager.Presentation.Tests
             IWaiterHandler waiterHandler = new WaiterHandler(waiterRepo);
             Waiter waiter = new Waiter();
             waiter.WaiterName = "Qumalala Savesta";
-            waiter.Phone = "(998) 317-27-65";            
+            waiter.Phone = "(998) 317-27-65";   
+            waiter.Password = "admin";
             Console.WriteLine(await waiterHandler.InsertWaiterAsync(waiter));
         }
     }

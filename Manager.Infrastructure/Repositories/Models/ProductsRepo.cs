@@ -24,14 +24,21 @@ namespace Manager.Infrastructure.Repositories.Models
 
         public async Task<bool> DeleteByIdAsync(int ProductId)
         {
-            using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
-            {
-                await conn.OpenAsync();
-              
-                string cmdText = @"Delete from products where product_id = @id;";
-                if (await conn.ExecuteAsync(cmdText, new{id = ProductId}) > 0) return true;
-                else return false;
-            }
+            await new OrderProductsRepo().DeleteByProductIdAsync(ProductId);
+
+            
+                using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+                {
+
+                    await conn.OpenAsync();
+
+                    string cmdText = @"Delete from products where product_id = @id;";
+                    if (await conn.ExecuteAsync(cmdText, new { id = ProductId }) > 0) return true;
+                    else return false;
+                }
+            
+       
+            
         }
 
         public async Task<List<Product>> GetAllAsync()
@@ -40,7 +47,7 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 List<Product> products = new List<Product>();   
                 await conn.OpenAsync();
-                string cmdText = @" select * from products;";
+                string cmdText = @"select * from products;";
                  var reader = await  conn.ExecuteReaderAsync(cmdText);
                 while (reader.Read())
                 {

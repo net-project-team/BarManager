@@ -19,7 +19,8 @@ namespace Manager.Presentation
             //WaitersTest.ZafarIsnerted();
             //WaitersTest.ZafarUpdated();
 
-            OrdersTest.Run();
+            ProductsTest.showProduct().Wait();
+            //OrderProductsTest.Run();
             Console.ReadKey();
         }
     }

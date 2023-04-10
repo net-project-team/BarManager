@@ -76,7 +76,8 @@ namespace Manager.Infrastructure.Repositories.Models
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
-                string cmdText = @"update categories set category_name=@CategoryName;";
+                string cmdText = @"update categories set category_name=@CategoryName where category_id=@CategoryId;";
+
                 if (await conn.ExecuteAsync(cmdText, category) > 0) return true;
                 else return false;
             }
