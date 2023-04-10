@@ -1,0 +1,41 @@
+﻿@using Manager.Application.Handler.Interfaces;
+@using Manager.Application.Handlers;
+@using Manager.Application.Repository.Interfaces;
+@using Manager.Infrastructure.Repositories.Models;
+<h3>Categories</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>CategoryId</th>
+            <th>CategoryName</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in categories)
+        {
+            <tr>
+                <td>@category.CategoryId</td>
+                <td>@category.CategoryName</td>
+                <td>
+                    <button class="btn btn-danger" onclick="@(() => RemoveCategory(category))">Remove</button>
+                </td>
+                <td>
+                    <button class="btn btn-primary" @onclick="() => EditProduct(category)">Edit</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (selectedCategory != null)
+{
+    
+}
+@code {
+    public List<Categories> categories = new();
+    protected override Task OnInitializedAsync()
+    {
+        ICategoryRepository categoryRepository = new CategoryRepo();
+        ICategoryHandler categoryHandler = new CategoryHandler(categoryRepository);
+        categories = await categoryHandler.GetAllCategoriesAsync();
+    }
+}
