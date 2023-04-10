@@ -91,14 +91,13 @@
 
     private async Task SaveChanges()
     {
-        // Save changes to the database 
-        // ...
+        
 
         IProductRepository productRepository = new ProductsRepo();
         IProductHandler productHandler = new ProductsHandler(productRepository);
         await productHandler.UpdateProductAsync(selectedProduct);
 
-        // Clear the selected product
+        
         selectedProduct = null;
     }
 
