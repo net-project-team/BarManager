@@ -53,7 +53,7 @@ namespace Manager.Infrastructure.Repositories.Models
                 await conn.OpenAsync();
                 string cmdText = @"select category_id as CategoryId,
                                    category_name as CategoryName
-                                   from categories;";
+                                   from categories where category_id=@CategoryId;";
                 categorie = await conn.QueryFirstOrDefaultAsync<Category>(cmdText);
                 return categorie;
             }

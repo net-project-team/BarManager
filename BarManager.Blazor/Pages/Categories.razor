@@ -1,26 +1,28 @@
-﻿@using Manager.Application.Handler.Interfaces;
+﻿@page "/categories"
+@using Manager.Application.Handler.Interfaces;
 @using Manager.Application.Handlers;
 @using Manager.Application.Repository.Interfaces;
 @using Manager.Infrastructure.Repositories.Models;
+@using Manager.Domain.Models;
 <h3>Categories</h3>
 <table class="table">
     <thead>
         <tr>
-            <th>CategoryId</th>
-            <th>CategoryName</th>
+            <th>Category Id</th>
+            <th>Category Name</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var category in categories)
         {
             <tr>
-                <td>@category.CategoryId</td>
+                <td>@category.CategoryID</td>
                 <td>@category.CategoryName</td>
                 <td>
                     <button class="btn btn-danger" onclick="@(() => RemoveCategory(category))">Remove</button>
                 </td>
                 <td>
-                    <button class="btn btn-primary" @onclick="() => EditProduct(category)">Edit</button>
+                    <button class="btn btn-primary" @onclick="() => EditCategory(category)">Edit</button>
                 </td>
             </tr>
         }
@@ -28,14 +30,44 @@
 </table>
 @if (selectedCategory != null)
 {
-    
+    <h3>Edit Product</h3>
+
+    <div class="from-group">
+        <label for="categoryName">Category Name:</label>
+        <input type="text" class="from-control" id="categoryName" @bind="@selectedCategory.CategoryName" />
+    </div>
 }
 @code {
-    public List<Categories> categories = new();
-    protected override Task OnInitializedAsync()
+    public List<Category> categories = new();
+    protected override async Task OnInitializedAsync()
     {
         ICategoryRepository categoryRepository = new CategoryRepo();
         ICategoryHandler categoryHandler = new CategoryHandler(categoryRepository);
         categories = await categoryHandler.GetAllCategoriesAsync();
+    }
+
+    public async void RemoveCategory(Category category)
+    {
+        ICategoryRepository categoryRepository = new CategoryRepo();
+        ICategoryHandler categoryHandler = new CategoryHandler(categoryRepository);
+        await categoryHandler.DeleteCategoryByIdAsync(category.CategoryID);
+        categories.Remove(category);
+        StateHasChanged();
+    }
+
+    private Category selectedCategory;
+
+    private void EditCategory(Category category)
+    {
+        selectedCategory = category;
+    }
+
+    private async Task SaveChanges()
+    {
+        ICategoryRepository categoryRepository = new CategoryRepo();
+        ICategoryHandler categoryHandler = new CategoryHandler(categoryRepository);
+        await categoryHandler.UpdateCategoryAsync(selectedCategory);
+        
+        selectedCategory = null;
     }
 }
