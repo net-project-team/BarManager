@@ -1,6 +1,7 @@
 ﻿using Manager.Application.Handler.Interfaces;
 using Manager.Application.Handlers;
 using Manager.Application.Repository.Interfaces;
+using Manager.Domain.Models;
 using Manager.Infrastructure.Repositories.Models;
 using System;
 using System.Collections.Generic;
@@ -22,17 +23,17 @@ namespace Manager.Presentation.Tests
 
             IOrdersRepository orderRepository = new OrdersRepo();
             IOrdersHandler ordersHandler = new OrdersHandler(orderRepository);
-            //List<Order> orList = await ordersHandler.GetAllOrdersAsync();
-            //foreach (Order or in orList)
-            //{
-            //    Console.WriteLine(or.OrderId);
-            //}
+            List<Order> orlist = await ordersHandler.GetAllOrdersAsync();
+            foreach (Order or in orlist)
+            {
+                Console.WriteLine(or.OrderId);
+            }
 
             // readby id ishladi
             // Console.WriteLine(ordersHandler.GetByIdOrdersAsync(2).Result.OrderId);
 
             //delete 
-            Console.WriteLine(await ordersHandler.DeleteByIdOrdersAsync(1));
+            // Console.WriteLine(await ordersHandler.DeleteByIdOrdersAsync(1));
 
             //    isert ishladi
             //Order order = new Order();

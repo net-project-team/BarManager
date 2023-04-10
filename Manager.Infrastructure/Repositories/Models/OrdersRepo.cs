@@ -35,8 +35,6 @@ namespace Manager.Infrastructure.Repositories.Models
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
-
-
                 List<Order> orders = new List<Order>();
                 await conn.OpenAsync();
                 string cmdText = @"select * from orders;";
@@ -46,10 +44,9 @@ namespace Manager.Infrastructure.Repositories.Models
                     orders.Add(new Order
                     {
                         OrderId = reader.GetInt32(0),
-                        Waiter = await new WaiterRepo().GetByIdAsync(reader.GetInt32(1)),
-                        OrderTable = reader.GetInt32(2),
-                        OrderDate = reader.GetDateTime(3),
-                        IsCompleted = reader.GetBoolean(4)
+                        OrderTable = reader.GetInt32(1),
+                        OrderDate = reader.GetDateTime(2),
+                        IsCompleted = reader.GetBoolean(3)
                     });
                 }
 
@@ -69,10 +66,9 @@ namespace Manager.Infrastructure.Repositories.Models
                 while(await reader.ReadAsync())
                 {
                     orders.OrderId = reader.GetInt32(0);
-                    orders.Waiter = await new WaiterRepo().GetByIdAsync(reader.GetInt32(1));
-                    orders.OrderTable = reader.GetInt32(2);
-                    orders.OrderDate = reader.GetDateTime(3);
-                    orders.IsCompleted = reader.GetBoolean(4);
+                    orders.OrderTable = reader.GetInt32(1);
+                    orders.OrderDate = reader.GetDateTime(2);
+                    orders.IsCompleted = reader.GetBoolean(3);
 
                 }
 
@@ -88,13 +84,12 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 await conn.OpenAsync();
                 string cmdText = @"insert into orders(
-                                   waiter_id, order_table, order_date, is_completed)
-                                   values (@Waiter, @OrderTable, @OrderDate,
+                                   order_table, order_date, is_completed)
+                                   values (@OrderTable, @OrderDate,
                                    @IsCompleted);";
                 if (await conn.ExecuteAsync(cmdText,
                         new
                         {
-                            Waiter = orders.Waiter.WaiterId,
                             OrderTable = orders.OrderTable,
                             OrderDate = orders.OrderDate,
                             IsCompleted = orders.IsCompleted
@@ -109,7 +104,6 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 await conn.OpenAsync();
                 string cmdText = @"update orders set 
-                                   waiter_id = @Waiter,
                                    order_table = @OrderTable,
                                    order_date = @OrderDate,
                                    is_completed = @IsCompleted
@@ -118,7 +112,6 @@ namespace Manager.Infrastructure.Repositories.Models
                         new
                         {
                             OrderId = orders.OrderId,
-                            Waiter = orders.Waiter.WaiterId,
                             OrderTable = orders.OrderTable,
                             OrderDate = orders.OrderDate,
                             IsCompleted = orders.IsCompleted,
