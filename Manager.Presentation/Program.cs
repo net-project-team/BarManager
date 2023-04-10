@@ -18,10 +18,10 @@ namespace Manager.Presentation
             //WaitersTest.ZafarGetAll();
             //WaitersTest.ZafarIsnerted();
             //WaitersTest.ZafarUpdated();
-
+            CategoryTest.RunCategories();
             //  ProductsTest.showProduct().Wait();
             //OrderProductsTest.Run();
-            OrdersTest.Run(); 
+            //OrdersTest.Run(); 
             Console.ReadKey();
         }
     }

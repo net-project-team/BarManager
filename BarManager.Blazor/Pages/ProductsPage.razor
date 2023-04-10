@@ -16,6 +16,7 @@
             <th>Product Price</th>
             <th>Product Description</th>
             <th>Product Picture</th>
+            <th><button class="btn btn-success" @onclick="(()=> AddProduct())">Add</button> </th>
             <th></th>
         </tr>
     </thead>
@@ -40,7 +41,10 @@
 @if (selectedProduct != null)
 {
     <h3>Edit Product</h3>
-
+    <div class="form-group">
+        <label for="productDescription">Category id:</label>
+        <textarea class="form-control" id="productDescription" @bind="@selectedProduct.Category.CategoryID"></textarea>
+    </div>
     <div class="form-group">
         <label for="productName">Product Name:</label>
         <input type="text" class="form-control" id="productName" @bind="@selectedProduct.ProductName" />
@@ -54,21 +58,54 @@
         <textarea class="form-control" id="productDescription" @bind="@selectedProduct.ProductDescription"></textarea>
     </div>
     <div class="form-group">
+        <label for="productDescription">Product picture link:</label>
+        <textarea class="form-control" id="productDescription" @bind="@selectedProduct.ProductPicture"></textarea>
+    </div>
+    <div class="form-group">
         <button class="btn btn-primary" @onclick="SaveChanges">Save Changes</button>
     </div>
 }
-
+@if (newComingProduct != null)
+{
+    <h3>New Product</h3>
+    <div class="form-group">
+        <label for="productDescription">Category id:</label>
+        <textarea class="form-control" id="productDescription" @bind="@newComingProduct.Category.CategoryID"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="productName">Product Name:</label>
+        <input type="text" class="form-control" id="productName" @bind="@newComingProduct.ProductName" />
+    </div>
+    <div class="form-group">
+        <label for="productPrice">Product Price:</label>
+        <input type="number" class="form-control" id="productPrice" @bind="@newComingProduct.ProductPrice" />
+    </div>
+    <div class="form-group">
+        <label for="productDescription">Product Description:</label>
+        <textarea class="form-control" id="productDescription" @bind="@newComingProduct.ProductDescription"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="productDescription">Product picture link:</label>
+        <textarea class="form-control" id="productDescription" @bind="@newComingProduct.ProductPicture"></textarea>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" @onclick="SaveAddedProduct">Save Changes</button>
+    </div>
+}
 
 
 
 @code {
     public List<Product> products = new();
 
+
     protected override async Task OnInitializedAsync()
     {
         IProductRepository productRepository = new ProductsRepo();
         IProductHandler productHandler = new ProductsHandler(productRepository);
+
         products = await productHandler.GetAllProductsAsync();
+
     }
 
     public async void RemoveProduct(Product product)
@@ -83,6 +120,7 @@
         StateHasChanged();
     }
     private Product selectedProduct;
+    private Product newComingProduct;
 
     private void EditProduct(Product product)
     {
@@ -91,15 +129,44 @@
 
     private async Task SaveChanges()
     {
-        
+
 
         IProductRepository productRepository = new ProductsRepo();
         IProductHandler productHandler = new ProductsHandler(productRepository);
         await productHandler.UpdateProductAsync(selectedProduct);
 
-        
+
         selectedProduct = null;
     }
 
+    private async Task SaveAddedProduct()
+    {
+        IProductRepository productRepository = new ProductsRepo();
+        IProductHandler productHandler = new ProductsHandler(productRepository);
+        await productHandler.InsertProductAsync(newComingProduct);
+        newComingProduct = null;
+
+    }
+    private void AddProduct()
+    {
+        // Create a new instance of Product with default values
+        var newProduct = new Product()
+            {
+                Category = new Category()
+                {
+                    CategoryID = 1,
+                    CategoryName = "New Category"
+                },
+                ProductName = "New Product",
+                ProductPrice = 0,
+                ProductDescription = "",
+                ProductPicture = ""
+            };
+
+        products.Add(newProduct);
+
+        
+        newComingProduct = newProduct;
+    }
 
 }

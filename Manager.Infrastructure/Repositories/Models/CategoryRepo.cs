@@ -45,7 +45,7 @@ namespace Manager.Infrastructure.Repositories.Models
             }
         }
 
-        public async Task<Category> GetByIdAsync(int id)
+        public async Task<Category> GetByIdAsync(int categoryId)
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
@@ -53,8 +53,8 @@ namespace Manager.Infrastructure.Repositories.Models
                 await conn.OpenAsync();
                 string cmdText = @"select category_id as CategoryId,
                                    category_name as CategoryName
-                                   from categories where category_id=@CategoryId;";
-                categorie = await conn.QueryFirstOrDefaultAsync<Category>(cmdText);
+                                   from categories where category_id=@id";
+                categorie = await conn.QueryFirstOrDefaultAsync<Category>(cmdText, new {id=categoryId});
                 return categorie;
             }
         }
