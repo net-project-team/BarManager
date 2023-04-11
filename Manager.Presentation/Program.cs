@@ -26,7 +26,7 @@ namespace Manager.Presentation
             //ProductsTest.PoductSerchCategory(2);
           //  OrdersTest.Run();
 
-            //WaiterOrderTest.Run();
+            WaiterOrderTest.Run();
             Console.ReadKey();
         }
     }
