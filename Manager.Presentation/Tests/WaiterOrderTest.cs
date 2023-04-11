@@ -15,8 +15,9 @@ namespace Manager.Presentation.Tests
     {
         public static void Run()
         {
-            Test();
+            //Test();
             //Insert();
+            Update();
         }
 
         public async static void Test()
@@ -37,10 +38,27 @@ namespace Manager.Presentation.Tests
             IWaiterOrderHandler waiterOrdersHandler = new WaiterOrderHandlar(waiterOrderRepository);
             WaiterOrder order = new WaiterOrder
             {
-                
+                Waiter = await new WaiterRepo().GetByIdAsync(2),
+                Order = await new OrdersRepo().GetByIdAsync(3)
             };
+            //    Product = await new ProductsRepo().GetByIdAsync(2)
+            var te = await waiterOrdersHandler.InsertWaiterOrderAsync(order);
+            Console.WriteLine(te);
 
-           
+        }
+        public async static void Update()
+        {
+            IWaiterOrderRepository waiterOrderRepository = new WaiterOrderRepo();
+            IWaiterOrderHandler waiterOrdersHandler = new WaiterOrderHandlar(waiterOrderRepository);
+            WaiterOrder order = new WaiterOrder
+            {
+                Id = 10,
+                Waiter = await new WaiterRepo().GetByIdAsync(1),
+                Order = await new OrdersRepo().GetByIdAsync(1)
+            };
+            var te = await waiterOrdersHandler.UpdateWaiterOrderAsync(order);
+            Console.WriteLine(te);
+
         }
     }
 }

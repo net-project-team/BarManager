@@ -21,13 +21,23 @@ namespace Manager.Presentation.Tests
         public async static void RunOrders()
         {
 
-            IOrdersRepository orderRepository = new OrdersRepo();
-            IOrdersHandler ordersHandler = new OrdersHandler(orderRepository);
-            List<Order> orlist = await ordersHandler.GetAllOrdersAsync();
-            foreach (Order or in orlist)
-            {
-                Console.WriteLine(or.OrderId);
-            }
+            //IOrdersRepository orderRepository = new OrdersRepo();
+            //IOrdersHandler ordersHandler = new OrdersHandler(orderRepository);
+            //List<Order> orlist = await ordersHandler.GetAllOrdersAsync();
+            //foreach (Order or in orlist)
+            //{
+            //    Console.WriteLine(or.OrderId);
+            //}
+
+
+            Order order = new Order();
+            order.OrderTable = 4;
+            OrdersRepo repo = new OrdersRepo();
+            int a =  await repo.InsertOrderReturnId(order);
+
+            Console.WriteLine(a);
+
+
 
             // readby id ishladi
             // Console.WriteLine(ordersHandler.GetByIdOrdersAsync(2).Result.OrderId);

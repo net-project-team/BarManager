@@ -47,12 +47,12 @@
 
         <div class="form-group">
                     <label for="Waiter">Waiter:</label>
-                <input type="text" class="form-control" id="Waiter" @bind="@selectedWiterOrders.Waiter" />
+                <input type="text" class="form-control" id="Waiter" @bind="@selectedWiterOrders.Waiter.WaiterId" />
         </div>
 
         <div class="form-group">
                 <label for="isCompleted">Order:</label>
-                <input type="checkbox" id="isCompleted" @bind="@selectedWiterOrders.Order" />
+                <input type="checkbox" id="isCompleted" @bind="@selectedWiterOrders.Order.OrderId" />
         </div>
        
         <div class="form-group">
@@ -66,12 +66,12 @@
 
             <div class="form-group">
                     <label for="OrderTable">Waiter:</label>
-                        <input type="text" class="form-control" id="OrderTable" @bind="@addWaiterOrder.Waiter" />
+                        <input type="text" class="form-control" id="OrderTable" @bind="@addWaiterOrder.Waiter.WaiterId" />
             </div>
 
             <div class="form-group">
                     <label for="isCompleted">Order:</label>
-                        <input type="checkbox" id="isCompleted" @bind="@addWaiterOrder.Order" />
+                        <input type="checkbox" id="isCompleted" @bind="@addWaiterOrder.Order.OrderId" />
             </div>
           
             <div class="form-group">
@@ -81,8 +81,7 @@
 
 @code {
     public List<WaiterOrder> waiterOrders = new();
-    private WaiterOrder selectedWiterOrders;
-    private WaiterOrder addWaiterOrder;
+    
 
     protected override async Task OnInitializedAsync()
     {
@@ -101,7 +100,8 @@
         StateHasChanged();
 
     }
-
+    private WaiterOrder selectedWiterOrders;
+    private WaiterOrder addWaiterOrder;
     private void EditWaiterOrder(WaiterOrder waiterOrder)
     {
         selectedWiterOrders = waiterOrder;

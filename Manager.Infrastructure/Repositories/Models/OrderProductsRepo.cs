@@ -91,6 +91,25 @@ namespace Manager.Infrastructure.Repositories.Models
 
             };
         }
+        public async Task<bool> InsertRangeAsync(List<OrderProduct> entities)
+        {
+            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+                await conn.OpenAsync();
+                string cmdText = @"insert into order_product(
+                            order_id, product_id)
+                            values (@Order, @Product);";
+
+                int rowsAffected = await conn.ExecuteAsync(cmdText,
+                    entities.Select(entity => new
+                    {
+                        Order = entity.Order.OrderId,
+                        Product = entity.Product.ProductId
+                    }));
+
+                return rowsAffected == entities.Count();
+            }
+        }
 
         public async Task<bool> InsertAsync(OrderProduct entity)
         {
