@@ -26,9 +26,6 @@ namespace Manager.Presentation.Tests
 
             }
 
-
-
-
         }
         public static async void PoductSerchCategory(int categoryId)
         {
