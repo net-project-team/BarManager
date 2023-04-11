@@ -10,6 +10,7 @@
         <tr>
             <th>Category Id</th>
             <th>Category Name</th>
+            <th><button class="btn btn-success" @onclick="(()=> AddProduct())">Add</button> </th>
         </tr>
     </thead>
     <tbody>
@@ -61,6 +62,7 @@
     }
 
     private Category selectedCategory;
+    private Category newComingCategory;
 
     private void EditCategory(Category category)
     {
@@ -72,7 +74,22 @@
         ICategoryRepository categoryRepository = new CategoryRepo();
         ICategoryHandler categoryHandler = new CategoryHandler(categoryRepository);
         await categoryHandler.UpdateCategoryAsync(selectedCategory);
-        
+
         selectedCategory = null;
     }
+
+    private void AddProduct()
+    {
+        // Create a new instance of Product with default values
+        var newCategory = new Category()
+            {
+                CategoryName = "New Category"
+            };
+
+        categories.Add(newCategory);
+
+
+        newComingCategory = newCategory;
+    }
+
 }

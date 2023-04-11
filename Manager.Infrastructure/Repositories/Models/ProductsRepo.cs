@@ -69,11 +69,11 @@ namespace Manager.Infrastructure.Repositories.Models
                     products.Add(new Product
                     {
                         ProductId = reader.GetInt32(0),
-                        Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
-                        ProductName = reader.GetString(2),
-                        ProductPrice = reader.GetDecimal(3),
-                        ProductDescription = reader.GetString(4),
-                        ProductPicture = reader.GetString(5)
+                        //Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
+                        ProductName = reader.GetString(1),
+                        ProductPrice = reader.GetDecimal(2),
+                        ProductDescription = reader.GetString(3),
+                        ProductPicture = reader.GetString(4)
 
                     }) ;
                 }
@@ -96,11 +96,11 @@ namespace Manager.Infrastructure.Repositories.Models
                     product = new Product
                     {
                         ProductId = reader.GetInt32(0),
-                        Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
-                        ProductName = reader.GetString(2),
-                        ProductPrice = reader.GetDecimal(3),
-                        ProductDescription = reader.GetString(4),
-                        ProductPicture = reader.GetString(5)
+                        //Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
+                        ProductName = reader.GetString(1),
+                        ProductPrice = reader.GetDecimal(2),
+                        ProductDescription = reader.GetString(3),
+                        ProductPicture = reader.GetString(4)
 
                     };
                 }
@@ -115,17 +115,16 @@ namespace Manager.Infrastructure.Repositories.Models
             using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
-                string cmdText = @"INSERT INTO products(
-	                              category_id, product_name,
+                string cmdText = @"INSERT INTO products(product_name,
                                   product_price, 
                                   product_description, 
                                   product_picture)
-	                              VALUES (@CategoryId, @ProductName, 
+	                              VALUES (@ProductName, 
                                   @ProductPrice, @ProductDescription, @ProductPicture);";
                 if (await conn.ExecuteAsync(cmdText,
                     new
                     {
-                        CategoryId = product.Category.CategoryID,
+                        //CategoryId = product.Category.CategoryID,
                         ProductName = product.ProductName,
                         ProductPrice = product.ProductPrice,
                         ProductDescription = product.ProductDescription,
@@ -142,7 +141,6 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 await conn.OpenAsync();
                 string cmdText = @" update products set 
-                                    category_id=@CategoryId,
                                     product_name=@ProductName,
                                     product_price=@ProductPrice,
                                     product_description=@ProductDescription,
@@ -152,7 +150,7 @@ namespace Manager.Infrastructure.Repositories.Models
                      new
                      {
                          ProductId = product.ProductId,
-                         CategoryId = product.Category.CategoryID,
+                         //CategoryId = product.Category.CategoryID,
                          ProductName = product.ProductName,
                          ProductPrice = product.ProductPrice,
                          ProductDescription = product.ProductDescription,

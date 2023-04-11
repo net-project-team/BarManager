@@ -11,7 +11,7 @@
     <thead>
         <tr>
             <th>Product Id</th>
-            <th>Category</th>
+            @*<th>Category</th>*@
             <th>Product Name</th>
             <th>Product Price</th>
             <th>Product Description</th>
@@ -25,7 +25,7 @@
         {
             <tr>
                 <td>@product.ProductId</td>
-                <td>@product.Category.CategoryName</td>
+                @*<td>@product.Category.CategoryName</td>*@
                 <td>@product.ProductName</td>
                 <td>@product.ProductPrice</td>
                 <td>@product.ProductDescription</td>
@@ -41,10 +41,10 @@
 @if (selectedProduct != null)
 {
     <h3>Edit Product</h3>
-    <div class="form-group">
+    @*<div class="form-group">
         <label for="productDescription">Category id:</label>
         <textarea class="form-control" id="productDescription" @bind="@selectedProduct.Category.CategoryID"></textarea>
-    </div>
+    </div>*@
     <div class="form-group">
         <label for="productName">Product Name:</label>
         <input type="text" class="form-control" id="productName" @bind="@selectedProduct.ProductName" />
@@ -68,10 +68,10 @@
 @if (newComingProduct != null)
 {
     <h3>New Product</h3>
-    <div class="form-group">
+    @*<div class="form-group">
         <label for="productDescription">Category id:</label>
         <textarea class="form-control" id="productDescription" @bind="@newComingProduct.Category.CategoryID"></textarea>
-    </div>
+    </div>*@
     <div class="form-group">
         <label for="productName">Product Name:</label>
         <input type="text" class="form-control" id="productName" @bind="@newComingProduct.ProductName" />
@@ -152,11 +152,11 @@
         // Create a new instance of Product with default values
         var newProduct = new Product()
             {
-                Category = new Category()
-                {
-                    CategoryID = 1,
-                    CategoryName = "New Category"
-                },
+                //Category = new Category()
+                //{
+                //    CategoryID = 1,
+                //    CategoryName = "New Category"
+                //},
                 ProductName = "New Product",
                 ProductPrice = 0,
                 ProductDescription = "",
