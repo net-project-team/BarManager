@@ -81,8 +81,7 @@
 
 @code {
     public List<WaiterOrder> waiterOrders = new();
-    private WaiterOrder selectedWiterOrders;
-    private WaiterOrder addWaiterOrder;
+    
 
     protected override async Task OnInitializedAsync()
     {
@@ -101,7 +100,8 @@
         StateHasChanged();
 
     }
-
+    private WaiterOrder selectedWiterOrders;
+    private WaiterOrder addWaiterOrder;
     private void EditWaiterOrder(WaiterOrder waiterOrder)
     {
         selectedWiterOrders = waiterOrder;
