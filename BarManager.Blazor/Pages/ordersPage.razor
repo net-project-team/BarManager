@@ -76,6 +76,7 @@
             <label for="isCompleted">Is Completed:</label>
                 <input type="checkbox" id="isCompleted" @bind="@addOrder.IsCompleted" />
         </div>
+
         <div class="form-group">
                 <button class="btn btn-primary" @onclick="AddChanges">Save Changes</button>
         </div>
@@ -83,6 +84,8 @@
 
 @code {
     public List<Order>  orders =  new();
+    private Order selectedOrder;
+    private Order addOrder;
 
     protected override async Task OnInitializedAsync()
     {
@@ -103,9 +106,6 @@
         StateHasChanged();
     }
 
-    private Order selectedOrder;
-    private Order addOrder;
-
     private void EditOrder(Order order)
     {
         selectedOrder = order;
@@ -119,9 +119,11 @@
 
         selectedOrder = null;
     }
+
     public void AddOrder()
     {
-        
+        addOrder = new Order();
+        orders.Add(addOrder);
     }
 
     public async void AddChanges()
@@ -130,7 +132,6 @@
         IOrdersHandler orderHandler = new OrdersHandler(orderRepository);
         await orderHandler.InsertOrdersAsync(addOrder);
         addOrder = null;
-
     }
 
     
