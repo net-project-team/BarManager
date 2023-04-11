@@ -18,7 +18,7 @@
             <th>Order </th>
              <th>
                <td>
-                    <button class="btn btn-primary" @onclick="() => AddWaiterOrder()">Add WaiterOrder</button>
+                    <button class="btn btn-primary" @onclick="() => AddWaiterOrder()">Add</button>
                </td>
              </th>
         </tr>
@@ -31,8 +31,8 @@
                     <td>@waiterOrder.Waiter.WaiterId</td>
                     <td>@waiterOrder.Order.OrderId</td>
                    
-                        <td><button class="btn btn-danger" onclick="@(() => RemoveWaiterOrder(waiterOrder))">Remove</button></td>
-                    <td>
+                        <td width="150px"><button class="btn btn-danger" onclick="@(() => RemoveWaiterOrder(waiterOrder))">Remove</button></td>
+                    <td width="100px">
                         <button class="btn btn-primary" @onclick="() => EditWaiterOrder(waiterOrder)">Edit</button>
                     </td>
                 </tr>

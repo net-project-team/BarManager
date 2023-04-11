@@ -15,8 +15,8 @@ namespace Manager.Presentation.Tests
     {
         public static void Run()
         {
-            //Test();
-            Insert();
+            Test();
+            //Insert();
         }
 
         public async static void Test()
