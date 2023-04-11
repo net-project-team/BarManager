@@ -14,5 +14,6 @@ namespace Manager.Application.Handler.Interfaces
         public Task<bool> UpdateProductAsync(Product entity);
         public Task<bool> DeleteByIdProductAsync(int id);
         public Task<bool> InsertProductAsync(Product entity);
+       
     }
 }

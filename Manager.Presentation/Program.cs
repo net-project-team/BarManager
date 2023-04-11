@@ -19,10 +19,13 @@ namespace Manager.Presentation
             //WaitersTest.ZafarIsnerted();
             //WaitersTest.ZafarUpdated();
             //CategoryTest.RunCategories();
-           // ProductsTest.showProduct().Wait();
+            // ProductsTest.showProduct().Wait();
             //OrderProductsTest.Run();
             //OrdersTest.Run(); 
-            WaiterOrderTest.Run();
+
+            ProductsTest.PoductSerchCategory(2);
+
+            //WaiterOrderTest.Run();
             Console.ReadKey();
         }
     }

@@ -161,5 +161,34 @@ namespace Manager.Infrastructure.Repositories.Models
 
             }
         }
+        
+        public async Task<List<Product>> GetAllGroupCategoryAsync(int categoryId)
+        {
+            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+
+                await conn.OpenAsync();
+                string cmdText = @" select * from products 
+                                    where category_id = @id;";
+                var reader = await conn.ExecuteReaderAsync(cmdText, new { id = categoryId });
+                List<Product> product = new();
+                while (reader.Read())
+                {
+                    product.Add(new Product
+                    {
+                        ProductId = reader.GetInt32(0),
+                        Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
+                        ProductName = reader.GetString(1),
+                        ProductPrice = reader.GetDecimal(2),
+                        ProductDescription = reader.GetString(3),
+                        ProductPicture = reader.GetString(4)
+
+                    });
+                }
+
+
+                return product;
+            }
+        }
     }
 }

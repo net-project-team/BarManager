@@ -29,6 +29,18 @@ namespace Manager.Presentation.Tests
             bool isDelete = await productHandler.DeleteByIdProductAsync(4);
             Console.WriteLine(isDelete);
 
+
+
+        }
+        public static async void PoductSerchCategory(int categoryId)
+        {
+            ProductsRepo productsRepo = new ProductsRepo();
+            var po =await productsRepo.GetAllGroupCategoryAsync(categoryId);
+            foreach (var item in po)
+            {
+                Console.WriteLine(item.ProductName);
+            }
+
         }
         
     }
