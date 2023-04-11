@@ -21,26 +21,11 @@ namespace Manager.Infrastructure.Repositories.Models
         {
             _connection = GetConnection.Connection();
         }
-        public async Task<bool> DeleteByCategoryIdAsync(int ProductId)
-        {
-            await new OrderProductsRepo().DeleteByProductIdAsync(ProductId);
-
-
-            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
-            {
-
-                await conn.OpenAsync();
-
-                string cmdText = @"Delete from products where category_id = @id;";
-                if (await conn.ExecuteAsync(cmdText, new { id = ProductId }) > 0) return true;
-                else return false;
-            }
-        }
+       
 
         public async Task<bool> DeleteByIdAsync(int ProductId)
         {
 
-                await new OrderProductsRepo().DeleteByProductIdAsync(ProductId);
             
                 using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
                 {
@@ -69,11 +54,11 @@ namespace Manager.Infrastructure.Repositories.Models
                     products.Add(new Product
                     {
                         ProductId = reader.GetInt32(0),
-                        //Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
-                        ProductName = reader.GetString(1),
-                        ProductPrice = reader.GetDecimal(2),
-                        ProductDescription = reader.GetString(3),
-                        ProductPicture = reader.GetString(4)
+                        Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
+                        ProductName = reader.GetString(2),
+                        ProductPrice = reader.GetDecimal(3),
+                        ProductDescription = reader.GetString(4),
+                        ProductPicture = reader.GetString(5)
 
                     }) ;
                 }
@@ -81,14 +66,14 @@ namespace Manager.Infrastructure.Repositories.Models
                 return products;
             }
         }
-
+        
         public async Task<Product> GetByIdAsync(int productId)
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 
                 await conn.OpenAsync();
-                string cmdText = @" select * from products where product_id = @id;";
+                string cmdText = @"select * from products where product_id = @id;";
                 var reader = await conn.ExecuteReaderAsync(cmdText, new { id = productId });
                 Product product = new();
                 while (reader.Read())
@@ -96,11 +81,11 @@ namespace Manager.Infrastructure.Repositories.Models
                     product = new Product
                     {
                         ProductId = reader.GetInt32(0),
-                        //Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
-                        ProductName = reader.GetString(1),
-                        ProductPrice = reader.GetDecimal(2),
-                        ProductDescription = reader.GetString(3),
-                        ProductPicture = reader.GetString(4)
+                        Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
+                        ProductName = reader.GetString(2),
+                        ProductPrice = reader.GetDecimal(3),
+                        ProductDescription = reader.GetString(4),
+                        ProductPicture = reader.GetString(5)
 
                     };
                 }
@@ -115,16 +100,16 @@ namespace Manager.Infrastructure.Repositories.Models
             using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
-                string cmdText = @"INSERT INTO products(product_name,
+                string cmdText = @"INSERT INTO products(category_id, product_name,
                                   product_price, 
                                   product_description, 
                                   product_picture)
-	                              VALUES (@ProductName, 
+	                              VALUES (@CategoryId,@ProductName, 
                                   @ProductPrice, @ProductDescription, @ProductPicture);";
                 if (await conn.ExecuteAsync(cmdText,
                     new
                     {
-                        //CategoryId = product.Category.CategoryID,
+                        CategoryId = product.Category.CategoryID,
                         ProductName = product.ProductName,
                         ProductPrice = product.ProductPrice,
                         ProductDescription = product.ProductDescription,
@@ -141,6 +126,7 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 await conn.OpenAsync();
                 string cmdText = @" update products set 
+                                    category_id=@CategoryId,
                                     product_name=@ProductName,
                                     product_price=@ProductPrice,
                                     product_description=@ProductDescription,
@@ -150,7 +136,7 @@ namespace Manager.Infrastructure.Repositories.Models
                      new
                      {
                          ProductId = product.ProductId,
-                         //CategoryId = product.Category.CategoryID,
+                         CategoryId = product.Category.CategoryID,
                          ProductName = product.ProductName,
                          ProductPrice = product.ProductPrice,
                          ProductDescription = product.ProductDescription,

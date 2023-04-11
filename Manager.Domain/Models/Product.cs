@@ -10,7 +10,7 @@ namespace Manager.Domain.Models
     public class Product
     {
         public int ProductId { get; set; }
-        //[ForeignKey("Category")]
+       // [ForeignKey("Category")]
         public Category Category { get; set; }
         public string? ProductName { get; set; }
         public decimal ProductPrice { get; set; }

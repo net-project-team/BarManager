@@ -25,9 +25,7 @@
 
                     <div> <button style="width:100px;height:100px" class="btn btn-success" onclick="@(() => ChoosedProduct(product))">@product.ProductName</button></div>
 
-
                 }
-
 
             </div>
             
@@ -38,12 +36,24 @@
 
 
     }
-    <div style="width:400px;height:600px;border:1px solid red;">
+    <div style="width:400px;height:600px;border:1px solid red; overflow-y: auto;">
+        @foreach (Product product in choosedProducts)
+        {
+            <table class="table">
+              <thead>
+               <tr>
+                <td>@product.ProductName</td>
+                        <td> <button class="btn btn-danger" onclick="@(() =>RemoveFirstProduct(product))">Remove</button></td>
+               </tr> 
+               </thead>
 
+            </table>
 
+        }
+       
 
     </div>
-
+    <div style="float:inline-end"><h2>TotalSum:@TotalSum</h2></div>
 </div>
 
 
@@ -51,6 +61,8 @@
 @code {
 
     List<Category> categories = new List<Category>();
+
+    List<Product> choosedProducts = new List<Product>();
     protected override async Task OnInitializedAsync()
     {
         ICategoryRepository categoryRepository = new CategoryRepo();
@@ -60,18 +72,35 @@
 
     }
     List<Product> products;
+    decimal TotalSum = 0;
     public async  void ChoosedCategory(Category category)
     {
         IProductRepository productRepository = new ProductsRepo();
         IProductHandler productHandler = new ProductsHandler(productRepository);
         products =await  productHandler.GetAllProductsAsync();
-        
+
         StateHasChanged();
 
     }
+
+    void RemoveFirstProduct(Product product)
+    {
+        if (choosedProducts.Count > 0)
+        {
+            choosedProducts.Remove(product);
+            TotalSum -= product.ProductPrice;
+        }
+        StateHasChanged();
+    }
+
+
+
+
     public void ChoosedProduct(Product product)
     {
-        
+        choosedProducts.Add(product);
+        TotalSum += product.ProductPrice;
+        StateHasChanged();
     }
 
 }

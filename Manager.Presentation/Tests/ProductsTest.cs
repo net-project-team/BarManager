@@ -15,19 +15,17 @@ namespace Manager.Presentation.Tests
     {
         public static async Task showProduct()
         {
-            IOrdersRepository orderRepository = new OrdersRepo();
-            IOrdersHandler ordersHandler = new OrdersHandler(orderRepository);
+            //IOrdersRepository orderRepository = new OrdersRepo();
+            //IOrdersHandler ordersHandler = new OrdersHandler(orderRepository);
             IProductRepository productRepository = new ProductsRepo();
             IProductHandler productHandler = new ProductsHandler(productRepository);
-            //var a = await productHandler.GetAllProductsAsync();
-            //foreach (var product in a)
-            //{
-            //    Console.WriteLine(product.ProductName);
+            var a = await productHandler.GetAllProductsAsync();
+            foreach (var product in a)
+            {
+                Console.WriteLine(product.ProductName);
 
-            //}
+            }
 
-            bool isDelete = await productHandler.DeleteByIdProductAsync(4);
-            Console.WriteLine(isDelete);
 
 
 
