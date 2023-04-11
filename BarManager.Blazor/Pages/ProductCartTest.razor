@@ -7,14 +7,20 @@
 @inject IJSRuntime JSRuntime;
 
 <div class="row">
-    <div  style="width:200px; height:auto;border:1px solid red;" class="col-sm-5">
-        @foreach (Category category in categories)
-        {
-            <div style="width:150px" class="row"><button class="btn btn-secondary btn-sm" onclick="@(() => ChoosedCategory(category))">@category.CategoryName</button></div>
 
-        }
+    
+    <button class="btn btn-success" @onclick="@(() => addNewOrder())">New Order</button>
+    @if (showCategories)
+    {
+         <div style = "width:200px; height:auto;border:1px solid red;" class="col-sm-5">
+            @foreach (Category category in categories)
+            {
+                <div style="width:150px" class="row"><button class="btn btn-secondary btn-sm"  onclick="@(() => ChoosedCategory(category))">@category.CategoryName</button></div>
 
-    </div>
+            }
+
+            </div>
+    }
     @if (products != null)
     {
         <div style="border:1px solid green;" class="col">
@@ -37,28 +43,47 @@
 
     }
     <div style="width:400px;height:600px;border:1px solid red; overflow-y: auto;">
-        @foreach (Product product in choosedProducts)
+        @if (choosedProducts != null)
         {
-            <table class="table">
-              <thead>
-               <tr>
-                <td>@product.ProductName</td>
-                        <td> <button class="btn btn-danger" onclick="@(() =>RemoveFirstProduct(product))">Remove</button></td>
-               </tr> 
-               </thead>
+            @foreach (Product product in choosedProducts)
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>@product.ProductName</td>
+                            <td> <button class="btn btn-danger" onclick="@(() =>RemoveFirstProduct(product))">Remove</button></td>
+                        </tr>
+                    </thead>
 
-            </table>
+                </table>
+
+            }
 
         }
-       
+               
 
     </div>
     <div style="float:inline-end"><h2>TotalSum:@TotalSum</h2></div>
+    <button class="btn btn-danger" @onclick="(()=>CheckoutBtn())">Checkout</button>
 </div>
 
 
 
 @code {
+    List<OrderProduct> orderProductList = new List<OrderProduct>();
+    bool showCategories = false;
+
+
+    int insertedOrderId = 0;
+    public async void addNewOrder()
+    {
+        showCategories = true;
+        Order order = new Order();
+        order.OrderTable = 1;
+        insertedOrderId = await new OrdersRepo().InsertOrderReturnId(order);
+
+
+    }
 
     List<Category> categories = new List<Category>();
 
@@ -87,7 +112,14 @@
     {
         if (choosedProducts.Count > 0)
         {
+            OrderProduct forRemove = new OrderProduct()
+            {
+                Product = product
+            };
             choosedProducts.Remove(product);
+
+            orderProductList.Remove(orderProductList.Find(x => x.Product == product));
+
             TotalSum -= product.ProductPrice;
         }
         StateHasChanged();
@@ -100,7 +132,33 @@
     {
         choosedProducts.Add(product);
         TotalSum += product.ProductPrice;
+        Order choosedOrder = new()
+            {
+                OrderId = insertedOrderId,
+                OrderTable = 1
+            };
+
+        orderProductList.Add(new OrderProduct()
+            {
+                Order = choosedOrder,
+                Product = product
+
+        });
+
+
         StateHasChanged();
     }
 
+
+    public async void CheckoutBtn()
+    {
+        await new OrderProductsRepo().InsertRangeAsync(orderProductList);
+        orderProductList = new List<OrderProduct>();
+        insertedOrderId = 0;
+        choosedProducts = new List<Product>();
+        products = null;
+        showCategories = false;
+        TotalSum = 0;
+        StateHasChanged();
+    }
 }

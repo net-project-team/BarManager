@@ -157,10 +157,10 @@ namespace Manager.Infrastructure.Repositories.Models
                 string cmdText = @" select * from products 
                                     where category_id = @id;";
                 var reader = await conn.ExecuteReaderAsync(cmdText, new { id = categoryId });
-                List<Product> product = new();
+                List<Product> products = new();
                 while (reader.Read())
                 {
-                    product.Add(new Product
+                    products.Add(new Product
                     {
                         ProductId = reader.GetInt32(0),
                         Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
@@ -173,7 +173,7 @@ namespace Manager.Infrastructure.Repositories.Models
                 }
 
 
-                return product;
+                return products;
             }
         }
     }
