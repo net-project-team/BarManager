@@ -23,7 +23,8 @@ namespace Manager.Presentation.Tests
             ICategoryRepository categoryRepository = new CategoryRepo();
             ICategoryHandler categoryHandler = new CategoryHandler(categoryRepository);
 
-
+            var a = await categoryHandler.GetByIdCategoryAsync(1);
+            Console.WriteLine(a.CategoryName);
             //List<Category> categoryList = await categoryHandler.GetAllCategoriesAsync();
             //foreach (Category or in categoryList)
             //{
@@ -36,12 +37,12 @@ namespace Manager.Presentation.Tests
 
 
             //    insert ishladi
-            Category category = new()
-            {
-                CategoryName = "Drinks"
-            };
-            bool isInsert = await categoryHandler.InsertCategoryAsync(category);
-            Console.WriteLine(isInsert);
+            //Category category = new()
+            //{
+            //    CategoryName = "Drinks"
+            //};
+            //bool isInsert = await categoryHandler.InsertCategoryAsync(category);
+            //Console.WriteLine(isInsert);
 
 
             //  update ishladi
