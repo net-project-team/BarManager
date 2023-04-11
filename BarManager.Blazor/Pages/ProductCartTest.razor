@@ -6,16 +6,17 @@
 @using Manager.Domain.Models;
 @inject IJSRuntime JSRuntime;
 
+    <button style="width:170px;height:70px;" class="btn btn-success" @onclick="@(() => addNewOrder())">New Order</button>
+    
 <div class="row">
 
     
-    <button class="btn btn-success" @onclick="@(() => addNewOrder())">New Order</button>
     @if (showCategories)
     {
-         <div style = "width:200px; height:auto;border:1px solid red;" class="col-sm-5">
+         <div style = "width:200px; height:auto;" class="col-sm-5">
             @foreach (Category category in categories)
             {
-                <div style="width:150px" class="row"><button class="btn btn-secondary btn-sm"  onclick="@(() => ChoosedCategory(category))">@category.CategoryName</button></div>
+                <div style="width:150px;padding:10px;" class="row"><button class="btn btn-secondary btn-sm"  onclick="@(() => ChoosedCategory(category))">@category.CategoryName</button></div>
 
             }
 
@@ -23,7 +24,7 @@
     }
     @if (products != null)
     {
-        <div style="border:1px solid green;" class="col">
+        <div  class="col">
             <div class="flextest">
 
                 @foreach (Product product in products)
@@ -42,7 +43,7 @@
 
 
     }
-    <div style="width:400px;height:600px;border:1px solid red; overflow-y: auto;">
+    <div style="width:400px;height:600px; overflow-y: auto;">
         @if (choosedProducts != null)
         {
             @foreach (Product product in choosedProducts)
@@ -64,7 +65,15 @@
 
     </div>
     <div style="float:inline-end"><h2>TotalSum:@TotalSum</h2></div>
-    <button class="btn btn-danger" @onclick="(()=>CheckoutBtn())">Checkout</button>
+    <button style="width:170px;height:70px;" class="btn btn-danger" @onclick="(()=>CheckoutBtn())">Checkout</button>
+    @if (showAlert)
+    {
+        <div class="alert alert-success" id="myAlert" @style="alertStyle">
+            <strong>Succsess!</strong>
+        </div>
+
+    }
+    
 </div>
 
 
@@ -81,6 +90,7 @@
         Order order = new Order();
         order.OrderTable = 1;
         insertedOrderId = await new OrdersRepo().InsertOrderReturnId(order);
+        
 
 
     }
@@ -148,17 +158,33 @@
 
         StateHasChanged();
     }
-
+    bool showAlert = false;
 
     public async void CheckoutBtn()
     {
+        
         await new OrderProductsRepo().InsertRangeAsync(orderProductList);
         orderProductList = new List<OrderProduct>();
-        insertedOrderId = 0;
         choosedProducts = new List<Product>();
         products = null;
         showCategories = false;
         TotalSum = 0;
+      
+        insertedOrderId = 0;
+        await ShowAlertWithTimer();
         StateHasChanged();
+        
+
+    }
+    
+    private async Task ShowAlertWithTimer()
+    {
+        showAlert = true; 
+        StateHasChanged();
+
+        await Task.Delay(1000);
+
+        showAlert = false; 
+        StateHasChanged(); 
     }
 }
