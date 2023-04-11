@@ -30,6 +30,27 @@ namespace Manager.Infrastructure.Repositories.Models
             else return false;
             
         }
+        public async Task<int> InsertOrderReturnId(Order order)
+        {
+            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+                await conn.OpenAsync();
+                string cmdText = @"insert into orders(
+                           order_table, order_date, is_completed)
+                           values (@OrderTable, @OrderDate,
+                           @IsCompleted) returning order_id;";
+
+                return await conn.ExecuteScalarAsync<int>(cmdText,
+                    new
+                    {
+                        OrderTable = order.OrderTable,
+                        OrderDate = DateTime.Now,
+                        IsCompleted = order.IsCompleted
+                    });
+            }
+        }
+
+
 
         public async Task<List<Order>> GetAllAsync()
         {
