@@ -93,6 +93,7 @@ namespace Manager.Infrastructure.Repositories.Models
                 else return false;
 
             }
+            return true;
         }
 
         public async Task<bool> UpdateAsync(WaiterOrder entity)
@@ -109,6 +110,7 @@ namespace Manager.Infrastructure.Repositories.Models
                 }) > 0) return true;
                 else return false;
             }
+            return true;
         }
     }
 }
