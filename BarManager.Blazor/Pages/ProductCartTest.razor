@@ -1,0 +1,77 @@
+﻿@page "/productcart"
+@using Manager.Application.Handlers;
+@using Manager.Infrastructure.Repositories.Models;
+@using Manager.Application.Handler.Interfaces;
+@using Manager.Application.Repository.Interfaces;
+@using Manager.Domain.Models;
+@inject IJSRuntime JSRuntime;
+
+<div class="row">
+    <div  style="width:200px; height:auto;border:1px solid red;" class="col-sm-5">
+        @foreach (Category category in categories)
+        {
+            <div style="width:150px" class="row"><button class="btn btn-secondary btn-sm" onclick="@(() => ChoosedCategory(category))">@category.CategoryName</button></div>
+
+        }
+
+    </div>
+    @if (products != null)
+    {
+        <div style="border:1px solid green;" class="col">
+            <div class="flextest">
+
+                @foreach (Product product in products)
+                {
+
+                    <div> <button style="width:100px;height:100px" class="btn btn-success" onclick="@(() => ChoosedProduct(product))">@product.ProductName</button></div>
+
+
+                }
+
+
+            </div>
+            
+
+            
+           
+        </div>
+
+
+    }
+    <div style="width:400px;height:600px;border:1px solid red;">
+
+
+
+    </div>
+
+</div>
+
+
+
+@code {
+
+    List<Category> categories = new List<Category>();
+    protected override async Task OnInitializedAsync()
+    {
+        ICategoryRepository categoryRepository = new CategoryRepo();
+        ICategoryHandler categoryhandler = new CategoryHandler(categoryRepository);
+
+        categories = await categoryhandler.GetAllCategoriesAsync();
+
+    }
+    List<Product> products;
+    public async  void ChoosedCategory(Category category)
+    {
+        IProductRepository productRepository = new ProductsRepo();
+        IProductHandler productHandler = new ProductsHandler(productRepository);
+        products =await  productHandler.GetAllProductsAsync();
+        
+        StateHasChanged();
+
+    }
+    public void ChoosedProduct(Product product)
+    {
+        
+    }
+
+}

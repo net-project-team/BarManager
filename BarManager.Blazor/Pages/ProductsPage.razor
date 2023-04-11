@@ -4,6 +4,10 @@
 @using Manager.Application.Handler.Interfaces;
 @using Manager.Application.Repository.Interfaces;
 @using Manager.Domain.Models;
+@inject IJSRuntime JSRuntime; 
+
+
+
 
 
 <h3>ProductsPage</h3>
@@ -38,6 +42,8 @@
         }
     </tbody>
 </table>
+<button class="btn btn-info" @onclick="()=>ShowPrompt()">Test Promt</button>
+
 @if (selectedProduct != null)
 {
     <h3>Edit Product</h3>
@@ -96,6 +102,23 @@
 
 
 @code {
+
+
+    private string myMessage = "Hello from prompt!";
+
+    private async Task ShowPrompt()
+    {
+        string message = await JSRuntime.InvokeAsync<string>("prompt", "Enter your age");
+        if (!string.IsNullOrEmpty(message))
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "Your age is "+ message);
+        }
+    }
+
+
+
+
+    //---------
     public List<Product> products = new();
 
 
