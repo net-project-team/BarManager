@@ -91,7 +91,7 @@ namespace Manager.Infrastructure.Repositories.Models
                         new
                         {
                             OrderTable = orders.OrderTable,
-                            OrderDate = orders.OrderDate,
+                            OrderDate = DateTime.Now,
                             IsCompleted = orders.IsCompleted
                         }) > 0) return true;
                 else return false;
