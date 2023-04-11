@@ -17,7 +17,8 @@ namespace Manager.Presentation.Tests
         {
             //Test();
             //Insert();
-            Update();
+            // Update();
+            Delete();
         }
 
         public async static void Test()
@@ -59,6 +60,14 @@ namespace Manager.Presentation.Tests
             var te = await waiterOrdersHandler.UpdateWaiterOrderAsync(order);
             Console.WriteLine(te);
 
+        }
+
+        public async static void Delete()
+        {
+            IWaiterOrderRepository waiterOrderRepository = new WaiterOrderRepo();
+            IWaiterOrderHandler waiterOrdersHandler = new WaiterOrderHandlar(waiterOrderRepository);
+            bool re =  await waiterOrdersHandler.DeleteByIdWaiterOrderAsync(4);
+            Console.WriteLine(re);
         }
     }
 }
