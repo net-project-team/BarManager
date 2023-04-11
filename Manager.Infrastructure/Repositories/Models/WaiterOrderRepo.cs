@@ -93,7 +93,7 @@ namespace Manager.Infrastructure.Repositories.Models
                 else return false;
 
             }
-            return true;
+           
         }
 
         public async Task<bool> UpdateAsync(WaiterOrder entity)
@@ -102,15 +102,17 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 await conn.OpenAsync();
                 string cmdText = @"update waiter_order set waiter_id=@WaiterId,
-                                   order_id = @OrderId;";
+                                   order_id = @OrderId 
+                                    where id = @Id";
                 if (await conn.ExecuteAsync(cmdText, new
                 {
+                    Id = entity.Id,
                     WaiterId = entity.Waiter.WaiterId,
                     OrderId = entity.Order.OrderId
                 }) > 0) return true;
                 else return false;
             }
-            return true;
+          
         }
     }
 }
