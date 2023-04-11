@@ -22,7 +22,7 @@ namespace Manager.Presentation
             ProductsTest.showProduct().Wait();
             //OrderProductsTest.Run();
             //OrdersTest.Run(); 
-            WaiterOrderTest.Run();
+            //WaiterOrderTest.Run();
             Console.ReadKey();
         }
     }

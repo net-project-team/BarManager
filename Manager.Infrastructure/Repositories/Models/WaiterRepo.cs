@@ -84,7 +84,8 @@ namespace Manager.Infrastructure.Repositories.Models
                 await conn.OpenAsync();
                 string cmdText =
                     @"UPDATE waiters SET waiter_name = @WaiterName,
-                     waiter_phone = @Phone, waiter_password = @Password WHERE waiter_id = @WaiterId;";
+                     waiter_phone = @Phone, waiter_password = @Password 
+                     WHERE waiter_id = @WaiterId;";
                 if(await conn.ExecuteAsync(cmdText, waiter) > 0) return true;
                 return false;
             }
