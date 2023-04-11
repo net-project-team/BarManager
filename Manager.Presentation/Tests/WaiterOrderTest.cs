@@ -1,6 +1,7 @@
 ﻿using Manager.Application.Handler.Interfaces;
 using Manager.Application.Handlers;
 using Manager.Application.Repository.Interfaces;
+using Manager.Domain.Models;
 using Manager.Infrastructure.Repositories.Models;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,8 @@ namespace Manager.Presentation.Tests
     {
         public static void Run()
         {
-            Test();
+            //Test();
+            Insert();
         }
 
         public async static void Test()
@@ -27,6 +29,18 @@ namespace Manager.Presentation.Tests
             {
                 Console.WriteLine(item.Waiter.WaiterId);
             }
+        }
+
+        public async static void Insert()
+        {
+            IWaiterOrderRepository waiterOrderRepository = new WaiterOrderRepo();
+            IWaiterOrderHandler waiterOrdersHandler = new WaiterOrderHandlar(waiterOrderRepository);
+            WaiterOrder order = new WaiterOrder
+            {
+                
+            };
+
+           
         }
     }
 }
