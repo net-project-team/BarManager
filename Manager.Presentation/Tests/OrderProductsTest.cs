@@ -18,21 +18,21 @@ namespace Manager.Presentation.Tests
             RunOrderProduct();
         }
 
-        public static void RunOrderProduct()
+        public async static void RunOrderProduct()
         {
             IOrderProductRepository orderProductRepository = new OrderProductsRepo();
             IOrderProductHandler orderProductHandler = new OrderProductHandler(orderProductRepository);
 
 
-            //List<OrderProduct> orderProductList = await orderProductHandler.GetAllOrderProductAsync();
-            //foreach (OrderProduct op in orderProductList)
-            //{
-            //    Console.WriteLine(op.Order.OrderId);
-            //}
+            List<OrderProduct> orderProductList = await orderProductHandler.GetAllOrderProductAsync();
+            foreach (OrderProduct op in orderProductList)
+            {
+                Console.WriteLine(op.Product.ProductId);
+            }
 
             //readby id islamadi
 
-            Console.WriteLine(orderProductHandler.GetByIdOrderProductAsync(5).Result.Id);
+            //Console.WriteLine(orderProductHandler.GetByIdOrderProductAsync(6));
 
 
             //    insert ishladi

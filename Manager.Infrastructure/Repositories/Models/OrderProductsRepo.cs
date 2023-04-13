@@ -56,17 +56,23 @@ namespace Manager.Infrastructure.Repositories.Models
                 List<OrderProduct> op = new List<OrderProduct>();
                 await conn.OpenAsync();
                 string cmdText = @"select * from order_product;";
-                
-                var reader = await conn.ExecuteReaderAsync(cmdText);
-                while (await reader.ReadAsync())
+                using (var command = new NpgsqlCommand(cmdText, conn))
                 {
-                    op.Add(new OrderProduct
+                    var reader = await command.ExecuteReaderAsync();
+                    while (reader.Read())
                     {
-                        Id = reader.GetInt32(0),
-                        Order = await new OrdersRepo().GetByIdAsync(reader.GetInt32(1)),
-                        Product = await new ProductsRepo().GetByIdAsync(reader.GetInt32(2))
-                    });
+                        var orderRepo = new OrdersRepo();
+                        var productRepo = new ProductsRepo();
+                        op.Add(new OrderProduct
+                        {
+                            Id = reader.GetInt32(0),
+                            Order = await orderRepo.GetByIdAsync(reader.GetInt32(1)),
+                            Product = await productRepo.GetByIdAsync(reader.GetInt32(2))
+                        });
+                    }
+                    await reader.CloseAsync();
                 }
+                await conn.CloseAsync();
                 return op;
             }
         }
