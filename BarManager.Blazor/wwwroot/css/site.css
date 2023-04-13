@@ -86,3 +86,9 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+.page-background-class {
+    background-image: url(../images/rasm.jpg);
+    background-size: cover;
+    width: 1000px;
+    height: 500px;
+}
