@@ -23,10 +23,10 @@ namespace Manager.Presentation
             //OrderProductsTest.Run();
             //OrdersTest.Run(); 
 
-            //ProductsTest.PoductSerchCategory(2);
+            ProductsTest.PoductSerchCategory(2);
           //  OrdersTest.Run();
 
-            WaiterOrderTest.Run();
+           // WaiterOrderTest.Run();
             Console.ReadKey();
         }
     }

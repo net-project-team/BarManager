@@ -154,20 +154,20 @@ namespace Manager.Infrastructure.Repositories.Models
             {
 
                 await conn.OpenAsync();
-                string cmdText = @" select * from products 
-                                    where category_id = @id;";
+                string cmdText = @"select * from products 
+                                   where category_id = @id;";
                 var reader = await conn.ExecuteReaderAsync(cmdText, new { id = categoryId });
                 List<Product> products = new();
-                while (reader.Read())
+                while (await reader.ReadAsync())
                 {
                     products.Add(new Product
                     {
                         ProductId = reader.GetInt32(0),
                         Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
-                        ProductName = reader.GetString(1),
-                        ProductPrice = reader.GetDecimal(2),
-                        ProductDescription = reader.GetString(3),
-                        ProductPicture = reader.GetString(4)
+                        ProductName = reader.GetString(2),
+                        ProductPrice = reader.GetDecimal(3),
+                        ProductDescription = reader.GetString(4),
+                        ProductPicture = reader.GetString(5)
 
                     });
                 }

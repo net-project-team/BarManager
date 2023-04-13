@@ -106,13 +106,14 @@
         categories = await categoryhandler.GetAllCategoriesAsync();
 
     }
+  
     List<Product> products;
     decimal TotalSum = 0;
-    public async  void ChoosedCategory(Category category)
+    public async void ChoosedCategory(Category category)
     {
-        IProductRepository productRepository = new ProductsRepo();
-        IProductHandler productHandler = new ProductsHandler(productRepository);
-        products =await  productHandler.GetAllProductsAsync();
+        ProductsRepo productsRepo = new ProductsRepo();
+       
+        products = await productsRepo.GetAllGroupCategoryAsync(category.CategoryID);
 
         StateHasChanged();
 
