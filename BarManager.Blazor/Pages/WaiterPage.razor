@@ -1,0 +1,113 @@
+﻿@page "/waiters"
+@using Manager.Application.Handlers;
+@using Manager.Infrastructure.Repositories.Models;
+@using Manager.Application.Handler.Interfaces;
+@using Manager.Application.Repository.Interfaces;
+@using Manager.Domain.Models;
+
+
+
+
+<h3>WaiterPage</h3>
+
+  <table class="table">
+    <thead>
+        <tr>
+            <th>Waiter Id</th>
+            <th>Waiter Name</th>
+            <th>Waiter Phone</th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var waiter in waiters)
+        {
+                <tr>
+                    <td>@waiter.WaiterId</td>
+                    <td>@waiter.WaiterName</td>
+                    <td>@waiter.Phone</td>
+                    
+                    <td><button class="btn btn-danger" onclick="@(() => RemoveOrder(waiter))">Remove</button></td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => EditOrder(waiter)">Edit</button> 
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>
+
+@if (selectedOrder != null)
+{
+        <h3>Edit Order</h3>
+
+        <div class="form-group">
+            <label for="OrderTable">Order Table:</label>
+            <input type="text" class="form-control" id="OrderTable" @bind="@selectedOrder.WaiterName" />
+        </div>
+
+        <div class="form-group">
+            <label for="isCompleted">Is Completed:</label>
+                <input type="checkbox" id="isCompleted" @bind="@selectedOrder.Phone" />
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" @onclick="SaveChanges">Save Changes</button>
+        </div>
+
+        
+}
+
+
+@code {
+
+    public List<Waiter> waiters = new();
+    private Waiter selectedOrder;
+    private Waiter addOrder;
+
+    protected override async Task OnInitializedAsync()
+    {
+       IWaiterRepository waiterRepository = new WaiterRepo();
+        IWaiterHandler waiterHandler = new WaiterHandler(waiterRepository);
+        waiters = await waiterHandler.GetAllWaitersAsync();
+    }
+
+    public async void RemoveOrder(Waiter waiter)
+    {
+
+        IWaiterRepository waiterRepository = new WaiterRepo();
+        IWaiterHandler waiterHandler = new WaiterHandler(waiterRepository);
+        await waiterHandler.DeleteWaiterByIdAsync(waiter.WaiterId);
+
+        waiters.Remove(waiter);
+
+        StateHasChanged();
+    }
+
+    private void EditOrder(Waiter waiter)
+    {
+        selectedOrder = waiter;
+    }
+
+    private async Task SaveChanges()
+    {
+        IWaiterRepository waiterRepository = new WaiterRepo();
+        IWaiterHandler waiterHandler = new WaiterHandler(waiterRepository);
+        await waiterHandler.UpdateWaiterAsync(selectedOrder);
+
+        selectedOrder = null;
+    }
+
+    public void AddOrder()
+    {
+        addOrder = new Waiter();
+        waiters.Add(addOrder);
+    }
+
+    public async void AddChanges()
+    {
+        IWaiterRepository waiterRepository = new WaiterRepo();
+        IWaiterHandler waiterHandler = new WaiterHandler(waiterRepository);
+        await waiterHandler.InsertWaiterAsync(addOrder);
+        addOrder = null;
+    }
+
+}
