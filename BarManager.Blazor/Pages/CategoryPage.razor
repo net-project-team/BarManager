@@ -4,9 +4,8 @@
 @using Manager.Application.Repository.Interfaces;
 @using Manager.Infrastructure.Repositories.Models;
 @using Manager.Domain.Models;
+<body class="page-background-class">
 <h3>Categories</h3>
-<div class="page-background-class">
-    
 
 <table class="table">
     <thead>
@@ -58,7 +57,7 @@
         <button class="btn btn-primary" @onclick="SaveAddedProduct">Save Changes</button>
     </div>
 }
-</div>
+</body>
 @code {
     public List<Category> categories = new();
     protected override async Task OnInitializedAsync()
