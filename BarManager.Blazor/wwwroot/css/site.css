@@ -88,7 +88,5 @@ a, .btn-link {
     }
 .page-background-class {
     background-image: url(../images/rasm.jpg);
-    background-size: cover;
-    width: 1000px;
-    height: 500px;
+    background-size: contain;
 }
