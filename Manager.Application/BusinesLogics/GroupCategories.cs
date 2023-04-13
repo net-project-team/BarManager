@@ -10,9 +10,5 @@ namespace Manager.Application.BusinesLogics
 {
     public class GroupCategories
     {
-        
-       
-
-
     }
 }
