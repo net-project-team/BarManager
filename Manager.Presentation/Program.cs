@@ -21,8 +21,11 @@ namespace Manager.Presentation
             //WaitersTest.ZafarUpdated();
             //CategoryTest.RunCategories();
             // ProductsTest.showProduct().Wait();
-            //OrderProductsTest.Run();
+            OrderProductsTest.Run();
             //OrdersTest.Run(); 
+
+            //ProductsTest.PoductSerchCategory(2);
+          //  OrdersTest.Run();
 
             //ProductsTest.PoductSerchCategory(2);
             //  OrdersTest.Run();
