@@ -16,11 +16,7 @@
             <th>Id </th>
             <th>Waiter </th>
             <th>Order </th>
-             <th>
-               <td>
-                    <button class="btn btn-primary" @onclick="() => AddWaiterOrder()">Add</button>
-               </td>
-             </th>
+             
         </tr>
     </thead>
     <tbody>
@@ -52,7 +48,7 @@
 
         <div class="form-group">
                 <label for="isCompleted">Order:</label>
-                <input type="checkbox" id="isCompleted" @bind="@selectedWiterOrders.Order.OrderId" />
+                    <input type="text" class="form-control" id="isCompleted" @bind="@selectedWiterOrders.Order.OrderId" />
         </div>
        
         <div class="form-group">
@@ -60,28 +56,9 @@
         </div>
 }
 
-@if (addWaiterOrder != null)
-{
-            <h3>Add WaiterOrder</h3>
-
-            <div class="form-group">
-                    <label for="OrderTable">Waiter:</label>
-                        <input type="text" class="form-control" id="OrderTable" @bind="@addWaiterOrder.Waiter.WaiterId" />
-            </div>
-
-            <div class="form-group">
-                    <label for="isCompleted">Order:</label>
-                        <input type="checkbox" id="isCompleted" @bind="@addWaiterOrder.Order.OrderId" />
-            </div>
-          
-            <div class="form-group">
-                    <button class="btn btn-primary" @onclick="AddWaiterOrdersChanges">Save Changes</button>
-            </div>
-}
-
 @code {
     public List<WaiterOrder> waiterOrders = new();
-    
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -94,7 +71,9 @@
     {
         IWaiterOrderRepository waiterOrderRepository = new WaiterOrderRepo();
         IWaiterOrderHandler waiterOrderHandler = new WaiterOrderHandlar(waiterOrderRepository);
+
         await waiterOrderHandler.DeleteByIdWaiterOrderAsync(waiterOrder.Id);
+
         waiterOrders.Remove(waiterOrder);
 
         StateHasChanged();
@@ -105,6 +84,7 @@
     private void EditWaiterOrder(WaiterOrder waiterOrder)
     {
         selectedWiterOrders = waiterOrder;
+        
     }
 
     private async Task SaveChanges()
@@ -116,27 +96,6 @@
         selectedWiterOrders = null;
     }
     //Tugadi 
-
-
-    //Ikkinchi if Add Waiter Orders
-
-    public void AddWaiterOrder()
-    {
-       // addWaiterOrder = new WaiterOrder();
-
-        addWaiterOrder = new WaiterOrder();
-        waiterOrders.Add(addWaiterOrder);
-
-    }
-
-    public async void AddWaiterOrdersChanges()
-    {
-        IWaiterOrderRepository waiterOrderRepository = new WaiterOrderRepo();
-        IWaiterOrderHandler waiterOrderHandler = new WaiterOrderHandlar(waiterOrderRepository);
-        await waiterOrderHandler.InsertWaiterOrderAsync(addWaiterOrder);
-        addWaiterOrder = null;
-
-    }
 
 
 }
