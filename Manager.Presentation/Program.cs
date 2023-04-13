@@ -1,4 +1,5 @@
-﻿using Manager.Application.Handler.Interfaces;
+﻿using Manager.Application.BusinesLogics.Models;
+using Manager.Application.Handler.Interfaces;
 using Manager.Application.Handlers;
 using Manager.Application.Interfaces;
 using Manager.Application.Repository.Interfaces;
@@ -11,7 +12,7 @@ namespace Manager.Presentation
 {
     public class Program
     {
-        static  void Main(string[] args)
+        static   void Main(string[] args)
         {
 
             //WaitersTest.ZafarDeletedById();
@@ -23,9 +24,14 @@ namespace Manager.Presentation
             //OrderProductsTest.Run();
             //OrdersTest.Run(); 
 
-            ProductsTest.PoductSerchCategory(2);
-          //  OrdersTest.Run();
-
+            //ProductsTest.PoductSerchCategory(2);
+            //  OrdersTest.Run();
+            GetTopFood getTopFood = new GetTopFood();
+            List<Food> a =  getTopFood.GetTopFoods().Result;
+           foreach (Food food in a)
+            {
+                Console.WriteLine(food.SoldCount);
+            }
            // WaiterOrderTest.Run();
             Console.ReadKey();
         }

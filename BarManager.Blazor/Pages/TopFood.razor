@@ -1,0 +1,36 @@
+﻿@page "/topfoods" 
+@inject IJSRuntime JSRuntime
+@using Manager.Application.Handler.Interfaces;
+@using Manager.Application.Handlers;
+@using Manager.Application.Repository.Interfaces;
+@using Manager.Infrastructure.Repositories.Models;
+@using Manager.Application.BusinesLogics.Models;
+@using System.Text.Json
+@using ApexCharts;
+
+<div id='myDiv'>
+
+</div>
+
+
+@code{
+    GetTopFood getTopFood = new GetTopFood();
+
+    protected async override void OnInitialized()
+    {
+        List<int> soldCounts = new List<int>();
+        List<string> foodName = new List<string>();
+        foreach (Food food in (await getTopFood.GetTopFoods()))
+        {
+            foodName.Add(food.FoodName);
+            soldCounts.Add(food.SoldCount);
+
+        }
+       
+       
+
+    }
+   
+   
+   
+}
