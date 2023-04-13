@@ -13,29 +13,23 @@
   <table class="table">
     <thead>
         <tr>
-            <th>Order Id</th>
-            <th>Order Table</th>
-            <th>Order Date</th>
-            <th>IsCompleted</th>
-             <th>
-               <td>
-                    <button class="btn btn-primary" @onclick="() => AddOrder()">Add Order</button>
-               </td>
-             </th>
+            <th>Waiter Id</th>
+            <th>Waiter Name</th>
+            <th>Waiter Phone</th>
+           
         </tr>
     </thead>
     <tbody>
-        @foreach (var order in orders)
+        @foreach (var waiter in waiters)
         {
                 <tr>
-                    <td>@order.OrderId</td>
-                    <td>@order.OrderTable</td>
-                    <td>@order.OrderDate</td>
-                    <td>@order.IsCompleted</td>
-
-                    <td><button class="btn btn-danger" onclick="@(() => RemoveOrder(order))">Remove</button></td>
+                    <td>@waiter.WaiterId</td>
+                    <td>@waiter.WaiterName</td>
+                    <td>@waiter.Phone</td>
+                    
+                    <td><button class="btn btn-danger" onclick="@(() => RemoveOrder(waiter))">Remove</button></td>
                     <td>
-                        <button class="btn btn-primary" @onclick="() => EditOrder(order)">Edit</button> 
+                        <button class="btn btn-primary" @onclick="() => EditOrder(waiter)">Edit</button> 
                     </td>
                 </tr>
         }
@@ -48,25 +42,72 @@
 
         <div class="form-group">
             <label for="OrderTable">Order Table:</label>
-            <input type="text" class="form-control" id="OrderTable" @bind="@selectedOrder.OrderTable" />
+            <input type="text" class="form-control" id="OrderTable" @bind="@selectedOrder.WaiterName" />
         </div>
 
         <div class="form-group">
             <label for="isCompleted">Is Completed:</label>
-            <input type="checkbox" id="isCompleted" @bind="@selectedOrder.IsCompleted" />
+                <input type="checkbox" id="isCompleted" @bind="@selectedOrder.Phone" />
         </div>
         <div class="form-group">
             <button class="btn btn-primary" @onclick="SaveChanges">Save Changes</button>
         </div>
 
-        <div class="form-group">
-            <button class="btn btn-primary" @onclick="SaveChanges">Save Changes</button>
-        </div>
+        
 }
 
 
 @code {
 
+    public List<Waiter> waiters = new();
+    private Waiter selectedOrder;
+    private Waiter addOrder;
 
+    protected override async Task OnInitializedAsync()
+    {
+       IWaiterRepository waiterRepository = new WaiterRepo();
+        IWaiterHandler waiterHandler = new WaiterHandler(waiterRepository);
+        waiters = await waiterHandler.GetAllWaitersAsync();
+    }
+
+    public async void RemoveOrder(Waiter waiter)
+    {
+
+        IWaiterRepository waiterRepository = new WaiterRepo();
+        IWaiterHandler waiterHandler = new WaiterHandler(waiterRepository);
+        await waiterHandler.DeleteWaiterByIdAsync(waiter.WaiterId);
+
+        waiters.Remove(waiter);
+
+        StateHasChanged();
+    }
+
+    private void EditOrder(Waiter waiter)
+    {
+        selectedOrder = waiter;
+    }
+
+    private async Task SaveChanges()
+    {
+        IWaiterRepository waiterRepository = new WaiterRepo();
+        IWaiterHandler waiterHandler = new WaiterHandler(waiterRepository);
+        await waiterHandler.UpdateWaiterAsync(selectedOrder);
+
+        selectedOrder = null;
+    }
+
+    public void AddOrder()
+    {
+        addOrder = new Waiter();
+        waiters.Add(addOrder);
+    }
+
+    public async void AddChanges()
+    {
+        IWaiterRepository waiterRepository = new WaiterRepo();
+        IWaiterHandler waiterHandler = new WaiterHandler(waiterRepository);
+        await waiterHandler.InsertWaiterAsync(addOrder);
+        addOrder = null;
+    }
 
 }
