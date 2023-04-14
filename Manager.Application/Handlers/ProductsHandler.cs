@@ -23,8 +23,9 @@ namespace Manager.Application.Handlers
             {
                 return await _repository.DeleteByIdAsync(id);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return false;   
             }
           

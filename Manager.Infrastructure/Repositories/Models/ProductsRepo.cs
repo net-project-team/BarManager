@@ -25,19 +25,15 @@ namespace Manager.Infrastructure.Repositories.Models
 
         public async Task<bool> DeleteByIdAsync(int ProductId)
         {
+            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
 
-            
-                using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
-                {
+                await conn.OpenAsync();
 
-                    await conn.OpenAsync();
-
-                    string cmdText = @"Delete from products where product_id = @id;";
-                    if (await conn.ExecuteAsync(cmdText, new { id = ProductId }) > 0) return true;
-                    else return false;
-                }
-            
-       
+                string cmdText = @"Delete from products where product_id = @id;";
+                if (await conn.ExecuteAsync(cmdText, new { id = ProductId }) > 0) return true;
+                else return false;
+            }
             
         }
 
