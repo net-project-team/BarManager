@@ -8,27 +8,37 @@
 @using System.Text.Json
 
 
-<div id='myDiv'>
-
+<h3>Foods</h3>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-secondary">
+        <thead class="thead-dark">
+            <tr>
+                <th>Food Name</th>
+                <th>Price</th>
+                <th>Sold Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var food in Foods)
+            {
+                <tr>
+                    <td>@food.FoodName</td>
+                    <td>@food.Price</td>
+                    <td>@food.SoldCount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
 
 @code{
     GetTopFood getTopFood = new GetTopFood();
-
-    protected async override void OnInitialized()
+    List<Food> Foods = new List<Food>();
+    protected async override Task OnInitializedAsync()
     {
-        List<int> soldCounts = new List<int>();
-        List<string> foodName = new List<string>();
-        foreach (Food food in (await getTopFood.GetTopFoods()))
-        {
-            foodName.Add(food.FoodName);
-            soldCounts.Add(food.SoldCount);
-
-        }
-       
-       
-
+        Foods = await getTopFood.GetTopFoods();
+        StateHasChanged();
     }
    
    

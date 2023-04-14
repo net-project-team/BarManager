@@ -33,7 +33,7 @@ namespace Manager.Presentation
             List<Food> a =  getTopFood.GetTopFoods().Result;
            foreach (Food food in a)
             {
-                Console.WriteLine(food.SoldCount);
+                Console.WriteLine(food.FoodName);
             }
            // WaiterOrderTest.Run();
             Console.ReadKey();

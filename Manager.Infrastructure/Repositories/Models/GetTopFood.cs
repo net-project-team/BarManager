@@ -29,8 +29,7 @@ namespace Manager.Infrastructure.Repositories.Models
                                     from order_product op 
                                     left join products p using(product_id)  
                                     group by p.product_price ,p.product_name
-                                    order by SoldCount desc limit 5;
-                                    ";
+                                    order by SoldCount desc limit 5;";
                result  =  (await conn.QueryAsync<Food>(cmdText)).ToList();
                return result;
              }
