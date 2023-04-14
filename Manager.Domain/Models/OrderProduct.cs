@@ -11,5 +11,10 @@ namespace Manager.Domain.Models
         public int Id { get; set; }
         public Order Order { get; set; }
         public Product Product { get; set; }
+
+        public override string ToString()
+        {
+            return $"Id: {Id}, Order: {Order}, Product: {Product}";
+        }
     }
 }

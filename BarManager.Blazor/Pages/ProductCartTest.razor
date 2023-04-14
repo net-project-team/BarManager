@@ -6,63 +6,67 @@
 @using Manager.Domain.Models;
 @inject IJSRuntime JSRuntime;
 
-    <button style="width:170px;height:70px;" class="btn btn-info" @onclick="@(() => addNewOrder())">New Order</button>
     
 <div class="row">
 
-    
-    @if (showCategories)
-    {
-         <div style = "width:200px; height:auto;" class="col-sm-5">
-            @foreach (Category category in categories)
-            {
-                <div style="width:150px;padding:10px;" class="row"><button class="btn btn-secondary btn-sm"  onclick="@(() => ChoosedCategory(category))">@category.CategoryName</button></div>
-
-            }
-
-            </div>
-    }
-    @if (products != null)
-    {
-        <div  class="col">
-            <div class="flextest">
-
-                @foreach (Product product in products)
+    <div class="col-md-2">
+        <button style="width:170px;height:70px; margin-bottom: 20px; margin-top: 10px" class="btn btn-success" @onclick="@(() => addNewOrder())">New Order</button>
+        @if (showCategories)
+        {
+            <div style="width:200px; height:auto;" class="col-sm-5">
+                @foreach (Category category in categories)
                 {
-
-                    <div> <button style="width:100px;height:100px" class="btn btn-success" onclick="@(() => ChoosedProduct(product))">@product.ProductName</button></div>
+                    <div style="width:170px;padding:15px; position: center;" class="row">
+                        <button class="btn btn-secondary btn-sm" onclick="@(() => ChoosedCategory(category))">
+                            @category.CategoryName
+                        </button>
+                    </div>
 
                 }
 
             </div>
-            
-        </div>
-
-
-    }
-    <div style="width:400px;height:600px; overflow-y: auto;">
-        @if (choosedProducts != null)
-        {
-            @foreach (Product product in choosedProducts)
-            {
-                <table class="table table-bordered table-secondary">
-                    <thead>
-                        <tr>
-                            <td width="250px">@product.ProductName</td>
-                            <td width="150px"><button class="btn btn-danger" onclick="@(() =>RemoveFirstProduct(product))">Remove</button></td>
-                        </tr>
-                    </thead>
-
-                </table>
-
-            }
-
         }
-               
-
     </div>
+    <div class="col-md-7">
+        @if (products != null)
+        {
+            <div class="col">
+                <div class="flextest">
+
+                    @foreach (Product product in products)
+                    {
+
+                        <div class="showenProduct">
+                            <button style="width:120px;height:120px; border: none; background-image: url(@product.ProductPicture); background-size: contain; image-rendering:auto" class="btn btn-success imgbutton" onclick="@(() => ChoosedProduct(product))">
+                            </button>
+                            <h5 style="padding-top: 12px; text-align: center;">@product.ProductName</h5>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-sm-3">
+        <div>
+            @if (choosedProducts != null)
+            {
+                @foreach (Product product in choosedProducts)
+                {
+                    <table class="table" border="0">
+                        <thead>
+                            <tr>
+                                <td>@product.ProductName</td>
+                                <td> <button class="btn btn-danger" onclick="@(() =>RemoveFirstProduct(product))">Remove</button></td>
+                            </tr>
+                        </thead>
+                    </table>
+                }
+            }
+        </div>
+    </div>
+    
     <div style="float:inline-end"><h2>TotalSum:@TotalSum</h2></div>
-    <button style="width:170px;height:70px;" class="btn btn-success" @onclick="(()=>CheckoutBtn())">Checkout</button>
+    <button style="width:170px;height:70px;" class="btn btn-danger" @onclick="(()=>CheckoutBtn())"><i class="fa fa-save"></i>Checkout</button>
     @if (showAlert)
     {
         <div class="alert alert-success" id="myAlert" @style="alertStyle">
@@ -87,7 +91,7 @@
         Order order = new Order();
         order.OrderTable = 1;
         insertedOrderId = await new OrdersRepo().InsertOrderReturnId(order);
-        
+
 
 
     }
@@ -103,13 +107,13 @@
         categories = await categoryhandler.GetAllCategoriesAsync();
 
     }
-  
+
     List<Product> products;
     decimal TotalSum = 0;
     public async void ChoosedCategory(Category category)
     {
         ProductsRepo productsRepo = new ProductsRepo();
-       
+
         products = await productsRepo.GetAllGroupCategoryAsync(category.CategoryID);
 
         StateHasChanged();
@@ -160,21 +164,21 @@
 
     public async void CheckoutBtn()
     {
-        
+
         await new OrderProductsRepo().InsertRangeAsync(orderProductList);
         orderProductList = new List<OrderProduct>();
         choosedProducts = new List<Product>();
         products = null;
         showCategories = false;
         TotalSum = 0;
-      
+
         insertedOrderId = 0;
         await ShowAlertWithTimer();
         StateHasChanged();
-        
+
 
     }
-    
+
     private async Task ShowAlertWithTimer()
     {
         showAlert = true; 
@@ -185,4 +189,5 @@
         showAlert = false; 
         StateHasChanged(); 
     }
+
 }

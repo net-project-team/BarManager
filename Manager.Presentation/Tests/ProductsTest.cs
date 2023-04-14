@@ -19,13 +19,15 @@ namespace Manager.Presentation.Tests
             //IOrdersHandler ordersHandler = new OrdersHandler(orderRepository);
             IProductRepository productRepository = new ProductsRepo();
             IProductHandler productHandler = new ProductsHandler(productRepository);
-            var a = await productHandler.GetAllProductsAsync();
-            foreach (var product in a)
-            {
-                Console.WriteLine(product.ProductName);
+            //var a = await productHandler.GetAllProductsAsync();
+            //foreach (var product in a)
+            //{
+            //    Console.WriteLine(product.ProductName);
 
-            }
+            //}
 
+            bool isDelete = await productHandler.DeleteByIdProductAsync(3);
+            Console.WriteLine(isDelete);
         }
         public static async void PoductSerchCategory(int categoryId)
         {

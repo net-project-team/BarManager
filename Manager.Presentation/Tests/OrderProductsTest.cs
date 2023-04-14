@@ -27,12 +27,12 @@ namespace Manager.Presentation.Tests
             List<OrderProduct> orderProductList = await orderProductHandler.GetAllOrderProductAsync();
             foreach (OrderProduct op in orderProductList)
             {
-                Console.WriteLine(op.Product.ProductId);
+                Console.WriteLine(op);
             }
 
             //readby id islamadi
 
-            //Console.WriteLine(orderProductHandler.GetByIdOrderProductAsync(6));
+            // Console.WriteLine(orderProductHandler.GetByIdOrderProductAsync(6));
 
 
             //    insert ishladi

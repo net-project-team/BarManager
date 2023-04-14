@@ -24,7 +24,7 @@ namespace Manager.Presentation
             //OrderProductsTest.Run();
             //OrdersTest.Run(); 
 
-            //ProductsTest.PoductSerchCategory(2);
+            ProductsTest.showProduct();
           //  OrdersTest.Run();
 
             //ProductsTest.PoductSerchCategory(2);
