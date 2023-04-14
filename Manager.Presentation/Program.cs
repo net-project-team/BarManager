@@ -21,7 +21,7 @@ namespace Manager.Presentation
             //WaitersTest.ZafarUpdated();
             //CategoryTest.RunCategories();
             // ProductsTest.showProduct().Wait();
-            OrderProductsTest.Run();
+            //OrderProductsTest.Run();
             //OrdersTest.Run(); 
 
             //ProductsTest.PoductSerchCategory(2);
@@ -33,7 +33,7 @@ namespace Manager.Presentation
             List<Food> a =  getTopFood.GetTopFoods().Result;
            foreach (Food food in a)
             {
-                Console.WriteLine(food.SoldCount);
+                Console.WriteLine(food.FoodName);
             }
            // WaiterOrderTest.Run();
             Console.ReadKey();

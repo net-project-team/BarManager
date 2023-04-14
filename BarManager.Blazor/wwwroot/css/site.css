@@ -2,6 +2,7 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    
 }
 
 h1:focus {
@@ -27,7 +28,7 @@ a, .btn-link {
 }
 
     .flextest > div {
-        border:1px solid red;
+        
         width: 100%;
         height: 100%;
         padding:10px;

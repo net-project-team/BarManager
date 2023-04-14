@@ -6,7 +6,7 @@
 @using Manager.Domain.Models;
 @inject IJSRuntime JSRuntime;
 
-    <button style="width:170px;height:70px;" class="btn btn-success" @onclick="@(() => addNewOrder())">New Order</button>
+    <button style="width:170px;height:70px;" class="btn btn-info" @onclick="@(() => addNewOrder())">New Order</button>
     
 <div class="row">
 
@@ -36,9 +36,6 @@
 
             </div>
             
-
-            
-           
         </div>
 
 
@@ -48,11 +45,11 @@
         {
             @foreach (Product product in choosedProducts)
             {
-                <table class="table">
+                <table class="table table-bordered table-secondary">
                     <thead>
                         <tr>
-                            <td>@product.ProductName</td>
-                            <td> <button class="btn btn-danger" onclick="@(() =>RemoveFirstProduct(product))">Remove</button></td>
+                            <td width="250px">@product.ProductName</td>
+                            <td width="150px"><button class="btn btn-danger" onclick="@(() =>RemoveFirstProduct(product))">Remove</button></td>
                         </tr>
                     </thead>
 
@@ -65,7 +62,7 @@
 
     </div>
     <div style="float:inline-end"><h2>TotalSum:@TotalSum</h2></div>
-    <button style="width:170px;height:70px;" class="btn btn-danger" @onclick="(()=>CheckoutBtn())">Checkout</button>
+    <button style="width:170px;height:70px;" class="btn btn-success" @onclick="(()=>CheckoutBtn())">Checkout</button>
     @if (showAlert)
     {
         <div class="alert alert-success" id="myAlert" @style="alertStyle">
