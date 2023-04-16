@@ -33,7 +33,7 @@
                 <td>@product.ProductName</td>
                 <td>@product.ProductPrice</td>
                 <td>@product.ProductDescription</td>
-                <td><img src="@product.ProductPicture" alt="@product.ProductName" /></td>
+                <td><img width="50px" height="50px" src="@product.ProductPicture" alt="@product.ProductName" /></td>
                 <td><button class="btn btn-danger" onclick="@(() => RemoveProduct(product))">Remove</button></td>
                 <td>
                     <button class="btn btn-primary" @onclick="() => EditProduct(product)">Edit</button>

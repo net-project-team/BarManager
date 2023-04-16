@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Blazorise.Charts" Version="1.2.2" />
     <PackageReference Include="bootstrap" Version="5.3.0-alpha3" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +31,10 @@
 
   <ItemGroup>
     <None Include="Pages\OrderProductsPage.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\css\fontawesome\" />
   </ItemGroup>
 
 </Project>

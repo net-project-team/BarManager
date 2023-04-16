@@ -5,19 +5,19 @@
 @using Manager.Application.Repository.Interfaces;
 @using Manager.Domain.Models;
 @inject IJSRuntime JSRuntime;
-
+@inject NavigationManager NavigationManager
     
 <div class="row">
 
     <div class="col-md-2">
-        <button style="width:170px;height:70px; margin-bottom: 20px; margin-top: 10px" class="btn btn-success" @onclick="@(() => addNewOrder())">New Order</button>
+        <button style="width:170px;height:70px; margin-bottom: 20px; margin-top: 10px" class="btn rounded-pill btn-success" @onclick="@(() => addNewOrder())">New Order</button>
         @if (showCategories)
         {
             <div style="width:200px; height:auto;" class="col-sm-5">
                 @foreach (Category category in categories)
                 {
-                    <div style="width:170px;padding:15px; position: center;" class="row">
-                        <button class="btn btn-secondary btn-sm" onclick="@(() => ChoosedCategory(category))">
+                    <div style="width:160px;padding:15px;height:100px; position: center;" class="row">
+                        <button class="btn @GetNextColorClass() rounded-pill border border-dark btn-sm" onclick="@(() => ChoosedCategory(category))">
                             @category.CategoryName
                         </button>
                     </div>
@@ -27,7 +27,7 @@
             </div>
         }
     </div>
-    <div class="col-md-7">
+    <div class="col-md-6">
         @if (products != null)
         {
             <div class="col">
@@ -37,7 +37,7 @@
                     {
 
                         <div class="showenProduct">
-                            <button style="width:120px;height:120px; border: none; background-image: url(@product.ProductPicture); background-size: contain; image-rendering:auto" class="btn btn-success imgbutton" onclick="@(() => ChoosedProduct(product))">
+                            <button style="width:120px;height:120px; border: none; background-image: url(@product.ProductPicture); background-size: contain; image-rendering:auto" class="btn btn-success imgbutton picture" onclick="@(() => ChoosedProduct(product))">
                             </button>
                             <h5 style="padding-top: 12px; text-align: center;">@product.ProductName</h5>
                         </div>
@@ -46,27 +46,57 @@
             </div>
         }
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-4">
         <div>
             @if (choosedProducts != null)
             {
-                @foreach (Product product in choosedProducts)
+                <div class="d-flex justify-content-between">
+                    <div style="width:170px;font-size:25px;font-weight:bold">Product</div>
+                    <div style="width:50px;font-size:22px;font-weight:bold">Quantity</div>
+                    <div style="width:100px"></div>
+
+                </div>
+                
+                <div style="min-height:400px;width:auto" class="border border-dark scrollable-div">
+                   
+              
+                <table  class="table ">
+                       
+                @foreach (Product product in GetNonDuplicatedValues(choosedProducts))
                 {
-                    <table class="table" border="0">
-                        <thead>
-                            <tr>
-                                <td>@product.ProductName</td>
-                                <td> <button class="btn btn-danger" onclick="@(() =>RemoveFirstProduct(product))">Remove</button></td>
+
+
+                        <thead >
+                            <tr style="line-height:50px;min-height:50px; height:50px">
+
+                                <td style="font-size:18px" width="200px">@product.ProductName</td>
+                                    <td width="50px"><i class="fa-solid fa-xmark"></i> @choosedProducts.Count(x=>x.ProductName==product.ProductName)</td>
+                                    <td width="100px" ><button class="btn btn-danger rounded-pill" onclick="@(() =>RemoveFirstProduct(product))"><i class="fa-solid fa-trash"></i></button></td>
                             </tr>
-                        </thead>
-                    </table>
+                            </thead>
+
                 }
+                        </table>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <button class="btn btn-danger w-100 m-1" @onclick="(()=>ClearList())"> <i class="fa-solid fa-broom"></i>Clear</button>
+                    <button  class="btn btn-success w-100 m-1" @onclick="(()=>CheckoutBtn())"><i class="fa fa-save"></i>Checkout</button>
+
+
+                </div>
+                <ul class="list-group list-group">
+                    <li style="font-size:25px; font-weight:bold" class="list-group-item list-group-item-success">
+                        Total sum: @TotalSum $
+                    </li>
+                
+                </ul>
+                
+                
             }
         </div>
     </div>
     
-    <div style="float:inline-end"><h2>TotalSum:@TotalSum</h2></div>
-    <button style="width:170px;height:70px;" class="btn btn-danger" @onclick="(()=>CheckoutBtn())"><i class="fa fa-save"></i>Checkout</button>
+    
     @if (showAlert)
     {
         <div class="alert alert-success" id="myAlert" @style="alertStyle">
@@ -80,6 +110,24 @@
 
 
 @code {
+
+    //category-css-class colors
+    private static string[] colorClasses = { "btn-primary", "btn-secondary", "btn-success", "btn-danger", "btn-warning", "btn-info", "btn-light", "btn-dark" };
+    private static Queue<string> colorQueue = new Queue<string>(colorClasses);
+
+    public static string GetNextColorClass()
+    {
+        string colorClass = colorQueue.Dequeue();
+        colorQueue.Enqueue(colorClass);
+        return colorClass;
+    }
+
+    //----------------
+
+
+
+
+
     List<OrderProduct> orderProductList = new List<OrderProduct>();
     bool showCategories = false;
 
@@ -98,7 +146,10 @@
 
     List<Category> categories = new List<Category>();
 
+
     List<Product> choosedProducts = new List<Product>();
+
+
     protected override async Task OnInitializedAsync()
     {
         ICategoryRepository categoryRepository = new CategoryRepo();
@@ -107,7 +158,11 @@
         categories = await categoryhandler.GetAllCategoriesAsync();
 
     }
+    private List<Product> GetNonDuplicatedValues(List<Product> list)
+    {
+        return list.DistinctBy(x => x.ProductName).ToList();
 
+    }
     List<Product> products;
     decimal TotalSum = 0;
     public async void ChoosedCategory(Category category)
@@ -142,6 +197,8 @@
 
     public void ChoosedProduct(Product product)
     {
+
+
         choosedProducts.Add(product);
         TotalSum += product.ProductPrice;
         Order choosedOrder = new()
@@ -161,6 +218,11 @@
         StateHasChanged();
     }
     bool showAlert = false;
+    public void ClearList()
+    {
+        choosedProducts = new List<Product>();
+        StateHasChanged();
+    }
 
     public async void CheckoutBtn()
     {
@@ -168,6 +230,7 @@
         await new OrderProductsRepo().InsertRangeAsync(orderProductList);
         orderProductList = new List<OrderProduct>();
         choosedProducts = new List<Product>();
+
         products = null;
         showCategories = false;
         TotalSum = 0;
@@ -175,7 +238,7 @@
         insertedOrderId = 0;
         await ShowAlertWithTimer();
         StateHasChanged();
-
+        GeneratePDF();
 
     }
 
@@ -189,5 +252,23 @@
         showAlert = false; 
         StateHasChanged(); 
     }
+    private void GeneratePDF()
+    {
+        // Create a new PDF document
+        var doc = new iTextSharp.text.Document();
 
+        // Specify the output file path and create a PdfWriter instance
+        var output = new FileStream("checkout.pdf", FileMode.Create);
+        var writer = iTextSharp.text.pdf.PdfWriter.GetInstance(doc, output);
+
+        // Open the document for writing
+        doc.Open();
+
+        // Add content to the document, such as text, images, tables, etc.
+        doc.Add(new iTextSharp.text.Paragraph("Hello, this is your checkout PDF!"));
+
+        // Close the document
+        doc.Close();
+      
+    }
 }
