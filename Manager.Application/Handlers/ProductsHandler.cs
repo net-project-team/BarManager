@@ -19,27 +19,70 @@ namespace Manager.Application.Handlers
         }
         public async Task<bool> DeleteByIdProductAsync(int id)
         {
-            return await _repository.DeleteByIdAsync(id);
+            try
+            {
+                return await _repository.DeleteByIdAsync(id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;   
+            }
+          
         }
 
         public async Task<List<Product>> GetAllProductsAsync()
         {
-            return await _repository.GetAllAsync();
+            try
+            {
+                return await _repository.GetAllAsync();
+            }
+            catch (Exception)
+            {
+                return new List<Product>();
+            }
+            
         }
 
         public async Task<Product> GetByIdProductAsync(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            try
+            {
+                return await _repository.GetByIdAsync(id);
+            }
+            catch (Exception)
+            {
+                return new Product();  
+            }
+
+           
         }
 
         public async Task<bool> InsertProductAsync(Product entity)
         {
-           return await _repository.InsertAsync(entity);
+            try
+            {
+                return await _repository.InsertAsync(entity);
+            }
+            catch (Exception)
+            {
+               return false;
+            }
+
+           
         }
 
         public async Task<bool> UpdateProductAsync(Product entity)
         {
-            return await _repository.UpdateAsync(entity);
+            try
+            {
+                return await _repository.UpdateAsync(entity);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
         }
     }
 }

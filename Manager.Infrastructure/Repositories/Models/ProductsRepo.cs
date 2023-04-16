@@ -21,17 +21,20 @@ namespace Manager.Infrastructure.Repositories.Models
         {
             _connection = GetConnection.Connection();
         }
+       
 
         public async Task<bool> DeleteByIdAsync(int ProductId)
         {
-            using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
+
                 await conn.OpenAsync();
-              
+
                 string cmdText = @"Delete from products where product_id = @id;";
-                if (await conn.ExecuteAsync(cmdText, new{id = ProductId}) > 0) return true;
+                if (await conn.ExecuteAsync(cmdText, new { id = ProductId }) > 0) return true;
                 else return false;
             }
+            
         }
 
         public async Task<List<Product>> GetAllAsync()
@@ -40,7 +43,7 @@ namespace Manager.Infrastructure.Repositories.Models
             {
                 List<Product> products = new List<Product>();   
                 await conn.OpenAsync();
-                string cmdText = @" select * from products;";
+                string cmdText = @"select * from products;";
                  var reader = await  conn.ExecuteReaderAsync(cmdText);
                 while (reader.Read())
                 {
@@ -59,25 +62,30 @@ namespace Manager.Infrastructure.Repositories.Models
                 return products;
             }
         }
-
+        
         public async Task<Product> GetByIdAsync(int productId)
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 
                 await conn.OpenAsync();
-                string cmdText = @" select * from products where product_id = @id;";
+                string cmdText = @"select * from products where product_id = @id;";
                 var reader = await conn.ExecuteReaderAsync(cmdText, new { id = productId });
-                Product product = new Product
+                Product product = new();
+                while (reader.Read())
                 {
-                    ProductId = reader.GetInt32(0),
-                    Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
-                    ProductName = reader.GetString(2),
-                    ProductPrice = reader.GetDecimal(3),
-                    ProductDescription = reader.GetString(4),
-                    ProductPicture = reader.GetString(5)
+                    product = new Product
+                    {
+                        ProductId = reader.GetInt32(0),
+                        Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
+                        ProductName = reader.GetString(2),
+                        ProductPrice = reader.GetDecimal(3),
+                        ProductDescription = reader.GetString(4),
+                        ProductPicture = reader.GetString(5)
 
-                };
+                    };
+                }
+               
                
                 return product;
             }
@@ -88,12 +96,11 @@ namespace Manager.Infrastructure.Repositories.Models
             using(NpgsqlConnection conn = new NpgsqlConnection(_connection))
             {
                 await conn.OpenAsync();
-                string cmdText = @"INSERT INTO products(
-	                              category_id, product_name,
+                string cmdText = @"INSERT INTO products(category_id, product_name,
                                   product_price, 
                                   product_description, 
                                   product_picture)
-	                              VALUES (@CategoryId, @ProductName, 
+	                              VALUES (@CategoryId,@ProductName, 
                                   @ProductPrice, @ProductDescription, @ProductPicture);";
                 if (await conn.ExecuteAsync(cmdText,
                     new
@@ -134,6 +141,35 @@ namespace Manager.Infrastructure.Repositories.Models
                      }) > 0) return true;
                 else return false;
 
+            }
+        }
+        
+        public async Task<List<Product>> GetAllGroupCategoryAsync(int categoryId)
+        {
+            using (NpgsqlConnection conn = new NpgsqlConnection(_connection))
+            {
+
+                await conn.OpenAsync();
+                string cmdText = @"select * from products 
+                                   where category_id = @id;";
+                var reader = await conn.ExecuteReaderAsync(cmdText, new { id = categoryId });
+                List<Product> products = new();
+                while (await reader.ReadAsync())
+                {
+                    products.Add(new Product
+                    {
+                        ProductId = reader.GetInt32(0),
+                        Category = await new CategoryRepo().GetByIdAsync(reader.GetInt32(1)),
+                        ProductName = reader.GetString(2),
+                        ProductPrice = reader.GetDecimal(3),
+                        ProductDescription = reader.GetString(4),
+                        ProductPicture = reader.GetString(5)
+
+                    });
+                }
+
+
+                return products;
             }
         }
     }
